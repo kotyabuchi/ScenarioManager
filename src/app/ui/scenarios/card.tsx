@@ -6,11 +6,11 @@ type Genre = {
   color: string
 }
 
-const isImageFound = async (imageName: string) => {
-  return await fetch(`http://localhost:3000${imageName}`, {
-    method: "HEAD",
-  });
-};
+// const isImageFound = async (imageName: string) => {
+//   return await fetch(`http://localhost:3000${imageName}`, {
+//     method: "HEAD",
+//   });
+// };
 
 export default async function ScenarioCard({
   name,
@@ -22,8 +22,8 @@ export default async function ScenarioCard({
   const id: string = "3094092340"
   let image_path: string = "/noImage.png"
   const scenario_image: string = `/${name}.png`
-  const existsImageResult = await isImageFound(scenario_image)
-  if (existsImageResult.status == 200) image_path = scenario_image
+  // const existsImageResult = await isImageFound(scenario_image)
+  // if (existsImageResult.status == 200) image_path = scenario_image
   const genres: Genre[] = [
     { name: "クトゥルフ神話(6版)", color: "212 96 59" },
     { name: "新クトゥルフ神話(7版)", color: "60 214 128" },

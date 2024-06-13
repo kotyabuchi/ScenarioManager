@@ -14,8 +14,8 @@ export default async function Page({ params }: Props) {
   const name = params.id
   let imagePath: string = "/noImage.png"
   const scenarioImage: string = `/${name}.png`
-  const existsImageResult = await isImageFound(scenarioImage)
-  if (existsImageResult.status == 200) imagePath = scenarioImage
+  // const existsImageResult = await isImageFound(scenarioImage)
+  // if (existsImageResult.status == 200) imagePath = scenarioImage
 
   const genres = [
     "TRPG", "クトゥルフ神話(6版)"
