@@ -2,9 +2,11 @@ import ScenarioCard from "@/app/ui/scenarios/card";
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      {/* <div className="grid grid-cols-auto-fill gap-x-4 gap-y-6"> */}
-      <div className="flex flex-col gap-y-3 w-full h-full">
+    <main className="flex max-h-[calc(100vh-64px-72px-16px)] md:max-h-[calc(100vh-64px-16px)] flex-col items-center justify-between">
+      <div className="fixed flex flex-row w-[calc(100%-48px)] h-8 md:w-[calc(100%-256px-64px)]">
+
+      </div>
+      <div className="flex flex-col gap-y-3 w-full h-full mt-10 overflow-y-scroll">
         <ScenarioCard name={"ハイフェッツをなぞる病"} description={"これは天才と秀才の物語である。"} />
         <ScenarioCard name={"毒入りスープ"} description={"探索者はある日の夜、目を覚ますと正方形の部屋に閉じ込められていました。その真ん中には、机の上に乗った真っ赤なスープが一つぽつんと置かれています。そして椅子の上にはこの部屋の地図と、毒入りスープを飲め、という警告文。知らず知らずの内にチャウグナー・フォーンの気まぐれによってこの世界に閉じ込められた探索者達。彼等は無事、この世界から抜け出すことが出来るのだろうか？"} />
         <ScenarioCard name={"沼男は誰だ？"} description={"「最近、夫の様子がおかしいんです。」――本日未明、都内で３名分の血溜まりが発見されました。今月に入って同様の事件が…「すみません、ここは一体どこですか？急いで家に帰らないといけないんです！」貴方たちは、そうして非日常に巻き込まれた。“その程度”だったら、どれだけ良かっただろうか。そう思い知ることになるのは、もう少し後のこと。"} />
