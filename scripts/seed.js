@@ -3,6 +3,7 @@ const {
   users,
   scenarios,
   tags,
+  dummyScenarios,
 } = require('../src/app/lib/place_holder')
 const bcrypt = require('bcrypt')
 
@@ -24,10 +25,13 @@ async function seedUsers() {
 
 async function seedScenarios() {
   try {
-    const result = await prisma.scenario.createMany({
-      data: scenarios
+    dummyScenarios.forEach(async (scenario) => {
+      delete scenario.scenarioTag
+      const result = await prisma.scenario.create({
+        data: scenario
+      })
+      console.log(result.id)
     })
-    console.log(result)
   } catch (error) {
     console.error('Error seeding scenarios:', error);
     throw error;
@@ -80,21 +84,58 @@ async function main() {
   // await seedScenarios()
   // await seedTags()
   // await seedScenarioTags()
-  const scenarios = await prisma.scenario.findMany({
-    relationLoadStrategy: 'join',
-    where: {
-      id: 'd9342150-d6de-406c-87c6-3d1ecab1b42a',
-    },
-    include: {
-      scenarioTag: {
-        include: {
-          tag: true,
-        },
-      },
-    },
+
+  const scenarioTags = await prisma.scenarioTag.findMany({
+    select: {
+      scenarioId: true
+    }
   })
 
-  console.log(JSON.stringify(scenarios, null, "\t"))
+  let filterRegisteredScenarioIds = {
+    AND: []
+  }
+  scenarioTags.forEach((tag) => {
+    filterRegisteredScenarioIds.AND.push({
+      id: {
+        not: tag.scenarioId
+      }
+    })
+  })
+
+  const filteredScenarios = await prisma.scenario.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    where: filterRegisteredScenarioIds
+  })
+
+  console.log(filteredScenarios)
+
+  let scenarioIdMapping = {}
+  filteredScenarios.forEach((scenario) => {
+    scenarioIdMapping[scenario.name] = scenario.id
+  })
+
+  const tagIds = await prisma.tag.findMany({})
+  let tagIdMapping = {}
+  tagIds.forEach((tag) => {
+    tagIdMapping[tag.name] = tag.id
+  })
+
+  dummyScenarios.forEach(async (scenario) => {
+    const scenarioId = scenarioIdMapping[scenario.name]
+    scenario.scenarioTag.forEach(async (tag) => {
+      const tagId = tagIdMapping[tag]
+
+      await prisma.scenarioTag.create({
+        data: {
+          scenarioId: scenarioId,
+          tagId: tagId
+        }
+      })
+    })
+  })
 }
 
 main().catch((err) => {
