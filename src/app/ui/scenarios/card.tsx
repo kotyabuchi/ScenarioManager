@@ -7,12 +7,14 @@ export default async function ScenarioCard({
 }: {
   scenario: ScenarioWithTag
 }) {
-  const minPlayTime: number = scenario.minPlaytime
-  const maxPlayTime: number = scenario.maxPlaytime
-  const minHour: number = Math.ceil(minPlayTime / 60.0)
-  const minMinutes: number = Math.ceil(minPlayTime % 60 / 60 * 10) / 10
-  const maxHour: number = Math.ceil(maxPlayTime / 60.0)
-  const maxMinutes: number = Math.ceil(maxPlayTime % 60 / 60 * 10) / 10
+  const minPlayTimeFull: number = scenario.minPlaytime ?? 0
+  const maxPlayTimeFull: number = scenario.maxPlaytime ?? 0
+  const minHour: number = Math.ceil(minPlayTimeFull / 60.0)
+  const minMinutes: number = Math.ceil(minPlayTimeFull % 60 / 60 * 10) / 10
+  const maxHour: number = Math.ceil(maxPlayTimeFull / 60.0)
+  const maxMinutes: number = Math.ceil(maxPlayTimeFull % 60 / 60 * 10) / 10
+  const minPlayTime = minHour + minMinutes
+  const maxPlayTime = maxHour + maxMinutes
   function hoType() {
     switch (scenario.handoutType) {
       case 'NONE': return "なし"
@@ -51,11 +53,11 @@ export default async function ScenarioCard({
         <div className="flex gap-2 text-xs">
           <div>人数：<span className='font-semibold'>{scenario.minPlayer}〜{scenario.maxPlayer}人</span></div>
           <div className="divider divider-horizontal mx-0"></div>
-          <div>所要時間：<span className='font-semibold'>{minHour + minMinutes}〜{maxHour + maxMinutes}時間</span></div>
+          <div>所要時間：<span className='font-semibold'>{minPlayTime || <></>}〜{maxPlayTime || <></>}時間</span></div>
           <div className="divider divider-horizontal mx-0"></div>
           <div>HO：<span className='font-semibold'>{hoType()}</span></div>
         </div>
-        <p className="text-sm opacity-70 line-clamp-2 break-all max-h-14">{description}</p>
+        <p className="text-sm opacity-70 line-clamp-2 break-all max-h-14 whitespace-normal">{description}</p>
       </div>
     </Link>
   )
