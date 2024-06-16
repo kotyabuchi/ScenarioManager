@@ -5,11 +5,10 @@ import { unstable_noStore as noStore } from 'next/cache'
 
 const prisma = new PrismaClient()
 
-const itemPerPage = 10
-
 export async function getScenarios(
   query: object,
   offset: number,
+  loadSize: number,
 ) {
   noStore()
 
@@ -30,7 +29,7 @@ export async function getScenarios(
         },
       },
       skip: offset,
-      take: itemPerPage,
+      take: loadSize,
     })
 
     return scenarios

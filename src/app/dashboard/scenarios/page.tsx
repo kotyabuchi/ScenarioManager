@@ -7,11 +7,10 @@ const PAGE_SIZE = 10
 
 async function loadMoreScenario(query: object, offset: number = 0) {
   'use server';
-  const scenarios = await getScenarios(query, offset);
+  const scenarios = await getScenarios(query, offset, PAGE_SIZE);
 
   const nextOffset = scenarios.length >= PAGE_SIZE ? offset + PAGE_SIZE : null;
 
-  console.log(scenarios)
   return [
     scenarios.map((scenario: ScenarioWithTag) => <ScenarioCard key={scenario.id} scenario={scenario} />),
     nextOffset,
@@ -39,7 +38,7 @@ export default async function Page({
               })
               .catch((error) => {
                 console.log(error);
-                return (<p></p>)
+                return (<p>読み込めませんでした。</p>)
               })
           }
         </ScenarioList>
