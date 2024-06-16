@@ -25,13 +25,15 @@ async function seedUsers() {
 
 async function seedScenarios() {
   try {
+    let editedScenarios = []
     dummyScenarios.forEach(async (scenario) => {
       delete scenario.scenarioTag
-      const result = await prisma.scenario.create({
-        data: scenario
-      })
-      console.log(result.id)
+      editedScenarios.push(scenario)
     })
+    const result = await prisma.scenario.createMany({
+      data: editedScenarios
+    })
+    console.log(result)
   } catch (error) {
     console.error('Error seeding scenarios:', error);
     throw error;
@@ -81,8 +83,8 @@ async function seedScenarioTags() {
 
 async function main() {
   // await seedUsers()
-  // await seedScenarios()
   // await seedTags()
+  // await seedScenarios()
   // await seedScenarioTags()
 
   const scenarioTags = await prisma.scenarioTag.findMany({
@@ -110,8 +112,6 @@ async function main() {
     where: filterRegisteredScenarioIds
   })
 
-  console.log(filteredScenarios)
-
   let scenarioIdMapping = {}
   filteredScenarios.forEach((scenario) => {
     scenarioIdMapping[scenario.name] = scenario.id
@@ -123,19 +123,24 @@ async function main() {
     tagIdMapping[tag.name] = tag.id
   })
 
+  let mappedScenarioTags = []
   dummyScenarios.forEach(async (scenario) => {
     const scenarioId = scenarioIdMapping[scenario.name]
     scenario.scenarioTag.forEach(async (tag) => {
       const tagId = tagIdMapping[tag]
 
-      await prisma.scenarioTag.create({
-        data: {
-          scenarioId: scenarioId,
-          tagId: tagId
-        }
+      mappedScenarioTags.push({
+        scenarioId: scenarioId,
+        tagId: tagId
       })
     })
   })
+
+  const result = await prisma.scenarioTag.createMany({
+    data: mappedScenarioTags
+  })
+
+  console.log(result)
 }
 
 main().catch((err) => {
