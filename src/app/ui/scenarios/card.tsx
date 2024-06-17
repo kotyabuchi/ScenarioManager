@@ -67,7 +67,10 @@ export default async function ScenarioCard({
             })
           }
         </div>
-        <h2 className="card-title text-base">{scenario.name}</h2>
+        <div className="flex flex-row gap-3 items-baseline">
+          <h2 className="card-title text-base">{scenario.name}</h2>
+          <span className='text-xs opacity-70'>{scenario.author}</span>
+        </div>
         <div className="flex gap-2 text-xs">
           <div>人数：<span className='font-semibold'>{playerAmount}</span></div>
           <div className="divider divider-horizontal mx-0"></div>
