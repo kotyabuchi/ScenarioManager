@@ -43,11 +43,11 @@ export default async function ScenarioCard({
   return (
     <Link
       href={`/dashboard/scenarios/${scenario.id}`}
-      className="card card-side rounded-2xl h-full bg-base-100 hover-primary hover:text-primary-content duration-150"
+      className="card card-side items-end h-full rounded-lg bg-base-100 hover-primary hover:text-primary-content duration-150"
     >
       <figure className='shrink-0'>
         <Image
-          className="object-cover w-36 h-36"
+          className="object-cover w-24 h-24 md:w-28 md:h-28 m-4"
           src="/noImage.png"
           alt={scenario.name}
           width={144}
@@ -55,7 +55,7 @@ export default async function ScenarioCard({
           sizes=''
         />
       </figure>
-      <div className="card-body gap-1 w-fit px-5 py-4">
+      <div className="card-body gap-1 w-fit p-0 m-4 ml-0">
         <div className='flex gap-2'>
           {
             scenario.scenarioTag.map((scenarioTag) => {
@@ -67,16 +67,16 @@ export default async function ScenarioCard({
             })
           }
         </div>
-        <div className="flex flex-row gap-3 items-baseline">
+        <div className="flex flex-row flex-wrap gap-y-0 gap-3 items-baseline">
           <h2 className="card-title text-base">{scenario.name}</h2>
           <span className='text-xs opacity-70'>{scenario.author}</span>
         </div>
-        <div className="flex gap-2 text-xs">
-          <div>人数：<span className='font-semibold'>{playerAmount}</span></div>
+        <div className="flex flex-wrap md:gap-x-2 gap-y-1 text-xs">
+          <div className='flex md:flex-row'><p>人数：</p><span className='font-semibold'>{playerAmount}</span></div>
           <div className="divider divider-horizontal mx-0"></div>
-          <div>所要時間：<span className='font-semibold'>{playtime}</span></div>
+          <div className='flex md:flex-row'><p>所要時間：</p><span className='font-semibold'>{playtime}</span></div>
           <div className="divider divider-horizontal mx-0"></div>
-          <div>HO：<span className='font-semibold'>{hoType()}</span></div>
+          <div className='flex md:flex-row'><p>HO：</p><span className='font-semibold'>{hoType()}</span></div>
         </div>
         <p className="text-sm opacity-70 line-clamp-2 break-all max-h-14 whitespace-normal">{description}</p>
       </div>
