@@ -3801,12 +3801,12 @@ const scenarios = [
 ]
 
 const tags = [
-  { name: "TRPG", color: "130 183 69" },
-  { name: "マダミス", color: "207 85 196" },
-  { name: "クトゥルフ神話(6版)", color: "212 96 59" },
-  { name: "新クトゥルフ神話(7版)", color: "60 214 128" },
-  { name: "エモクロア", color: "12 93 158" },
-  { name: "パラノイア", color: "115 51 220" }
+  { name: "TRPG", color: "#82b745" },
+  { name: "マダミス", color: "#cf55c4" },
+  { name: "クトゥルフ神話(6版)", color: "#d4603b" },
+  { name: "新クトゥルフ神話(7版)", color: "#3cd680" },
+  { name: "エモクロア", color: "#0c5d9e" },
+  { name: "パラノイア", color: "#7333dc" }
 ]
 
 module.exports = {

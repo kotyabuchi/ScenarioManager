@@ -60,7 +60,9 @@ export default async function ScenarioCard({
           {
             scenario.scenarioTag.map((scenarioTag) => {
               return (
-                <button key={scenarioTag.tagId} className="badge text-xs border-0" style={{ backgroundColor: `rgb(${scenarioTag.tag.color} / 10%)` }}>{scenarioTag.tag.name}</button>
+                <button key={scenarioTag.tagId} className="badge text-xs border-0" style={{ backgroundColor: `${scenarioTag.tag.color}` }}>
+                  {scenarioTag.tag.name}
+                </button>
               )
             })
           }
