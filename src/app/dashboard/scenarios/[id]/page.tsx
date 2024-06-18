@@ -62,8 +62,8 @@ export default async function Page({ params }: Props) {
             <div className="flex flex-col gap-2">
               <input type="checkbox" id="descriptionToggle" className="peer invisible w-0 h-0 -mb-2" />
               <h3 className="text-lg font-bold w-fit border-b-2 border-primary">概要</h3>
-              <p className="text-sm whitespace-break-spaces line-clamp-6 peer-checked:hidden">{scenario.shortDescription && scenario.description}</p>
-              <p className="text-sm whitespace-break-spaces hidden peer-checked:block">{scenario.description && scenario.shortDescription}</p>
+              <p className="text-sm whitespace-break-spaces line-clamp-6 peer-checked:hidden">{scenario.shortDescription || scenario.description}</p>
+              <p className="text-sm whitespace-break-spaces hidden peer-checked:block">{scenario.description || scenario.shortDescription}</p>
               <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs peer-checked:hidden">もっと見る</label>
               <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs hidden peer-checked:block">概要を閉じる</label>
             </div>
