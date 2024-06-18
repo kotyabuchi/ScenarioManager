@@ -13,38 +13,47 @@ export default async function Page({ params }: Props) {
 
   if (scenario) {
     const scenarioData = await convertScenarioData(scenario)
+    const scenarioTags = scenarioData.scenarioTags
     return (
       <main className="flex flex-col gap-8 pr-6 py-4">
-        <div className="flex flex-col gap-4 md:flex-row">
+        <div className="flex flex-col lg:flex-row-reverse justify-between gap-4">
           <Image
-            className="object-contain md:max-w-[50%] h-full p-8 bg-base-200 md:w-80 md:h-80 md:p-0"
+            className="relative object-contain z-10 h-full bg-base-200 md:w-80 md:h-80 mr-8"
             src={scenarioData.thumbnailPath}
             alt={scenarioData.name}
             width={320}
             height={320}
             sizes=''
           />
-          <div className="flex flex-col gap-4">
-            <h2 className="text-3xl break-words break-all w-fit border-b-2 border-primary">{scenarioData.name}</h2>
-            <div className="flex flex-row gap-2 text-sm">
-              {
-                scenarioData.scenarioTags.map((tag) => {
-                  return (<button key={tag.id} className="badge border-0 text-xs" style={{ backgroundColor: `${tag.color}` }}>
-                    {tag.name}
-                  </button>)
-                })
-              }
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col">
+              <h2 className="text-3xl break-words break-all w-fit border-b-2 border-primary">{scenarioData.name}</h2>
+              <span className='opacity-70'>{scenarioData.author}</span>
             </div>
-            <div className="flex flex-col md:flex-row gap-2 text-sm">
-              <div>人数：<span className='font-semibold'>{scenarioData.playerAmount}</span></div>
-              <div className="divider divider-horizontal mx-0"></div>
-              <div>所要時間：<span className='font-semibold'>{scenarioData.playtime}</span></div>
-              <div className="divider divider-horizontal mx-0"></div>
-              <div>HO：<span className='font-semibold'>{scenarioData.handoutType}</span></div>
+            <div className="flex flex-col gap-1 text-sm">
+              <div className="flex flex-row">
+                {
+                  scenarioTags.map((tag) => {
+                    return (
+                      <span key={tag.id} className="badge text-xs border-none mr-2" style={{ backgroundColor: `${tag.color}` }}>{tag.name}</span>
+                    )
+                  })
+                }
+              </div>
+              <div className="flex flex-col md:flex-row gap-2">
+                <div>人数：<span className='font-semibold'>{scenarioData.playerAmount}</span></div>
+                <div className="divider divider-horizontal mx-0"></div>
+                <div>所要時間：<span className='font-semibold'>{scenarioData.playtime}</span></div>
+                <div className="divider divider-horizontal mx-0"></div>
+                <div>HO：<span className='font-semibold'>{scenarioData.handoutType}</span></div>
+              </div>
             </div>
             <div className="flex flex-col gap-2">
+              <input type="checkbox" id="descriptionToggle" className="peer invisible w-0 h-0 -mb-2" />
               <h3 className="text-lg font-bold w-fit border-b-2 border-primary">概要</h3>
-              <p className="text-sm whitespace-break-spaces">{scenarioData.description}</p>
+              <p className="text-sm whitespace-break-spaces line-clamp-6 peer-checked:line-clamp-none duration-150">{scenarioData.description}</p>
+              <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs peer-checked:hidden">もっと見る</label>
+              <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs hidden peer-checked:block">概要を閉じる</label>
             </div>
           </div>
         </div>
