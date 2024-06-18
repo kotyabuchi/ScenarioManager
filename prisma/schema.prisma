@@ -29,8 +29,17 @@ model User {
   ScenarioPlayStatus ScenarioPlayStatus[]
   Video              Video[]
   UserScenarioInfo   UserScenarioInfo[]
+  UserRole           UserRole[]
 
   @@map("users")
+}
+
+model UserRole {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+  role   String
+
+  @@id([userId, role])
 }
 
 model Scenario {
