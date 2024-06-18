@@ -13,18 +13,29 @@ export default async function Page({ params }: Props) {
 
   if (scenario) {
     const scenarioData = await convertScenarioData(scenario)
+    const isUpdated = scenarioData.createdAt.getTime() !== scenarioData.updatedAt.getTime()
     const scenarioTags = scenarioData.scenarioTags
     return (
-      <main className="flex flex-col gap-8 pr-6 py-4">
+      <main className="flex flex-col gap-8 md:pr-6 py-4">
         <div className="flex flex-col lg:flex-row-reverse justify-between gap-4">
-          <Image
-            className="relative object-contain z-10 h-full bg-base-200 md:w-80 md:h-80 mr-8"
-            src={scenarioData.thumbnailPath}
-            alt={scenarioData.name}
-            width={320}
-            height={320}
-            sizes=''
-          />
+          <div className="flex flex-col gap-2 md:gap-4 lg:items-end w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
+            <div className="flex flex-row text-sm">
+              {
+                isUpdated
+                  ? <p>更新日：</p>
+                  : <p>投稿日：</p>
+              }
+              <span>{scenarioData.updatedAt.toLocaleString()}</span>
+            </div>
+            <Image
+              className="relative object-contain z-10 h-full bg-base-200 md:w-80 self-center"
+              src={scenarioData.thumbnailPath}
+              alt={scenarioData.name}
+              width={320}
+              height={320}
+              sizes=''
+            />
+          </div>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col">
               <h2 className="text-3xl break-words break-all w-fit border-b-2 border-primary">{scenarioData.name}</h2>
