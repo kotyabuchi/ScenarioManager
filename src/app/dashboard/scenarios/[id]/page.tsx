@@ -18,7 +18,7 @@ export default async function Page({ params }: Props) {
     return (
       <main className="flex flex-col gap-8 md:pr-6 py-4">
         <div className="flex flex-col lg:flex-row-reverse justify-between gap-4">
-          <div className="flex flex-col gap-2 md:gap-4 lg:items-end w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
+          <div className="flex flex-col gap-2 shrink-0 md:gap-4 lg:items-end w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
             <div className="flex flex-row text-sm">
               {
                 isUpdated
@@ -51,7 +51,7 @@ export default async function Page({ params }: Props) {
                   })
                 }
               </div>
-              <div className="flex flex-col md:flex-row gap-2">
+              <div className="flex flex-col flex-wrap md:flex-row gap-2">
                 <div>人数：<span className='font-semibold'>{scenarioData.playerAmount}</span></div>
                 <div className="divider divider-horizontal mx-0"></div>
                 <div>所要時間：<span className='font-semibold'>{scenarioData.playtime}</span></div>
