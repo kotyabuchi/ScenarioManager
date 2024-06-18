@@ -27,6 +27,7 @@ model User {
   feedback           Feedback[]
   ScenarioPlayStatus ScenarioPlayStatus[]
   Video              Video[]
+  UserScenarioInfo   UserScenarioInfo[]
 
   @@map("users")
 }
@@ -53,6 +54,7 @@ model Scenario {
   feedback           Feedback[]
   scenarioTag        ScenarioTag[]
   ScenarioPlayStatus ScenarioPlayStatus[]
+  UserScenarioInfo   UserScenarioInfo[]
 
   @@map("scenarios")
 }
@@ -88,16 +90,17 @@ model ScenarioPlayStatus {
 }
 
 model Session {
-  id               String            @id @default(uuid())
-  scenario         Scenario          @relation(fields: [scenarioId], references: [id])
-  scenarioId       String            @map("scenario_id")
+  id               String             @id @default(uuid())
+  scenario         Scenario           @relation(fields: [scenarioId], references: [id])
+  scenarioId       String             @map("scenario_id")
   sessionSchedules SessionSchedule[]
-  status           SessionStatus     @map("status")
-  keeperUser       User?             @relation(fields: [keeperId], references: [id])
-  keeperId         String?           @map("keeper_id")
+  status           SessionStatus      @map("status")
+  keeperUser       User?              @relation(fields: [keeperId], references: [id])
+  keeperId         String?            @map("keeper_id")
   SessionPlayer    SessionPlayer[]
   Video            Video[]
   Feedback         Feedback[]
+  UserScenarioInfo UserScenarioInfo[]
 
   @@map("sessions")
 }
@@ -150,6 +153,23 @@ model Feedback {
   rating         Int?
 
   @@map("feedbacks")
+}
+
+model UserScenarioInfo {
+  scenario    Scenario @relation(fields: [scenarioId], references: [id])
+  scenarioId  String   @map("scenario_id")
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @map("user_id")
+  session     Session? @relation(fields: [sessionId], references: [id])
+  sessionId   String?  @map("session_id")
+  isPlayed    Boolean  @map("is_played")
+  isWatched   Boolean  @map("is_watched")
+  canKeeper   Boolean  @map("can_keeper")
+  hadScenario Boolean  @map("had_scenario")
+  isLike      Boolean  @map("is_like")
+
+  @@id([scenarioId, userId])
+  @@map("user_scenario_infos")
 }
 
 enum ScenarioHOType {
