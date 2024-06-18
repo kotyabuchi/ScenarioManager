@@ -127,3 +127,24 @@ export async function getScenarios(
     throw new Error('Failed to fetch scenarios.');
   }
 }
+
+export async function getUsers(
+  query: object,
+  offset: number,
+  loadSize: number,
+) {
+  noStore()
+
+  try {
+    const users = await prisma.user.findMany({
+      where: query,
+      skip: offset,
+      take: loadSize,
+    })
+
+    return users
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch users.');
+  }
+}

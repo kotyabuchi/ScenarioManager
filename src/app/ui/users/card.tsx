@@ -1,26 +1,31 @@
+import { User } from '@prisma/client';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function UserCard({
-  name,
+  user,
 }: {
-  name: string
+  user: User
 }) {
   return (
-    <div className="card card-side rounded-2xl p-3 h-full w-full bg-base-100 hover-primary hover:text-primary-content duration-150 cursor-pointer">
+    <Link
+      href={`/dashboard/users/${user.id}`}
+      className="card card-side items-center h-full rounded-lg bg-base-100 hover-primary hover:text-primary-content duration-150 lg:w-[calc(50%-4px)]"
+    >
       <figure className='shrink-0 rounded-xl'>
         <Image
-          className="object-cover w-20 h-20 bg-base-200"
+          className="object-cover w-20 h-20 bg-opacity-20 bg-primary"
           src="/default_avatar.png"
-          alt={name}
+          alt={user.name}
           width={80}
           height={80}
           sizes=''
         />
       </figure>
-      <div className="card-body gap-1 h-20 w-full px-4 py-[6px]">
-        <h2 className="card-title text-base">{name}</h2>
-        <p className='text-sm opacity-70 line-clamp-2 max-h-14 w-auto break-words break-all'>無wんぢあんw断wぢなwpdな日dなpdぽあmw助dじゃおpwjm°派mwpdんマpんwmd派にwだ日wmdぴあmんwdなpwぢないんfgrjgsprじょ派wmd派wんdイアpwん義pm派wmdパオwんフィパンwぴ</p>
+      <div className="card-body gap-0 w-full h-fit px-4 py-0">
+        <h2 className="card-title text-base">{user.name}</h2>
+        <p className='text-sm opacity-70 w-auto max-h-10 line-clamp-2 break-words break-all'>{user.introduction}</p>
       </div>
-    </div>
+    </Link>
   )
 }
