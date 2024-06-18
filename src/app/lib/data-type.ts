@@ -14,7 +14,8 @@ export type ConvertedScenarioDisplayData = {
   id: string
   name: string
   author: string
-  description: string
+  short_description: string | null
+  description: string | null
   thumbnailPath: string
   playerAmount: string
   playtime: string
