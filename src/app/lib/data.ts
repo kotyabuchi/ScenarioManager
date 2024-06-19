@@ -117,6 +117,9 @@ export async function getScenarios(
           },
         },
       },
+      orderBy: {
+        name: 'asc',
+      },
       skip: offset,
       take: loadSize,
     })
@@ -140,11 +143,33 @@ export async function getUsers(
       where: query,
       skip: offset,
       take: loadSize,
+      orderBy: {
+        name: 'asc',
+      },
     })
 
     return users
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch users.');
+  }
+}
+
+export async function getUser(
+  id: string,
+) {
+  noStore()
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    })
+
+    return user
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user.');
   }
 }

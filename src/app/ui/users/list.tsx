@@ -68,11 +68,13 @@ export default function UserList(
   );
 
   return (
-    <div className="flex flex-col gap-y-3 w-full h-full">
-      {children}
-      {loadMoreNodes}
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-row flex-wrap gap-y-3 gap-2 w-full h-full">
+        {children}
+        {loadMoreNodes}
+      </div>
       {
-        <button className='btn w-fit self-center px-12' onClick={loadMore} disabled={allDataLoaded || loading}>
+        allDataLoaded || <button className='btn w-fit self-center px-12' onClick={loadMore} disabled={loading}>
           {loading && (<span className="loading loading-spinner loading-md"></span>)}
           {
             loading
