@@ -5,8 +5,8 @@ import "@/app/ui/global.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "シナリオ管理",
-  description: "TRPGやマダミスのシナリオ・セッションを管理します。",
+  title: "シナプレ管理くん",
+  description: "TRPG・マダミスのシナリオ・セッションを管理するWebアプリ",
 };
 
 export default function RootLayout({
