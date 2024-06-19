@@ -1,7 +1,8 @@
 import UserCard from "@/app/ui/users/card";
 import { getUsers } from '@/app/lib/data';
 import { User } from '@prisma/client';
-import UserList from '@/app/ui/card-list';
+import UserList from '@/app/ui/users/list';
+import Search from "@/app/ui/search";
 
 const PAGE_SIZE = 20
 
@@ -17,22 +18,44 @@ async function loadMoreUser(query: object, offset: number = 0) {
   ] as const;
 }
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) {
+  let queries = []
+
+  const userNameQueryString = searchParams?.query || ''
+  const userNameQueries = userNameQueryString.split(' ')
+  let userNameQuery: object[] = []
+  userNameQueries.forEach((userName) => {
+    userNameQuery.push({
+      name: {
+        contains: userName,
+        mode: 'insensitive',
+      },
+    })
+  })
+
+  queries.push({ OR: [...userNameQuery] })
+
   return (
     <main className="flex flex-col items-center justify-between">
-      <div className="sticky top-2 md:top-0 flex flex-row z-10 border w-full h-8">
-
+      <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full h-10">
+        <Search placeholder="ユーザーを検索" />
       </div>
       <div className="w-full h-full mt-2">
-        <UserList query={{}} initialOffset={PAGE_SIZE} loadMoreAction={loadMoreUser}>
+        <UserList query={{ AND: queries }} initialOffset={PAGE_SIZE} loadMoreAction={loadMoreUser}>
           {
-            loadMoreUser({}, 0)
+            loadMoreUser({ AND: queries }, 0)
               .then(([node, next]) => {
                 return node
               })
               .catch((error) => {
                 console.log(error);
-                return (<p>読み込めませんでした。</p>)
+                return (<p className="w-full self-center text-center px-12 py-4">読み込めませんでした。</p>)
               })
           }
         </UserList>
