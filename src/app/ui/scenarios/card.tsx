@@ -43,7 +43,7 @@ export default async function ScenarioCard({
   return (
     <Link
       href={`/dashboard/scenarios/${scenario.id}`}
-      className="card card-side items-end h-full rounded-lg bg-base-100 hover-primary hover:text-primary-content duration-150"
+      className="card card-side h-full rounded-lg bg-base-100 hover-primary hover:text-primary-content duration-150"
     >
       <figure className='shrink-0'>
         <Image
