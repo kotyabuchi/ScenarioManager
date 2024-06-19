@@ -12,9 +12,9 @@ import {
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'Home', href: '/dashboard', icon: LuHome },
-  { name: 'シナリオ一覧', href: '/dashboard/scenarios', icon: LuBookOpen },
-  { name: 'ユーザー一覧', href: '/dashboard/users', icon: LuUsers },
+  { name: 'ホーム', href: '/dashboard', icon: LuHome },
+  { name: 'シナリオ', href: '/dashboard/scenarios', icon: LuBookOpen },
+  { name: 'ユーザー', href: '/dashboard/users', icon: LuUsers },
 ];
 
 export default function NavLinks() {
