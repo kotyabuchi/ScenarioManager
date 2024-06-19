@@ -2,6 +2,7 @@ import { getScenarios } from "@/app/lib/data";
 import ScenarioList from '@/app/ui/scenarios/list';
 import { ScenarioWithTag } from '@/app/lib/data-type';
 import ScenarioCard from "@/app/ui/scenarios/card";
+import Search from "@/app/ui/search";
 
 const PAGE_SIZE = 10
 
@@ -24,22 +25,46 @@ export default async function Page({
     query?: string;
   };
 }) {
-  return (
-    <main className="flex max-h-[calc(100vh-64px-72px-16px)] md:max-h-[calc(100vh-64px-16px)] flex-col items-center justify-between">
-      <div className="fixed flex flex-row border w-[calc(100%-48px)] h-8 right-8 md:w-[calc(100%-256px-64px)]">
+  let queries = []
 
+  const scenarioNameQueryString = searchParams?.query || ''
+  const scenarioNameQueries = scenarioNameQueryString.split(' ')
+  let scenarioNameQuery: object[] = []
+  scenarioNameQueries.forEach((scenarioName) => {
+    scenarioNameQuery.push({
+      name: {
+        contains: scenarioName,
+        mode: 'insensitive',
+      },
+    })
+  })
+
+  queries.push({ OR: [...scenarioNameQuery] })
+
+  const initialScenarios = await loadMoreScenario({ AND: queries }, 0)
+    .then(([node, next]) => {
+      return {
+        initialScenarios: node,
+        initialOffset: next ?? undefined
+      };
+    })
+    .catch((error) => {
+      console.log(error);
+      return {
+        initialScenarios: (<p className="w-full self-center text-center px-12 py-4">読み込めませんでした。</p>),
+        initialOffset: undefined
+      };
+    })
+
+  return (
+    <main className="flex flex-col items-center justify-between">
+      <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full h-10">
+        <Search placeholder="シナリオを検索" />
       </div>
-      <div className="w-full h-full mt-10 pr-6 overflow-y-scroll">
-        <ScenarioList query={{}} initialOffset={PAGE_SIZE} loadMoreAction={loadMoreScenario}>
+      <div className="w-full h-full mt-2">
+        <ScenarioList query={{ AND: queries }} initialOffset={initialScenarios.initialOffset} loadMoreAction={loadMoreScenario}>
           {
-            loadMoreScenario({}, 0)
-              .then(([node, next]) => {
-                return node
-              })
-              .catch((error) => {
-                console.log(error);
-                return (<p>読み込めませんでした。</p>)
-              })
+            initialScenarios.initialScenarios
           }
         </ScenarioList>
       </div>

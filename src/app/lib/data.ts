@@ -101,11 +101,6 @@ export async function getScenarios(
 ) {
   noStore()
 
-  console.log({
-    query: query,
-    offset: offset
-  })
-
   try {
     const scenarios = await prisma.scenario.findMany({
       relationLoadStrategy: 'join',

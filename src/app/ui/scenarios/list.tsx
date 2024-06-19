@@ -20,7 +20,7 @@ export default function ScenarioList(
     loadMoreAction,
   }: PropsWithChildren<{
     query: object,
-    initialOffset: number;
+    initialOffset: number | undefined;
     loadMoreAction: LoadMoreAction;
   }>
 ) {
@@ -32,7 +32,6 @@ export default function ScenarioList(
   const currentOffsetRef = useRef<number | undefined>(initialOffset);
 
   const loadMore = useCallback(async () => {
-    console.log("start loading")
     setLoading(true);
 
     setTimeout(async () => {
@@ -72,7 +71,7 @@ export default function ScenarioList(
       {children}
       {loadMoreNodes}
       {
-        !allDataLoaded && (
+        allDataLoaded || (
           <button className='btn' onClick={loadMore} disabled={loading}>
             {loading && (<span className="loading loading-spinner loading-md"></span>)}
             {
