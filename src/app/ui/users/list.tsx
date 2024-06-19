@@ -74,7 +74,7 @@ export default function UserList(
         {loadMoreNodes}
       </div>
       {
-        allDataLoaded || <button className='btn w-fit self-center px-12' onClick={loadMore} disabled={loading}>
+        allDataLoaded || <button className='btn w-80 self-center px-12' onClick={loadMore} disabled={loading}>
           {loading && (<span className="loading loading-spinner loading-md"></span>)}
           {
             loading

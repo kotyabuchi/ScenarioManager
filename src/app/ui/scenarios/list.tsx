@@ -72,12 +72,12 @@ export default function ScenarioList(
       {loadMoreNodes}
       {
         allDataLoaded || (
-          <button className='btn' onClick={loadMore} disabled={loading}>
+          <button className='btn w-80 self-center px-12' onClick={loadMore} disabled={loading}>
             {loading && (<span className="loading loading-spinner loading-md"></span>)}
             {
               loading
-                ? "読み込み中..."
-                : "更に読み込む"
+                ? ""
+                : "もっと見る"
             }
           </button>
         )
