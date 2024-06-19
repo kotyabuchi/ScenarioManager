@@ -20,7 +20,7 @@ export default function UserList(
     loadMoreAction,
   }: PropsWithChildren<{
     query: object,
-    initialOffset: number;
+    initialOffset: number | undefined;
     loadMoreAction: LoadMoreAction;
   }>
 ) {

@@ -18,7 +18,7 @@ async function loadMoreUser(query: object, offset: number = 0) {
   ] as const;
 }
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
   searchParams?: {
@@ -41,22 +41,30 @@ export default function Home({
 
   queries.push({ OR: [...userNameQuery] })
 
+  const initialUsers = await loadMoreUser({ AND: queries }, 0)
+    .then(([node, next]) => {
+      return {
+        initialUsers: node,
+        initialOffset: next ?? undefined
+      };
+    })
+    .catch((error) => {
+      console.log(error);
+      return {
+        initialUsers: (<p className="w-full self-center text-center px-12 py-4">読み込めませんでした。</p>),
+        initialOffset: undefined
+      };
+    })
+
   return (
     <main className="flex flex-col items-center justify-between">
       <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full h-10">
         <Search placeholder="ユーザーを検索" />
       </div>
       <div className="w-full h-full mt-2">
-        <UserList query={{ AND: queries }} initialOffset={PAGE_SIZE} loadMoreAction={loadMoreUser}>
+        <UserList query={{ AND: queries }} initialOffset={initialUsers.initialOffset} loadMoreAction={loadMoreUser}>
           {
-            loadMoreUser({ AND: queries }, 0)
-              .then(([node, next]) => {
-                return node
-              })
-              .catch((error) => {
-                console.log(error);
-                return (<p className="w-full self-center text-center px-12 py-4">読み込めませんでした。</p>)
-              })
+            initialUsers.initialUsers
           }
         </UserList>
       </div>
