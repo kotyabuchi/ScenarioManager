@@ -1,41 +1,142 @@
 'use client';
 
-import Image from 'next/image';
-import ProfileMenu from './profile-menu';
+import React from 'react';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { usePathname } from 'next/navigation';
+import { LuBookOpen, LuHome, LuUsers } from 'react-icons/lu';
 
-export default function Navbar() {
+export default function AppNavbar() {
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const menuItems = [
+    {
+      name: "ホーム",
+      href: "/dashboard",
+      icon: LuHome,
+    },
+    {
+      name: "シナリオ",
+      href: "/dashboard/scenarios",
+      icon: LuBookOpen,
+    },
+    {
+      name: "ユーザー",
+      href: "/dashboard/users",
+      icon: LuUsers,
+    },
+    {
+      name: "セッション",
+      href: "/dashboard/sessions",
+      icon: LuHome,
+    },
+  ];
+
   return (
-    <div className="navbar h-16 bg-base-200 z-10">
-      <div className="navbar-start gap-2">
-        <a className="btn btn-ghost text-xl w-60">シナプレ管理くん</a>
-        <div className="dropdown">
-          <button className="btn btn-ghost btn-circle">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-          </button>
-        </div>
-      </div>
-      <div className="navbar-center">
+    <Navbar
+      maxWidth="full"
+      onMenuOpenChange={setIsMenuOpen}
+      classNames={{
+        base: [
+          "bg-slate-100/80",
+        ],
+        item: [
+          "flex",
+          "gap-1",
+          "h-16",
+          "relative",
+          "items-center",
+          "hover:text-primary",
+          "data-[active=true]:after:content-['']",
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[2px]",
+          "data-[active=true]:after:rounded-[2px]",
+          "data-[active=true]:after:bg-primary",
+        ],
+        menu: [
+          "bg-slate-100/80"
+        ]
+      }}>
+      <NavbarContent>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+        <NavbarBrand>
+          <p className="font-bold text-lg">シナプレ管理くん</p>
+        </NavbarBrand>
+      </NavbarContent>
 
-      </div>
-      <div className="navbar-end gap-2">
-        <button className="btn btn-ghost btn-circle">
-          <div className="indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-            <span className="badge badge-xs badge-primary indicator-item"></span>
-          </div>
-        </button>
-        <button className="btn btn-ghost btn-circle dropdown dropdown-bottom dropdown-end">
-          <Image
-            className=" object-cover w-11 h-11 rounded-full"
-            src="/image.png"
-            alt="userアイコン"
-            width={44}
-            height={44}
-            sizes=''
-          />
-          <ProfileMenu />
-        </button>
-      </div>
-    </div>
+      <NavbarContent className="hidden sm:flex gap-2" justify="center">
+        {menuItems.map((item, index) => {
+          if (index > 3) return
+          const isActive = pathname === item.href
+          const LinkIcon = item.icon
+          return (
+            <NavbarItem key={item.href} isActive={isActive}>
+              <LinkIcon className={isActive ? "text-primary" : ""} />
+              <Link
+                color={isActive ? "primary" : "foreground"}
+                href={item.href}
+                aria-current={isActive ? "page" : undefined
+                }>
+                {item.name}
+              </Link>
+            </NavbarItem>
+          )
+        })}
+      </NavbarContent>
+      <NavbarContent as="div" justify="end">
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="secondary"
+              name="Jason Hughes"
+              size="sm"
+              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="text-xs">プロフィール</p>
+              <p className="font-semibold">かぼっち</p>
+            </DropdownItem>
+            <DropdownItem key="settings">設定</DropdownItem>
+            <DropdownItem key="help_and_feedback">ヘルプ & フィードバック</DropdownItem>
+            <DropdownItem key="logout" color="danger">
+              ログアウト
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </NavbarContent>
+      <NavbarMenu>
+        {menuItems.map((item) => {
+          const isActive = pathname === item.href
+          const LinkIcon = item.icon
+          return (
+            <NavbarMenuItem key={item.href}>
+              <div className={`flex flex-row gap-2 w-fit items-center ${isActive && "border-b border-primary"}`}>
+                <LinkIcon className={isActive ? "text-primary" : ""} />
+                <Link
+                  color={isActive ? "primary" : "foreground"}
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined
+                  }
+                  size="lg"
+                >
+                  {item.name}
+                </Link>
+              </div>
+            </NavbarMenuItem>
+          )
+        })}
+      </NavbarMenu>
+    </Navbar>
   );
 }

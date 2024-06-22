@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@nextui-org/react';
 import {
   PropsWithChildren,
   useCallback,
@@ -38,6 +39,7 @@ export default function UserList(
     setTimeout(async () => {
       // 重複データの取得を防ぐためのチェック
       if (currentOffsetRef.current === undefined) {
+        setAllDataLoaded(true);
         setLoading(false);
         return;
       }
@@ -45,6 +47,7 @@ export default function UserList(
       loadMoreAction(query, currentOffsetRef.current)
         .then(([node, next]) => {
           // 全てのデータを取得したかどうかのチェック
+          console.log(node.length)
           if (node.length < 10) {
             setAllDataLoaded(true);
           }
@@ -69,19 +72,26 @@ export default function UserList(
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-row flex-wrap gap-y-3 gap-2 w-full h-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-full">
         {children}
         {loadMoreNodes}
       </div>
       {
-        allDataLoaded || <button className='btn w-80 self-center px-12' onClick={loadMore} disabled={loading}>
-          {loading && (<span className="loading loading-spinner loading-md"></span>)}
-          {
-            loading
-              ? ""
-              : "もっと見る"
-          }
-        </button>
+        allDataLoaded || (
+          <Button
+            className='w-80 self-center px-12'
+            color='primary'
+            variant='flat'
+            onClick={loadMore}
+            isLoading={loading}
+            disabled={loading}>
+            {
+              loading
+                ? "読み込み中..."
+                : "もっと見る"
+            }
+          </Button>
+        )
       }
     </div>
   )

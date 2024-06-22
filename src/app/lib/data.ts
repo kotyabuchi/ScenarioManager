@@ -6,6 +6,26 @@ import { ConvertedScenarioDisplayData, ScenarioWithTag } from "./data-type";
 
 const prisma = new PrismaClient()
 
+export async function getDiscordUser(id: string) {
+  const token = process.env.DISCORD_TOKEN
+  if (token) {
+    return await fetch(`https://discord.com/api/v10/users/${id}`, {
+      headers: {
+        Authorization: `Bot ${token}`
+      }
+    }).then(async function (serverPromise) {
+      return await serverPromise.json()
+        .then(function (j) {
+          return j;
+        })
+        .catch(function (e) {
+          console.error('Error get discord user:', e);
+          throw e;
+        });
+    })
+  }
+}
+
 export async function convertScenarioData(scenario: ScenarioWithTag) {
   const minPlayer = scenario.minPlayer
   const maxPlayer = scenario.maxPlayer

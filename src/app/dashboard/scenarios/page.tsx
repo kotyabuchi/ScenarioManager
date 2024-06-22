@@ -4,7 +4,7 @@ import { ScenarioWithTag } from '@/app/lib/data-type';
 import ScenarioCard from "@/app/ui/scenarios/card";
 import Search from "@/app/ui/search";
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 
 async function loadMoreScenario(query: object, offset: number = 0) {
   'use server';
@@ -57,8 +57,8 @@ export default async function Page({
     })
 
   return (
-    <main className="flex flex-col items-center justify-between">
-      <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full h-10">
+    <main className="flex flex-col items-center justify-between lg:px-8">
+      <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full">
         <Search placeholder="シナリオを検索" />
       </div>
       <div className="w-full h-full mt-2">

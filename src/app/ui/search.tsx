@@ -1,5 +1,6 @@
 'use client';
 
+import { Input } from '@nextui-org/react';
 import {
   useSearchParams,
   usePathname,
@@ -26,17 +27,39 @@ export default function Search({ placeholder }: { placeholder: string }) {
   }, 300);
 
   return (
-    <label className="group input input-bordered input-sm flex items-center rounded-full bg-base-100">
-      <input
-        type="text"
-        className="grow"
-        placeholder={placeholder}
-        onChange={(e) => {
-          handleSearch(e.target.value);
-        }}
-        defaultValue={searchParams.get('query')?.toString()}
-      />
-      <LuSearch className='opacity-60' />
-    </label>
+    <Input
+      isClearable
+      type="text"
+      label={placeholder}
+      classNames={{
+        base: "max-w-96",
+        label: "text-black/50 dark:text-white/90",
+        input: [
+          "bg-transparent",
+          "text-black/90 dark:text-white/90",
+          "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+        ],
+        innerWrapper: "bg-transparent",
+        inputWrapper: [
+          "shadow-sm",
+          "bg-default-200/50",
+          "dark:bg-default/60",
+          "backdrop-blur-xl",
+          "backdrop-saturate-200",
+          "hover:bg-default-200/70",
+          "dark:hover:bg-default/70",
+          "group-data-[focus=true]:bg-default-200/50",
+          "dark:group-data-[focus=true]:bg-default/60",
+          "!cursor-text",
+        ],
+
+      }}
+      startContent={
+        <LuSearch className='text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0' />
+      }
+      onValueChange={(value) => {
+        handleSearch(value);
+      }}
+    />
   )
 }

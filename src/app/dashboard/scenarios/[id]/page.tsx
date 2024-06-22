@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { convertScenarioData, getScenario } from "@/app/lib/data";
 import { notFound } from "next/navigation";
+import { Divider } from "@nextui-org/react";
 
 type Props = {
   params: { id: string }
@@ -15,10 +16,11 @@ export default async function Page({ params }: Props) {
     const scenarioData = await convertScenarioData(scenario)
     const isUpdated = scenarioData.createdAt.getTime() !== scenarioData.updatedAt.getTime()
     const scenarioTags = scenarioData.scenarioTags
+
     return (
-      <main className="flex flex-col gap-8 md:pr-6 py-4">
-        <div className="flex flex-col lg:flex-row-reverse justify-between gap-4">
-          <div className="flex flex-col gap-2 shrink-0 md:gap-4 lg:items-end w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
+      <main className="flex flex-col gap-8 py-4 md:px-8 lg:px-16">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
+          <div className="shrink-0 flex flex-col gap-1 w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
             <div className="flex flex-row text-sm">
               {
                 isUpdated
@@ -36,34 +38,38 @@ export default async function Page({ params }: Props) {
               sizes=''
             />
           </div>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col">
-              <h2 className="text-3xl break-words break-all w-fit border-b-2 border-primary">{scenarioData.name}</h2>
-              <span className='opacity-70'>{scenarioData.author}</span>
-            </div>
+          <div className="flex flex-col gap-3 w-full">
             <div className="flex flex-col gap-1 text-sm">
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-1">
                 {
                   scenarioTags.map((tag) => {
                     return (
-                      <span key={tag.id} className="badge text-xs border-none mr-2" style={{ backgroundColor: `${tag.color}` }}>{tag.name}</span>
+                      <span key={tag.id} className="rounded-full min-w-fit px-3 py-[2px] text-xs" style={{ backgroundColor: `${tag.color}` }}>{tag.name}</span>
                     )
                   })
                 }
               </div>
+              <div className="flex flex-col">
+                <h2 className="text-3xl break-words break-all w-fit border-b-2 border-primary-300">{scenarioData.name}</h2>
+                <span className='opacity-70'>{scenarioData.author}</span>
+              </div>
               <div className="flex flex-col flex-wrap md:flex-row gap-2">
                 <div>人数：<span className='font-semibold'>{scenarioData.playerAmount}</span></div>
-                <div className="divider divider-horizontal mx-0"></div>
+                <Divider orientation="vertical" />
                 <div>所要時間：<span className='font-semibold'>{scenarioData.playtime}</span></div>
-                <div className="divider divider-horizontal mx-0"></div>
+                <Divider orientation="vertical" />
                 <div>HO：<span className='font-semibold'>{scenarioData.handoutType}</span></div>
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <input type="checkbox" id="descriptionToggle" className="peer invisible w-0 h-0 -mb-2" />
-              <h3 className="text-lg font-bold w-fit border-b-2 border-primary">概要</h3>
-              <p className="text-sm whitespace-break-spaces line-clamp-6 peer-checked:hidden">{scenario.shortDescription || scenario.description}</p>
-              <p className="text-sm whitespace-break-spaces hidden peer-checked:block">{scenario.description || scenario.shortDescription}</p>
+              <h3 className="text-lg font-bold w-fit border-b-2 border-primary-300">概要</h3>
+              <div className="peer-checked:hidden p-4 rounded-xl bg-white">
+                <p className="text-sm whitespace-break-spaces line-clamp-[8]">{scenario.shortDescription || scenario.description}</p>
+              </div>
+              <div className="hidden peer-checked:block p-4 rounded-xl bg-white">
+                <p className="text-sm whitespace-break-spaces">{scenario.description || scenario.shortDescription}</p>
+              </div>
               <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs peer-checked:hidden">もっと見る</label>
               <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs hidden peer-checked:block">概要を閉じる</label>
             </div>

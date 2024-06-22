@@ -11,18 +11,18 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.4.2",
     "@prisma/client": "^5.15.0",
-    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/bcrypt": "^5.0.2",
     "@vercel/postgres": "^0.8.0",
     "bcrypt": "^5.1.1",
+    "framer-motion": "^11.2.11",
     "next": "14.2.3",
     "prisma": "^5.15.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
-    "use-debounce": "^10.0.1",
-    "uuid": "^10.0.0"
+    "use-debounce": "^10.0.1"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^10.9.1",

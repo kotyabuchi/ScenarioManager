@@ -81,12 +81,27 @@ async function seedScenarioTags() {
   }
 }
 
-async function main() {
-  // await seedUsers()
-  // await seedTags()
-  // await seedScenarios()
-  // await seedScenarioTags()
+async function updateTags() {
+  try {
+    tags.forEach(async (tag) => {
+      const result = await prisma.tag.update({
+        where: {
+          name: tag.name,
+        },
+        data: {
+          color: tag.color,
+        }
+      })
 
+      console.log(result);
+    })
+  } catch (error) {
+    console.error('Error updating tags:', error);
+    throw error;
+  }
+}
+
+async function bindScenarioTags() {
   const scenarioTags = await prisma.scenarioTag.findMany({
     select: {
       scenarioId: true
@@ -126,7 +141,8 @@ async function main() {
   let mappedScenarioTags = []
   dummyScenarios.forEach(async (scenario) => {
     const scenarioId = scenarioIdMapping[scenario.name]
-    scenario.scenarioTag.forEach(async (tag) => {
+
+    scenarioId && scenario.scenarioTag.forEach(async (tag) => {
       const tagId = tagIdMapping[tag]
 
       mappedScenarioTags.push({
@@ -141,6 +157,15 @@ async function main() {
   })
 
   console.log(result)
+}
+
+async function main() {
+  // await updateTags()
+  // await seedUsers()
+  // await seedTags()
+  // await seedScenarios()
+  // await seedScenarioTags()
+  // await bindScenarioTags()
 }
 
 main().catch((err) => {

@@ -26,3 +26,8 @@ export type ConvertedScenarioDisplayData = {
   updatedAt: Date
   scenarioTags: Tag[]
 }
+
+export type LoadMoreAction = (
+  query: object,
+  offset: number
+) => Promise<readonly [JSX.Element[], number | null]>;

@@ -1,84 +1,62 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ScenarioWithTag } from '@/app/lib/data-type';
+import { Button, Divider } from '@nextui-org/react';
+import { convertScenarioData } from '@/app/lib/data';
 
 export default async function ScenarioCard({
   scenario,
 }: {
   scenario: ScenarioWithTag
 }) {
-  const minPlayer = scenario.minPlayer
-  const maxPlayer = scenario.maxPlayer
-
-  const playerAmount = (maxPlayer)
-    ? `${minPlayer || ""}〜${maxPlayer || ""}人`
-    : (minPlayer)
-      ? `${minPlayer}人以上`
-      : `なし`
-
-  const minPlayTimeFull: number = scenario.minPlaytime ?? 0
-  const maxPlayTimeFull: number = scenario.maxPlaytime ?? 0
-  const minHour: number = Math.ceil(minPlayTimeFull / 60.0)
-  const minMinutes: number = Math.ceil(minPlayTimeFull % 60 / 60 * 10) / 10
-  const maxHour: number = Math.ceil(maxPlayTimeFull / 60.0)
-  const maxMinutes: number = Math.ceil(maxPlayTimeFull % 60 / 60 * 10) / 10
-  const minPlayTime = minHour + minMinutes
-  const maxPlayTime = maxHour + maxMinutes
-
-  const playtime = (maxPlayTime)
-    ? `${minPlayTime || ""}〜${maxPlayTime || ""}時間`
-    : (minPlayTime)
-      ? `${minPlayTime}時間以上`
-      : `なし`
-
-  function hoType() {
-    switch (scenario.handoutType) {
-      case 'NONE': return "なし"
-      case 'PUBLIC': return "公開"
-      case 'SECRET': return "秘匿"
-    }
-  }
-  const description = scenario.shortDescription ? scenario.shortDescription : scenario.description
+  const scenarioData = await convertScenarioData(scenario)
+  const scenarioTags = scenarioData.scenarioTags
 
   return (
     <Link
-      href={`/dashboard/scenarios/${scenario.id}`}
-      className="card card-side h-full rounded-lg bg-base-100 hover-primary hover:text-primary-content duration-150"
+      href={`/dashboard/scenarios/${scenarioData.id}`}
+      className="flex flex-row gap-3 w-full h-full p-3 shadow-md rounded-2xl bg-white hover:bg-primary-50 duration-150"
     >
-      <figure className='shrink-0'>
+      <figure className='shrink-0 rounded-lg overflow-hidden'>
         <Image
-          className="object-cover w-24 h-24 md:w-28 md:h-28 m-4"
+          className="object-cover w-24 h-24 md:w-28 md:h-28"
           src="/noImage.png"
-          alt={scenario.name}
+          alt={scenarioData.name}
           width={144}
           height={144}
           sizes=''
         />
       </figure>
-      <div className="card-body gap-1 w-fit p-0 m-4 ml-0">
+      <div className="flex flex-col gap-1 w-fit">
         <div className='flex gap-2'>
           {
-            scenario.scenarioTag.map((scenarioTag) => {
+            scenarioTags.map((tag) => {
               return (
-                <button key={scenarioTag.tagId} className="badge text-xs border-0" style={{ backgroundColor: `${scenarioTag.tag.color}` }}>
-                  {scenarioTag.tag.name}
-                </button>
+                <Button
+                  key={tag.id}
+                  radius="full"
+                  variant="flat"
+                  className="rounded-full h-5 min-w-fit px-3 text-xs"
+                  style={{ backgroundColor: tag.color || undefined }}
+                >
+                  {tag.name}
+                </Button>
               )
             })
           }
         </div>
         <div className="flex flex-row flex-wrap gap-y-0 gap-3 items-baseline">
-          <h2 className="card-title text-base">{scenario.name}</h2>
-          <span className='text-xs opacity-70'>{scenario.author}</span>
+          <h2 className="font-bold text-base">{scenarioData.name}</h2>
+          <span className='text-xs opacity-70'>{scenarioData.author}</span>
         </div>
         <div className="flex flex-wrap md:gap-x-2 gap-y-1 text-xs">
-          <div className='flex md:flex-row'><p>人数：</p><span className='font-semibold'>{playerAmount}</span></div>
-          <div className="divider divider-horizontal mx-0"></div>
-          <div className='flex md:flex-row'><p>所要時間：</p><span className='font-semibold'>{playtime}</span></div>
-          <div className="divider divider-horizontal mx-0"></div>
-          <div className='flex md:flex-row'><p>HO：</p><span className='font-semibold'>{hoType()}</span></div>
+          <div className='flex md:flex-row'><p>人数：</p><span className='font-semibold'>{scenarioData.playerAmount}</span></div>
+          <Divider orientation="vertical" />
+          <div className='flex md:flex-row'><p>所要時間：</p><span className='font-semibold'>{scenarioData.playtime}</span></div>
+          <Divider orientation="vertical" />
+          <div className='flex md:flex-row'><p>HO：</p><span className='font-semibold'>{scenarioData.handoutType}</span></div>
         </div>
-        <p className="text-sm opacity-70 line-clamp-2 break-all max-h-14 whitespace-normal">{description}</p>
+        <p className="text-xs opacity-60 line-clamp-2 break-all max-h-14 whitespace-normal">{scenario.shortDescription || scenarioData.description}</p>
       </div>
     </Link>
   )
