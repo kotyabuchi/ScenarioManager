@@ -59,7 +59,7 @@ export default function Search({ placeholder, value }: { placeholder: string, va
       }
       defaultValue={value}
       onValueChange={(value) => {
-        handleSearch(value);
+        handleSearch(value.trim());
       }}
     />
   )
