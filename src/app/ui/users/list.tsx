@@ -4,6 +4,7 @@ import { Button } from '@nextui-org/react';
 import {
   PropsWithChildren,
   useCallback,
+  useEffect,
   useRef,
   useState
 } from 'react'
@@ -27,7 +28,7 @@ export default function UserList(
 ) {
   const [loadMoreNodes, setLoadMoreNodes] = useState<JSX.Element[]>([]);
   const [loading, setLoading] = useState(false);
-  const [allDataLoaded, setAllDataLoaded] = useState(false);
+  const [allDataLoaded, setAllDataLoaded] = useState(initialOffset === undefined);
 
   // 現在のオフセット
   const currentOffsetRef = useRef<number | undefined>(initialOffset);
@@ -46,15 +47,10 @@ export default function UserList(
 
       loadMoreAction(query, currentOffsetRef.current)
         .then(([node, next]) => {
-          // 全てのデータを取得したかどうかのチェック
-          console.log(node.length)
-          if (node.length < 10) {
-            setAllDataLoaded(true);
-          }
-
           //　新しいデータを追加する
           setLoadMoreNodes((prev) => [...prev, ...node]);
           if (next === null) {
+            setAllDataLoaded(true);
             currentOffsetRef.current = undefined;
             return;
           }
@@ -67,8 +63,13 @@ export default function UserList(
         .finally(() => setLoading(false));
     }, 800);
   },
-    [loadMoreAction, query]
+    [query]
   );
+
+  useEffect(() => {
+    setLoadMoreNodes([]);
+    setAllDataLoaded(initialOffset === undefined);
+  }, [query])
 
   return (
     <div className="flex flex-col gap-3">

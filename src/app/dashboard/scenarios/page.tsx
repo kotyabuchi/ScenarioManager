@@ -59,7 +59,7 @@ export default async function Page({
   return (
     <main className="flex flex-col items-center justify-between lg:px-8">
       <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full">
-        <Search placeholder="シナリオを検索" />
+        <Search placeholder="シナリオを検索" value={searchParams?.query} />
       </div>
       <div className="w-full h-full mt-2">
         <ScenarioList query={{ AND: queries }} initialOffset={initialScenarios.initialOffset} loadMoreAction={loadMoreScenario}>
