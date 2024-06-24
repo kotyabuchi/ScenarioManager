@@ -9,7 +9,7 @@ import {
 import { LuSearch } from 'react-icons/lu';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export default function Search({ placeholder, value }: { placeholder: string, value?: string }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -57,6 +57,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
       startContent={
         <LuSearch className='text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0' />
       }
+      defaultValue={value}
       onValueChange={(value) => {
         handleSearch(value);
       }}
