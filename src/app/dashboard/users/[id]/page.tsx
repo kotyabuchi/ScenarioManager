@@ -1,13 +1,15 @@
 import Image from "next/image"
 import { getDiscordUser, getUser } from "@/app/lib/data";
 import { notFound } from "next/navigation";
-import { Avatar, Link, ScrollShadow, Tooltip } from "@nextui-org/react";
-import { LuExternalLink } from "react-icons/lu";
+import { ScrollShadow } from "@nextui-org/react";
 import DiscordIcon from "@/../public/DiscordIcon.svg";
+import LinkBadge from "@/app/ui/users/link-badge";
 
 type Props = {
   params: { id: string }
 }
+
+const underLineCss = "border-b-2 border-primary-300"
 
 export default async function Page({ params }: Props) {
   const id = params.id
@@ -39,34 +41,43 @@ export default async function Page({ params }: Props) {
                 height={144}
                 sizes=''
               />
-              <Tooltip closeDelay={150} offset={-16}
-                content={
-                  <Image
-                    src={DiscordIcon}
-                    alt="discord icon"
-                    width={24}
-                    height={24}
-                  />
-                }
-              >
-                <Link
-                  href={`discord://-/users/${discordUser.id}`}
-                  className="flex flex-row gap-2 justify-center items-center w-fit border rounded-full p-1 bg-gradient-to-b from-[#7670F0] to-[#5963EB]"
-                >
-                  <Avatar src={`https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`} className="w-8 h-8 text-tiny" />
-                  <p className="text-white text-sm">{discordUser.global_name}</p>
-                  <LuExternalLink className="text-white" />
-                </Link>
-              </Tooltip>
+              <div className="hidden md:flex flex-col gap-2">
+                <p className={`text-sm w-fit px-1 ${underLineCss}`}>リンク</p>
+                <div className="flex flex-col gap-2">
+                  {
+                    (discordUser.id) && (
+                      <LinkBadge
+                        badgeTitle={discordUser.global_name}
+                        href={`discord://-/users/${discordUser.id}`}
+                        icon={DiscordIcon}
+                      />
+                    )
+                  }
+                </div>
+              </div>
             </div>
             <div className="flex flex-col gap-3 w-full">
-              <h2 className="text-3xl break-words break-all w-fit h-fit border-b-2 border-primary-300">{user.name}</h2>
+              <h2 className={`text-3xl break-words break-all w-fit h-fit px-1 ${underLineCss}`}>{user.name}</h2>
               <p className="text-sm whitespace-break-spaces p-4 rounded-xl bg-white">{user.introduction}</p>
+              <div className="flex md:hidden flex-col gap-2">
+                <p className={`text-sm w-fit px-1 ${underLineCss}`}>リンク</p>
+                <div className="flex flex-col gap-2">
+                  {
+                    (discordUser.id) && (
+                      <LinkBadge
+                        badgeTitle={discordUser.global_name}
+                        href={`discord://-/users/${discordUser.id}`}
+                        icon={DiscordIcon}
+                      />
+                    )
+                  }
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg">未プレイ</h3>
+              <h3 className={`text-lg w-fit px-1 ${underLineCss}`}>未プレイ</h3>
               <ScrollShadow orientation="horizontal" className="flex flex-row gap-2 max-w-full h-fit pb-4">
                 {
                   [...Array(10)].map((_, i) => {
@@ -88,7 +99,7 @@ export default async function Page({ params }: Props) {
               </ScrollShadow>
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg">シナリオ保有・KP可</h3>
+              <h3 className={`text-lg w-fit px-1 ${underLineCss}`}>シナリオ保有・KP可</h3>
               <ScrollShadow orientation="horizontal" className="flex flex-row gap-2 max-w-full h-fit pb-4">
                 {
                   [...Array(10)].map((_, i) => {
@@ -110,7 +121,7 @@ export default async function Page({ params }: Props) {
               </ScrollShadow>
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg">プレイ済み・視聴済み</h3>
+              <h3 className={`text-lg w-fit px-1 ${underLineCss}`}>プレイ済み・視聴済み</h3>
               <ScrollShadow orientation="horizontal" className="flex flex-row gap-2 max-w-full h-fit pb-4">
                 {
                   [...Array(10)].map((_, i) => {
