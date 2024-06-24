@@ -14,9 +14,10 @@ export default function LinkBadge(
   }
 ) {
   return (
-    <Link
-      as={Button}
+    <Button
       href={href}
+      as={Link}
+      showAnchorIcon
       radius="full"
       className="w-fit bg-white shadow"
       startContent={
@@ -28,11 +29,8 @@ export default function LinkBadge(
           className="min-w-6 w-6"
         />
       }
-      endContent={
-        <LuExternalLink className="min-w-4 w-4 h-4 shrink-0" />
-      }
     >
       <p className="text-sm text-black">{badgeTitle}</p>
-    </Link>
+    </Button>
   )
 }
