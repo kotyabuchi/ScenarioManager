@@ -15,7 +15,7 @@ export default async function ScenarioCard({
   return (
     <Link
       href={`/dashboard/scenarios/${scenarioData.id}`}
-      className="flex flex-row gap-3 w-full h-full p-3 shadow-md rounded-2xl bg-white hover:bg-primary-50 duration-150"
+      className="flex flex-row gap-3 w-full h-full p-3 shadow-md rounded-2xl bg-white hover:bg-primary-50 duration-150 items-center"
     >
       <figure className='shrink-0 rounded-lg overflow-hidden'>
         <Image
@@ -46,7 +46,7 @@ export default async function ScenarioCard({
           }
         </div>
         <div className="flex flex-row flex-wrap gap-y-0 gap-3 items-baseline">
-          <h2 className="font-bold text-base">{scenarioData.name}</h2>
+          <h2 className="font-bold text-base line-clamp-1">{scenarioData.name}</h2>
           <span className='text-xs opacity-70'>{scenarioData.author}</span>
         </div>
         <div className="flex flex-wrap md:gap-x-2 gap-y-1 text-xs">

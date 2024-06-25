@@ -23,7 +23,7 @@ export default function UserCard({
         />
       </figure>
       <div className="flex flex-col gap-0 w-full h-full">
-        <h2 className="font-bold text-base">{user.name}</h2>
+        <h2 className="font-bold text-base line-clamp-1">{user.name}</h2>
         <p className='text-sm opacity-70 w-auto max-h-10 line-clamp-2 break-words break-all'>{user.introduction}</p>
       </div>
     </Link>
