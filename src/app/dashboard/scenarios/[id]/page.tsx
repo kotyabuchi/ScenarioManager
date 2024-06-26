@@ -1,11 +1,13 @@
 import Image from "next/image"
 import { convertScenarioData, getScenario } from "@/app/lib/data";
 import { notFound } from "next/navigation";
-import { Divider } from "@nextui-org/react";
+import { Divider, ScrollShadow } from "@nextui-org/react";
 
 type Props = {
   params: { id: string }
 }
+
+const underLineCss = "[&_h2]:w-fit [&_h2]:px-1 [&_h2]:border-b-2 [&_h2]:border-primary-300 [&_h3]:w-fit [&_h3]:px-1 [&_h3]:border-b-2 [&_h3]:border-primary-300"
 
 export default async function Page({ params }: Props) {
   const id = params.id
@@ -18,7 +20,7 @@ export default async function Page({ params }: Props) {
     const scenarioTags = scenarioData.scenarioTags
 
     return (
-      <main className="flex flex-col gap-8 py-4 md:px-8 lg:px-16">
+      <main className={`flex flex-col gap-8 py-4 md:px-8 lg:px-16 ${underLineCss}`}>
         <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
           <div className="shrink-0 flex flex-col gap-1 w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
             <div className="flex flex-row text-sm">
@@ -38,9 +40,9 @@ export default async function Page({ params }: Props) {
               sizes=''
             />
           </div>
-          <div className="flex flex-col gap-3 w-full">
-            <div className="flex flex-col gap-1 text-sm">
-              <div className="flex flex-row gap-1">
+          <div className="flex flex-col gap-2 w-full">
+            <div className="flex flex-col">
+              <div className="flex flex-row gap-1 text-sm px-1">
                 {
                   scenarioTags.map((tag) => {
                     return (
@@ -50,28 +52,30 @@ export default async function Page({ params }: Props) {
                 }
               </div>
               <div className="flex flex-col">
-                <h2 className="text-3xl break-words break-all w-fit border-b-2 border-primary-300">{scenarioData.name}</h2>
-                <span className='opacity-70'>{scenarioData.author}</span>
+                <h2 className="text-3xl break-words break-all">{scenarioData.name}</h2>
+                <span className='opacity-70 text-sm px-1'>{scenarioData.author}</span>
               </div>
-              <div className="flex flex-col flex-wrap md:flex-row gap-2">
-                <div>人数：<span className='font-semibold'>{scenarioData.playerAmount}</span></div>
-                <Divider orientation="vertical" />
-                <div>所要時間：<span className='font-semibold'>{scenarioData.playtime}</span></div>
-                <Divider orientation="vertical" />
-                <div>HO：<span className='font-semibold'>{scenarioData.handoutType}</span></div>
-              </div>
+            </div>
+            <div
+              className="flex flex-col flex-wrap md:flex-row md:gap-2 text-sm px-1 [&_span]:font-semibold [&>Divider]:hidden [&>Divider]:md:block"
+            >
+              <div>人数：<span>{scenarioData.playerAmount}</span></div>
+              <Divider orientation="vertical" />
+              <div>所要時間：<span>{scenarioData.playtime}</span></div>
+              <Divider orientation="vertical" />
+              <div>HO：<span>{scenarioData.handoutType}</span></div>
             </div>
             <div className="flex flex-col gap-2">
               <input type="checkbox" id="descriptionToggle" className="peer invisible w-0 h-0 -mb-2" />
-              <h3 className="text-lg font-bold w-fit border-b-2 border-primary-300">概要</h3>
+              <h3 className="text-lg font-bold">概要</h3>
               <div className="peer-checked:hidden p-4 rounded-xl bg-white">
                 <p className="text-sm whitespace-break-spaces line-clamp-[8]">{scenario.shortDescription || scenario.description}</p>
               </div>
-              <div className="hidden peer-checked:block p-4 rounded-xl bg-white">
-                <p className="text-sm whitespace-break-spaces">{scenario.description || scenario.shortDescription}</p>
+              <div className="hidden peer-checked:block px-4 md:max-h-[480px] rounded-xl bg-white">
+                <ScrollShadow className="max-h-full py-4 text-sm whitespace-break-spaces">{scenario.description || scenario.shortDescription}</ScrollShadow>
               </div>
-              <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs peer-checked:hidden">もっと見る</label>
-              <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs hidden peer-checked:block">概要を閉じる</label>
+              <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs px-1 peer-checked:hidden">もっと見る</label>
+              <label htmlFor="descriptionToggle" className="w-fit cursor-pointer opacity-70 text-xs px-1 hidden peer-checked:block">概要を閉じる</label>
             </div>
           </div>
         </div>
