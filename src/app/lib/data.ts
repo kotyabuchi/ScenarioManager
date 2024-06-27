@@ -1,10 +1,8 @@
 'use server';
 
-import { PrismaClient } from "@prisma/client"
+import { prisma } from './db';
 import { unstable_noStore as noStore } from 'next/cache'
 import { ConvertedScenarioDisplayData, ScenarioWithTag } from "./data-type";
-
-const prisma = new PrismaClient()
 
 export async function getDiscordUser(id: string) {
   const token = process.env.DISCORD_TOKEN

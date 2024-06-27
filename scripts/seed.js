@@ -1,9 +1,8 @@
 const { PrismaClient } = require("@prisma/client")
 const {
   users,
-  scenarios,
   tags,
-  dummyScenarios,
+  scenarios,
 } = require('../src/app/lib/place_holder')
 const bcrypt = require('bcrypt')
 
@@ -26,7 +25,7 @@ async function seedUsers() {
 async function seedScenarios() {
   try {
     let editedScenarios = []
-    dummyScenarios.forEach(async (scenario) => {
+    scenarios.forEach(async (scenario) => {
       delete scenario.scenarioTag
       editedScenarios.push(scenario)
     })
@@ -139,7 +138,7 @@ async function bindScenarioTags() {
   })
 
   let mappedScenarioTags = []
-  dummyScenarios.forEach(async (scenario) => {
+  scenarios.forEach(async (scenario) => {
     const scenarioId = scenarioIdMapping[scenario.name]
 
     scenarioId && scenario.scenarioTag.forEach(async (tag) => {

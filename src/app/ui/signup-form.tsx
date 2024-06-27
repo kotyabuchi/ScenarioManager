@@ -1,0 +1,205 @@
+'use client';
+
+import { Button, Input, Link } from "@nextui-org/react";
+import { useEffect, useMemo, useState } from "react";
+import { LuEye, LuEyeOff, LuHelpCircle } from "react-icons/lu";
+import { toast } from 'sonner';
+import { signUp, State } from "@/app/actions/signup";
+import { useFormState, useFormStatus } from "react-dom";
+import { PasswordInput } from "./PasswordInput";
+import * as z from 'zod';
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      color="primary"
+      isLoading={pending}
+      isDisabled={pending}
+    >
+      登録
+    </Button>
+  );
+}
+
+export default function SignupForm() {
+  const initialState: State = { isSuccess: false, message: null, errors: {} };
+  const [state, dispatch] = useFormState(signUp, initialState);
+
+  const [usernameValue, setUsernameValue] = useState("");
+  const [isUsernameTouched, setIsUserNameTouched] = useState(false);
+
+  const [discordIdValue, setdiscordIdValue] = useState("");
+  const [isDiscordIdTouched, setIsDiscordIdTouched] = useState(false);
+
+  const [passwordValue, setPasswordValue] = useState("");
+  const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+
+  const [passwordAgainValue, setPasswordAgainValue] = useState("");
+  const [isPasswordAgainTouched, setIsPasswordAgainTouched] = useState(false);
+
+  const [isPasswordVisible, setPasswordIsVisible] = useState(false);
+  const [isPasswordAgainVisible, setPasswordAgainIsVisible] = useState(false);
+  const togglePasswordVisibility = () => setPasswordIsVisible(!isPasswordVisible);
+  const togglePasswordAgainVisibility = () => setPasswordAgainIsVisible(!isPasswordAgainVisible);
+
+  const passwordValidation = new RegExp(
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
+  );
+
+  const passwordSchema = z.string()
+    .min(8, { message: "8文字以上で入力してください" })
+    .max(32, { message: "32文字以内で入力してください" })
+    .regex(/[0-9]+/, { message: "数字を1文字以上使用してください" })
+    .regex(/[#?!@$%^&*-]+/, { message: "記号(#?!@$%^&*-)の中で1文字以上使用してください" })
+    .regex(/[a-z]+/, { message: "英小文字を1文字以上使用してください" })
+    .regex(/[A-Z]+/, { message: "英大文字を1文字以上使用してください" })
+
+  const isUsernameInvalid = useMemo(() => {
+    if (!isUsernameTouched) return false;
+    return state.errors?.username !== undefined || usernameValue === "";
+  }, [state, usernameValue, isUsernameTouched]);
+
+  const isDiscordIdInvalid = useMemo(() => {
+    if (!isDiscordIdTouched) return false;
+    return state.errors?.discordId !== undefined || discordIdValue === "";
+  }, [state, discordIdValue, isDiscordIdTouched])
+
+  const isPassowrdInvalid = useMemo(() => {
+    if (!isPasswordTouched) return undefined;
+    const validCheck = passwordSchema.safeParse(passwordValue).error?.issues.map((issue) => issue.message)
+    return validCheck || state.errors?.password;
+  }, [state, passwordValue, isPasswordTouched]);
+
+  const isPassowrdAgainInvalid = useMemo(() => {
+    if (!isPasswordAgainTouched) return false;
+    return state.errors?.password !== undefined || passwordAgainValue === "" || (isPasswordTouched && passwordValue != passwordAgainValue);
+  }, [state, passwordValue, passwordAgainValue, isPasswordTouched, isPasswordAgainTouched]);
+
+  useEffect(() => {
+    if (state.message) {
+      if (state.isSuccess) {
+        toast.success(state.message)
+      } else {
+        toast.error(state.message)
+      }
+    }
+  }, [state])
+
+  useEffect(() => {
+    state.errors.discordId = undefined
+  }, [discordIdValue])
+
+  useEffect(() => {
+    state.errors.password = undefined
+  }, [passwordValue])
+
+  return (
+    <form action={dispatch} className="flex flex-col w-full gap-4">
+      <Input
+        isRequired
+        required
+        type="text"
+        variant="underlined"
+        label="ユーザー名"
+        name="username"
+        autoComplete="username"
+        isInvalid={isUsernameInvalid}
+        color={isUsernameInvalid ? "danger" : "default"}
+        errorMessage="ユーザー名は必須です。"
+        onValueChange={setUsernameValue}
+        onBlur={() => setIsUserNameTouched(true)}
+        className="w-full"
+        classNames={{
+          inputWrapper: "after:bg-primary-300"
+        }}
+      />
+      <Input
+        isRequired
+        required
+        type="text"
+        label="DiscordID"
+        name="discordId"
+        variant="underlined"
+        isInvalid={isDiscordIdInvalid}
+        color={isDiscordIdInvalid ? "danger" : "default"}
+        errorMessage={state.errors?.discordId || "DiscordIDは必須です。"}
+        onValueChange={setdiscordIdValue}
+        onBlur={() => setIsDiscordIdTouched(true)}
+        className="w-full"
+        classNames={{
+          inputWrapper: "after:bg-primary-300"
+        }}
+        endContent={
+          <Link href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA" target="_blank" color="foreground"><LuHelpCircle className="text-2xl text-default-400" /></Link>
+        }
+      />
+      <PasswordInput
+        isRequired
+        required
+        type={isPasswordVisible ? "text" : "password"}
+        variant="underlined"
+        description="8〜32文字で、大文字、小文字、数字、特殊文字(#?!@$%^&*-)を含む必要があります。"
+        label="パスワード"
+        name="password"
+        autoComplete="new-password"
+        minLength={8}
+        maxLength={32}
+        passwordRules="minlength: 6; maxlength: 32; required: lower; required: upper; required: digit; required: [!#$%&*?@^];"
+        isInvalid={isPassowrdInvalid !== undefined}
+        color={isPassowrdInvalid ? "danger" : "default"}
+        errorMessage={isPassowrdInvalid && (<p className="whitespace-break-spaces">{isPassowrdInvalid.join("\n")}</p>)}
+        onValueChange={setPasswordValue}
+        onBlur={() => setIsPasswordTouched(true)}
+        className="w-full"
+        classNames={{
+          inputWrapper: "after:bg-primary-300"
+        }}
+        endContent={
+          <button className="focus:outline-none" type="button" onClick={togglePasswordVisibility}>
+            {isPasswordVisible ? (
+              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+            ) : (
+              <LuEye className="text-2xl text-default-400 pointer-events-none" />
+            )}
+          </button>
+        }
+      />
+      <PasswordInput
+        isRequired
+        required
+        type={isPasswordAgainVisible ? "text" : "password"}
+        variant="underlined"
+        label="パスワード(確認)"
+        name="confirm-password"
+        autoComplete="new-password"
+        minLength={8}
+        maxLength={32}
+        isInvalid={isPassowrdAgainInvalid}
+        color={isPassowrdAgainInvalid ? "danger" : "default"}
+        errorMessage={state.errors?.password ? "" : "パスワードが一致しません。"}
+        onValueChange={setPasswordAgainValue}
+        onBlur={() => setIsPasswordAgainTouched(true)}
+        className="w-full"
+        classNames={{
+          inputWrapper: "after:bg-primary-300"
+        }}
+        endContent={
+          <button className="focus:outline-none" type="button" onClick={togglePasswordAgainVisibility}>
+            {isPasswordAgainVisible ? (
+              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+            ) : (
+              <LuEye className="text-2xl text-default-400 pointer-events-none" />
+            )}
+          </button>
+        }
+      />
+      {
+        !state.isSuccess && state.message && (<p className="text-danger text-xs text-center">{`*${state.message}`}</p>)
+      }
+      <SubmitButton />
+    </form>
+  )
+}
