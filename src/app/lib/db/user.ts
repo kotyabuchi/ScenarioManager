@@ -1,4 +1,6 @@
-import { prisma } from "@/app/lib/db";
+'use server';
+
+import { prisma } from "@/app/lib/prisma";
 
 export async function getUserById(id: string) {
   try {

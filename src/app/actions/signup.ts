@@ -1,13 +1,9 @@
 'use server';
 
 import { signUpSchema } from '@/app/schemas';
-import { ActionsResult } from '@/app/types/ActionResult';
-import { z } from 'zod';
 import bcrypt from 'bcrypt';
-import { getUserByDiscordId, getUserById } from '@/app/lib/db/user';
-import { prisma } from '@/app/lib/db';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+import { getUserByDiscordId } from '@/app/lib/db/user';
+import { prisma } from '@/app/lib/prisma';
 
 export interface State {
   isSuccess: boolean,
@@ -63,10 +59,9 @@ export async function signUp(
       },
     });
 
-    // redirect("/dashboard");
-    return { isSuccess: true, message: "完了！", errors: {} }
+    return { isSuccess: true, message: "アカウントを登録しました", errors: {} }
   } catch (error) {
-    console.log("サインアップでエラーが発生しました。:" + error);
+    console.log("アカウント登録でエラーが発生しました。:" + error);
 
     return {
       isSuccess: false,

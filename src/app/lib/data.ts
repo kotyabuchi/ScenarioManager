@@ -1,6 +1,6 @@
 'use server';
 
-import { prisma } from './db';
+import { prisma } from './prisma';
 import { unstable_noStore as noStore } from 'next/cache'
 import { ConvertedScenarioDisplayData, ScenarioWithTag } from "./data-type";
 

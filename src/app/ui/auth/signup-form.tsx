@@ -6,8 +6,9 @@ import { LuEye, LuEyeOff, LuHelpCircle } from "react-icons/lu";
 import { toast } from 'sonner';
 import { signUp, State } from "@/app/actions/signup";
 import { useFormState, useFormStatus } from "react-dom";
-import { PasswordInput } from "./PasswordInput";
+import { PasswordInput } from "../PasswordInput";
 import * as z from 'zod';
+import { useRouter } from "next/navigation";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -25,6 +26,7 @@ function SubmitButton() {
 }
 
 export default function SignupForm() {
+  const router = useRouter();
   const initialState: State = { isSuccess: false, message: null, errors: {} };
   const [state, dispatch] = useFormState(signUp, initialState);
 
@@ -44,10 +46,6 @@ export default function SignupForm() {
   const [isPasswordAgainVisible, setPasswordAgainIsVisible] = useState(false);
   const togglePasswordVisibility = () => setPasswordIsVisible(!isPasswordVisible);
   const togglePasswordAgainVisibility = () => setPasswordAgainIsVisible(!isPasswordAgainVisible);
-
-  const passwordValidation = new RegExp(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/
-  );
 
   const passwordSchema = z.string()
     .min(8, { message: "8文字以上で入力してください" })
@@ -71,7 +69,7 @@ export default function SignupForm() {
     if (!isPasswordTouched) return undefined;
     const validCheck = passwordSchema.safeParse(passwordValue).error?.issues.map((issue) => issue.message)
     return validCheck || state.errors?.password;
-  }, [state, passwordValue, isPasswordTouched]);
+  }, [state, isPasswordTouched, passwordSchema, passwordValue]);
 
   const isPassowrdAgainInvalid = useMemo(() => {
     if (!isPasswordAgainTouched) return false;
@@ -82,18 +80,22 @@ export default function SignupForm() {
     if (state.message) {
       if (state.isSuccess) {
         toast.success(state.message)
+        router.push("/signin");
       } else {
         toast.error(state.message)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
   useEffect(() => {
     state.errors.discordId = undefined
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [discordIdValue])
 
   useEffect(() => {
     state.errors.password = undefined
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwordValue])
 
   return (

@@ -1,11 +1,15 @@
 'use client';
 
-import React from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import React, { Key } from 'react';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { usePathname } from 'next/navigation';
 import { LuBookOpen, LuHome, LuUsers } from 'react-icons/lu';
+import { signout } from "@/app/actions/signout"
+import { toast } from 'sonner';
+import { useRouter } from "next/navigation";
 
 export default function AppNavbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -31,6 +35,19 @@ export default function AppNavbar() {
       icon: LuHome,
     },
   ];
+
+  const menuItemAction = async (key: Key) => {
+    if (key.toString() === "signout") {
+      const result = await signout()
+      if (result) {
+        toast.success("ログアウトしました")
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error("ログアウトに失敗しました")
+      }
+    }
+  }
 
   return (
     <Navbar
@@ -102,16 +119,16 @@ export default function AppNavbar() {
               src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
             />
           </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
+          <DropdownMenu aria-label="Profile Actions" variant="flat"
+            onAction={menuItemAction}
+          >
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="text-xs">プロフィール</p>
               <p className="font-semibold">かぼっち</p>
             </DropdownItem>
             <DropdownItem key="settings">設定</DropdownItem>
             <DropdownItem key="help_and_feedback">ヘルプ & フィードバック</DropdownItem>
-            <DropdownItem key="logout" color="danger">
-              ログアウト
-            </DropdownItem>
+            <DropdownItem key="signout" color="danger">ログアウト</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
