@@ -15,7 +15,7 @@ export default function UserCard({
       <figure className='shrink-0 rounded-lg overflow-hidden'>
         <Image
           className="object-cover w-20 h-20 bg-opacity-20 bg-primary"
-          src="/default_avatar.png"
+          src={user.thumbnailPath || "/default_avatar.png"}
           alt={user.name}
           width={80}
           height={80}

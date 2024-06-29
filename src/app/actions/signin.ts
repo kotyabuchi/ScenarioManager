@@ -3,7 +3,7 @@
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
-export async function signin(prevState: object | undefined, formData: FormData) {
+export async function authenticate(prevState: { success: boolean, error?: string } | undefined, formData: FormData) {
   try {
     console.log("try signin");
 
@@ -24,9 +24,9 @@ export async function signin(prevState: object | undefined, formData: FormData) 
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return { success: false, error: 'Invalid credentia' }
+          return { success: false, error: 'メールアドレスまたはパスワードが間違っています。' }
         default:
-          return { success: false, error: 'Something went wrong.' }
+          return { success: false, error: 'ログインに失敗しました。' }
       }
     }
     return { success: false, error: 'An unexpected' }

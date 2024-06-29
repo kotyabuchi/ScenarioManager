@@ -1,11 +1,12 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { getUserByDiscordId } from './app/lib/db/user';
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -30,4 +31,25 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }): Promise<JWT> {
+      if (user && user.id && user.name) {
+        token.id = user.id;
+        token.name = user.name;
+        token.thumbnailPath = user.thumbnailPath
+      }
+      return token;
+    },
+    async session({ session, token }: { session: Session, token: JWT }): Promise<Session> {
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.thumbnailPath = token.thumbnailPath
+      }
+      return session;
+    },
+  },
 });

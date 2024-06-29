@@ -63,12 +63,14 @@ export default function UserList(
         .finally(() => setLoading(false));
     }, 800);
   },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [query]
   );
 
   useEffect(() => {
     setLoadMoreNodes([]);
     setAllDataLoaded(initialOffset === undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
   return (

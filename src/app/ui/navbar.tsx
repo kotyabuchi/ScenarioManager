@@ -7,8 +7,10 @@ import { LuBookOpen, LuHome, LuUsers } from 'react-icons/lu';
 import { signout } from "@/app/actions/signout"
 import { toast } from 'sonner';
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react"
 
 export default function AppNavbar() {
+  const { data: session, status: sessionStatus } = useSession({ required: true })
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -112,11 +114,10 @@ export default function AppNavbar() {
             <Avatar
               isBordered
               as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
+              className="transition-transform bg-slate-50"
+              name={(sessionStatus === "authenticated" && session?.user.name) || "認証失敗"}
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src={(sessionStatus === "authenticated" && session?.user.thumbnailPath) || "/default_avatar.png"}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat"
@@ -124,7 +125,7 @@ export default function AppNavbar() {
           >
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="text-xs">プロフィール</p>
-              <p className="font-semibold">かぼっち</p>
+              <p className="font-semibold">{(sessionStatus === "authenticated" && session?.user.name) || "認証失敗"}</p>
             </DropdownItem>
             <DropdownItem key="settings">設定</DropdownItem>
             <DropdownItem key="help_and_feedback">ヘルプ & フィードバック</DropdownItem>
