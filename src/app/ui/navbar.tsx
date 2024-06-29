@@ -79,10 +79,11 @@ export default function AppNavbar() {
   return (
     <Navbar
       maxWidth="full"
+      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
         base: [
-          "bg-slate-100/80",
+          "bg-slate-100 sm:bg-slate-100/80",
         ],
         item: [
           "flex",
@@ -101,7 +102,7 @@ export default function AppNavbar() {
           "data-[active=true]:after:bg-primary",
         ],
         menu: [
-          "bg-slate-100/80"
+          "bg-slate-100"
         ]
       }}>
       <NavbarContent>
@@ -195,8 +196,8 @@ export default function AppNavbar() {
                 <Link
                   color={isActive ? "primary" : "foreground"}
                   href={item.href}
-                  aria-current={isActive ? "page" : undefined
-                  }
+                  aria-current={isActive ? "page" : undefined}
+                  onPress={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
