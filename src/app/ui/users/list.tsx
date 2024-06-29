@@ -12,7 +12,7 @@ import {
 type LoadMoreAction = (
   query: object,
   offset: number
-) => Promise<readonly [JSX.Element[], number | null]>;
+) => Promise<readonly [JSX.Element[], number | undefined]>;
 
 export default function UserList(
   {

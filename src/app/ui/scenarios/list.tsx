@@ -6,13 +6,13 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState
+  useState,
 } from 'react'
 
 type LoadMoreAction = (
   query: object,
   offset: number
-) => Promise<readonly [JSX.Element[], number | null]>;
+) => Promise<readonly [JSX.Element[], number | undefined]>;
 
 export default function ScenarioList(
   {
@@ -48,13 +48,12 @@ export default function ScenarioList(
         .then(([node, next]) => {
           //　新しいデータを追加する
           setLoadMoreNodes((prev) => [...prev, ...node]);
+          currentOffsetRef.current = next;
           if (next === null) {
             setAllDataLoaded(true);
-            currentOffsetRef.current = undefined;
             return;
           }
 
-          currentOffsetRef.current = next;
         })
         .catch((error) => {
           console.log(error);

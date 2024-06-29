@@ -10,7 +10,7 @@ async function loadMoreUser(query: object, offset: number = 0) {
   'use server';
   const users = await getUsers(query, offset, PAGE_SIZE);
 
-  const nextOffset = users.length >= PAGE_SIZE ? offset + PAGE_SIZE : null;
+  const nextOffset = users.length >= PAGE_SIZE ? offset + PAGE_SIZE : undefined;
 
   return [
     users.map((user: User) => <UserCard key={user.id} user={user} />),
@@ -41,11 +41,11 @@ export default async function Home({
 
   queries.push({ OR: [...userNameQuery] })
 
-  const initialUsers = await loadMoreUser({ AND: queries }, 0)
-    .then(([node, next]) => {
+  const { initialUsers, initialOffset } = await loadMoreUser({ AND: queries })
+    .then(([node, nextOffset]) => {
       return {
         initialUsers: node,
-        initialOffset: next ?? undefined
+        initialOffset: nextOffset
       };
     })
     .catch((error) => {
@@ -61,11 +61,12 @@ export default async function Home({
       <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full">
         <Search placeholder="ユーザーを検索" value={searchParams?.query} />
       </div>
-      <div className="w-full h-full mt-2">
-        <UserList query={{ AND: queries }} initialOffset={initialUsers.initialOffset} loadMoreAction={loadMoreUser}>
-          {
-            initialUsers.initialUsers
-          }
+      <div className="w-full h-full mt-3">
+        <UserList
+          query={{ AND: queries }}
+          initialOffset={initialOffset}
+          loadMoreAction={loadMoreUser}>
+          {initialUsers}
         </UserList>
       </div>
     </main>

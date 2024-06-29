@@ -9,9 +9,7 @@ const PAGE_SIZE = 20
 async function loadMoreScenario(query: object, offset: number = 0) {
   'use server';
   const scenarios = await getScenarios(query, offset, PAGE_SIZE);
-
-  const nextOffset = scenarios.length >= PAGE_SIZE ? offset + PAGE_SIZE : null;
-
+  const nextOffset = scenarios.length >= PAGE_SIZE ? offset + PAGE_SIZE : undefined;
   return [
     scenarios.map((scenario: ScenarioWithTag) => <ScenarioCard key={scenario.id} scenario={scenario} />),
     nextOffset,
@@ -41,19 +39,19 @@ export default async function Page({
 
   queries.push({ OR: [...scenarioNameQuery] })
 
-  const initialScenarios = await loadMoreScenario({ AND: queries }, 0)
-    .then(([node, next]) => {
+  const { initialScenarios, initialOffset } = await loadMoreScenario({ AND: queries })
+    .then(([node, nextOffset]) => {
       return {
         initialScenarios: node,
-        initialOffset: next ?? undefined
-      };
+        initialOffset: nextOffset
+      }
     })
     .catch((error) => {
       console.log(error);
       return {
-        initialScenarios: (<p className="w-full self-center text-center px-12 py-4">読み込めませんでした。</p>),
+        initialScenarios: <p key={"error"} className="w-full self-center text-center px-12 py-4">読み込めませんでした。</p>,
         initialOffset: undefined
-      };
+      }
     })
 
   return (
@@ -61,11 +59,12 @@ export default async function Page({
       <div className="sticky top-2 md:top-0 flex flex-row-reverse z-10 w-full">
         <Search placeholder="シナリオを検索" value={searchParams?.query} />
       </div>
-      <div className="w-full h-full mt-2">
-        <ScenarioList query={{ AND: queries }} initialOffset={initialScenarios.initialOffset} loadMoreAction={loadMoreScenario}>
-          {
-            initialScenarios.initialScenarios
-          }
+      <div className="w-full h-full mt-3">
+        <ScenarioList
+          query={{ AND: queries }}
+          initialOffset={initialOffset}
+          loadMoreAction={loadMoreScenario}>
+          {initialScenarios}
         </ScenarioList>
       </div>
     </main>
