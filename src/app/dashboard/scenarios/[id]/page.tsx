@@ -20,7 +20,7 @@ export default async function Page({ params }: Props) {
     const scenarioTags = scenarioData.scenarioTags
 
     return (
-      <main className={`flex flex-col gap-8 py-4 md:px-8 lg:px-16 ${underLineCss}`}>
+      <main className={`flex flex-col gap-8 py-4 mx-auto max-w-[1080px] ${underLineCss}`}>
         <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
           <div className="shrink-0 flex flex-col gap-1 w-full lg:w-fit lg:h-80 mx-auto lg:mx-0">
             <div className="flex flex-row text-sm">

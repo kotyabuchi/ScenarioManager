@@ -21,7 +21,7 @@ export default async function Page({ params }: Props) {
     const discordUser = await getDiscordUser(user.discordId)
 
     return (
-      <main className="flex flex-col gap-1 py-4 md:px-8 lg:px-16">
+      <main className="flex flex-col gap-1 py-4 mx-auto md:max-w-[1080px]">
         <div className="flex flex-row text-sm">
           {
             isUpdated
