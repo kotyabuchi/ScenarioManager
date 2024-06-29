@@ -1,13 +1,36 @@
 'use client';
 
 import React, { Key } from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { usePathname } from 'next/navigation';
-import { LuBookOpen, LuHome, LuUsers } from 'react-icons/lu';
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
+  Dropdown,
+  Avatar,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+} from "@nextui-org/react";
+import {
+  LuBookOpen,
+  LuHelpCircle,
+  LuHome,
+  LuLogOut,
+  LuMessageSquare,
+  LuSettings,
+  LuUsers,
+} from 'react-icons/lu';
 import { signout } from "@/app/actions/signout"
 import { toast } from 'sonner';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react"
+import { PiPenNibBold } from 'react-icons/pi';
 
 export default function AppNavbar() {
   const { data: session, status: sessionStatus } = useSession({ required: true })
@@ -48,6 +71,8 @@ export default function AppNavbar() {
       } else {
         toast.error("ログアウトに失敗しました")
       }
+    } else {
+      router.push(`/${key}`)
     }
   }
 
@@ -85,7 +110,10 @@ export default function AppNavbar() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-lg">シナプレ管理くん</p>
+          <Link href='/' color="foreground">
+            <PiPenNibBold />
+            <p className="font-bold text-lg">シナプレ管理くん</p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
@@ -127,9 +155,32 @@ export default function AppNavbar() {
               <p className="text-xs">プロフィール</p>
               <p className="font-semibold">{(sessionStatus === "authenticated" && session?.user.name) || "認証失敗"}</p>
             </DropdownItem>
-            <DropdownItem key="settings">設定</DropdownItem>
-            <DropdownItem key="help_and_feedback">ヘルプ & フィードバック</DropdownItem>
-            <DropdownItem key="signout" color="danger">ログアウト</DropdownItem>
+            <DropdownItem
+              key="settings"
+              startContent={<LuSettings />}
+            >
+              設定
+            </DropdownItem>
+            <DropdownItem
+              key="help"
+              startContent={<LuHelpCircle />}
+            >
+              ヘルプ
+            </DropdownItem>
+            <DropdownItem
+              key="feedback"
+              startContent={<LuMessageSquare />}
+            >
+              フィードバック
+            </DropdownItem>
+            <DropdownItem
+              key="signout"
+              color="danger"
+              className='text-danger'
+              startContent={<LuLogOut />}
+            >
+              ログアウト
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
@@ -146,7 +197,6 @@ export default function AppNavbar() {
                   href={item.href}
                   aria-current={isActive ? "page" : undefined
                   }
-                  size="lg"
                 >
                   {item.name}
                 </Link>
