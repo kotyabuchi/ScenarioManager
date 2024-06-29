@@ -3,7 +3,7 @@
 import { signUpSchema } from '@/app/schemas';
 import bcrypt from 'bcrypt';
 import { getUserByDiscordId } from '@/app/lib/db/user';
-import { prisma } from '@/app/lib/prisma';
+import prisma from '@/app/lib/prisma';
 
 export interface State {
   isSuccess: boolean,
