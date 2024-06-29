@@ -41,7 +41,7 @@ export default function Search({ placeholder, value }: { placeholder: string, va
         ],
         innerWrapper: "bg-transparent",
         inputWrapper: [
-          "shadow-sm",
+          "shadow-md",
           "bg-default-200/50",
           "dark:bg-default/60",
           "backdrop-blur-xl",

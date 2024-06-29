@@ -1,6 +1,5 @@
 import { Button, Link } from "@nextui-org/react";
 import Image from "next/image"
-import { LuExternalLink } from "react-icons/lu";
 
 export default function LinkBadge(
   {
@@ -19,7 +18,7 @@ export default function LinkBadge(
       as={Link}
       showAnchorIcon
       radius="full"
-      className="w-fit bg-white shadow"
+      className="w-fit bg-white shadow-soft-sm"
       startContent={
         <Image
           src={icon}

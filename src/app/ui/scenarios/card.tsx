@@ -15,7 +15,7 @@ export default async function ScenarioCard({
   return (
     <Link
       href={`/dashboard/scenarios/${scenarioData.id}`}
-      className="flex flex-row gap-3 w-full h-full p-3 shadow-md rounded-2xl bg-white hover:bg-primary-50 duration-150 items-center"
+      className="flex flex-row gap-3 w-full h-full p-3 shadow-soft-sm rounded-2xl bg-white hover:bg-primary-50 duration-150 items-center"
     >
       <figure className='shrink-0 rounded-lg overflow-hidden'>
         <Image
