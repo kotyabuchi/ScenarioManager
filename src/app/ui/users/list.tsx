@@ -8,6 +8,7 @@ import {
   useRef,
   useState
 } from 'react'
+import { toast } from 'sonner';
 
 type LoadMoreAction = (
   query: object,
@@ -49,13 +50,12 @@ export default function UserList(
         .then(([node, next]) => {
           //　新しいデータを追加する
           setLoadMoreNodes((prev) => [...prev, ...node]);
-          if (next === null) {
+          currentOffsetRef.current = next;
+          if (!next) {
             setAllDataLoaded(true);
-            currentOffsetRef.current = undefined;
+            toast.info("全てのユーザーを読み込みました。");
             return;
           }
-
-          currentOffsetRef.current = next;
         })
         .catch((error) => {
           console.log(error);

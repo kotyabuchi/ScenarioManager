@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { toast } from 'sonner';
 
 type LoadMoreAction = (
   query: object,
@@ -49,11 +50,11 @@ export default function ScenarioList(
           //　新しいデータを追加する
           setLoadMoreNodes((prev) => [...prev, ...node]);
           currentOffsetRef.current = next;
-          if (next === null) {
+          if (!next) {
             setAllDataLoaded(true);
+            toast.info("全てのシナリオを読み込みました。");
             return;
           }
-
         })
         .catch((error) => {
           console.log(error);
