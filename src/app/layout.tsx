@@ -23,7 +23,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="ja" className="bg-slate-100">
+    <html lang="ja" className="bg-zinc-50">
       <body className={`${inter.className}`}>
         <Providers>
           <SessionProvider session={session}>

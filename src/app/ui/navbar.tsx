@@ -78,12 +78,13 @@ export default function AppNavbar() {
 
   return (
     <Navbar
+      isBordered
       maxWidth="full"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
         base: [
-          "bg-slate-100 sm:bg-slate-100/80",
+          "bg-zinc-50 sm:bg-zinc-50/80",
         ],
         item: [
           "flex",
@@ -102,7 +103,7 @@ export default function AppNavbar() {
           "data-[active=true]:after:bg-primary",
         ],
         menu: [
-          "bg-slate-100"
+          "bg-zinc-50"
         ]
       }}>
       <NavbarContent>
