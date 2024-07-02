@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ScenarioWithTag } from '@/app/lib/data-type';
-import { Button, Divider } from '@nextui-org/react';
+import { Button, Chip, Tooltip } from '@nextui-org/react';
 import { convertScenarioData } from '@/app/lib/data';
+import { Clock, FileText, Users } from 'lucide-react';
 
 export default async function ScenarioCard({
   scenario,
@@ -15,7 +16,7 @@ export default async function ScenarioCard({
   return (
     <Link
       href={`/dashboard/scenarios/${scenarioData.id}`}
-      className="flex flex-row gap-3 w-full h-full p-3 shadow-soft-sm rounded-2xl bg-white hover:bg-primary-50 duration-150 items-center"
+      className="flex flex-row gap-3 w-full h-full p-3 shadow-soft-sm hover:shadow-lg rounded-2xl bg-white duration-150 items-center"
     >
       <figure className='shrink-0 rounded-lg overflow-hidden'>
         <Image
@@ -35,9 +36,8 @@ export default async function ScenarioCard({
                 <Button
                   key={tag.id}
                   radius="full"
-                  variant="flat"
-                  className="rounded-full h-5 min-w-fit px-3 text-xs"
-                  style={{ backgroundColor: tag.color || undefined }}
+                  variant="ghost"
+                  className="rounded-full h-5 min-w-fit px-2 text-xs border"
                 >
                   {tag.name}
                 </Button>
@@ -49,14 +49,24 @@ export default async function ScenarioCard({
           <h2 className="font-bold text-base line-clamp-1">{scenarioData.name}</h2>
           <span className='text-xs opacity-70'>{scenarioData.author}</span>
         </div>
-        <div className="flex flex-wrap md:gap-x-2 gap-y-1 text-xs">
-          <div className='flex md:flex-row'><p>人数：</p><span className='font-semibold'>{scenarioData.playerAmount}</span></div>
-          <Divider orientation="vertical" />
-          <div className='flex md:flex-row'><p>所要時間：</p><span className='font-semibold'>{scenarioData.playtime}</span></div>
-          <Divider orientation="vertical" />
-          <div className='flex md:flex-row'><p>HO：</p><span className='font-semibold'>{scenarioData.handoutType}</span></div>
+        <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
+          <Tooltip content={`プレイ人数: ${scenarioData.playerAmount}`}>
+            <Chip startContent={<Users size={14} />} variant="flat" color="primary" size='sm' className='pl-2'>
+              {scenarioData.playerAmount}
+            </Chip>
+          </Tooltip>
+          <Tooltip content={`プレイ時間: ${scenarioData.playtime}`}>
+            <Chip startContent={<Clock size={14} />} variant="flat" color="secondary" size='sm' className='pl-2'>
+              {scenarioData.playtime}
+            </Chip>
+          </Tooltip>
+          <Tooltip content={`ハンドアウト: ${scenarioData.handoutType}`}>
+            <Chip startContent={<FileText size={14} />} variant="flat" color="success" size='sm' className='pl-2'>
+              {scenarioData.handoutType}
+            </Chip>
+          </Tooltip>
         </div>
-        <p className="text-xs opacity-60 line-clamp-2 break-all max-h-14 whitespace-normal">{scenario.shortDescription || scenarioData.description}</p>
+        <p className="text-xs opacity-60 line-clamp-3 break-all max-h-14 whitespace-normal">{scenario.shortDescription || scenarioData.description}</p>
       </div>
     </Link>
   )

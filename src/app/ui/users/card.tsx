@@ -10,7 +10,7 @@ export default function UserCard({
   return (
     <Link
       href={`/dashboard/users/${user.id}`}
-      className="flex flex-row gap-3 w-full h-full p-3 shadow-soft-sm rounded-2xl bg-white hover:bg-primary-50 duration-150"
+      className="flex flex-row gap-3 w-full h-full p-3 shadow-soft-sm hover:shadow-lg rounded-2xl bg-white duration-150"
     >
       <figure className='shrink-0 rounded-lg overflow-hidden'>
         <Image
