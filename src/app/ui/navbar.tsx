@@ -145,7 +145,7 @@ export default function AppNavbar() {
               isBordered
               as="button"
               className="transition-transform bg-slate-50"
-              name={(sessionStatus === "authenticated" && session?.user.name) || "認証失敗"}
+              name={(sessionStatus === "authenticated" && session?.user.name) || "セッション取得中..."}
               size="sm"
               src={(sessionStatus === "authenticated" && session?.user.thumbnailPath) || "/default_avatar.png"}
             />
@@ -155,7 +155,7 @@ export default function AppNavbar() {
           >
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="text-xs">プロフィール</p>
-              <p className="font-semibold">{(sessionStatus === "authenticated" && session?.user.name) || "認証失敗"}</p>
+              <p className="font-semibold">{(sessionStatus === "authenticated" && session?.user.name) || "セッション取得中..."}</p>
             </DropdownItem>
             <DropdownItem
               key="settings"
