@@ -30,3 +30,12 @@ export const signInSchema = z.object({
     .regex(/[A-Z]+/, { message: "英大文字を1文字以上使用してください" })
   ,
 });
+
+export const updateUserSchema = z.object({
+  username: z.string().min(1, {
+    message: 'ユーザー名は必須です',
+  }),
+  discordId: z.string().min(1, {
+    message: 'DiscordIDは必須です',
+  }),
+});

@@ -35,12 +35,18 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }): Promise<JWT> {
+    async jwt({ token, user, trigger, session }): Promise<JWT> {
       if (user && user.id && user.name) {
         token.id = user.id;
         token.name = user.name;
-        token.thumbnailPath = user.thumbnailPath
+        token.thumbnailPath = user.thumbnailPath;
       }
+
+      if (trigger === "update" && session) {
+        token = { ...token, ...session }
+        return token;
+      };
+
       return token;
     },
     async session({ session, token }: { session: Session, token: JWT }): Promise<Session> {

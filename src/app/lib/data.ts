@@ -24,6 +24,27 @@ export async function getDiscordUser(id: string) {
   }
 }
 
+export async function checkExistingDiscordUser(id: string): Promise<Boolean> {
+  const token = process.env.DISCORD_TOKEN
+  if (token) {
+    return await fetch(`https://discord.com/api/v10/users/${id}`, {
+      headers: {
+        Authorization: `Bot ${token}`
+      }
+    }).then(async function (serverPromise) {
+      return await serverPromise.json()
+        .then(function (j) {
+          return ("id" in j);
+        })
+        .catch(function (e) {
+          console.error('Error get discord user:', e);
+          throw false;
+        });
+    })
+  }
+  return false;
+}
+
 export async function convertScenarioData(scenario: ScenarioWithTag) {
   const minPlayer = scenario.minPlayer
   const maxPlayer = scenario.maxPlayer

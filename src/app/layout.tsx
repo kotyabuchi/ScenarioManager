@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { mPlus1Code } from '@/app/ui/fonts';
 import "@/app/ui/global.css";
 import { Providers } from "./ui/providers";
 import { Toaster } from "sonner";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -23,8 +21,8 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="ja" className="bg-zinc-50">
-      <body className={`${inter.className}`}>
+    <html lang="ja" className="bg-zinc-100">
+      <body className={`${mPlus1Code.className} antialiased`}>
         <Providers>
           <SessionProvider session={session}>
             <Toaster richColors expand />

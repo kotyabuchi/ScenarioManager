@@ -1,5 +1,3 @@
-import { lusitana } from '@/app/ui/fonts';
-
 export default async function Page() {
   return (
     <main>
