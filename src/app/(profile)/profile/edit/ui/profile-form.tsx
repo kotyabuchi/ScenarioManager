@@ -142,7 +142,7 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
             onValueChange={setDiscordIdValue}
             onBlur={() => setIsDiscordIdTouched(true)}
           />
-          <p className="text-sm">※DiscordIDの見つけ方は<Link href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA" target="_blank" className="text-sm">こちら</Link></p>
+          <p className="text-xs">※DiscordIDの見つけ方は<Link href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA" target="_blank" className="text-xs">こちら</Link></p>
         </div>
       </div>
       <Textarea

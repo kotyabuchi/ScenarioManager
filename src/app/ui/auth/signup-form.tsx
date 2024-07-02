@@ -134,9 +134,6 @@ export default function SignupForm() {
         classNames={{
           inputWrapper: "after:bg-primary-300"
         }}
-        endContent={
-          <Link href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA" target="_blank" color="foreground"><LuHelpCircle className="text-2xl text-default-400" /></Link>
-        }
       />
       <PasswordInput
         isRequired
@@ -160,11 +157,11 @@ export default function SignupForm() {
           inputWrapper: "after:bg-primary-300"
         }}
         endContent={
-          <button className="focus:outline-none" type="button" onClick={togglePasswordVisibility}>
+          <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={togglePasswordVisibility}>
             {isPasswordVisible ? (
-              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
-            ) : (
               <LuEye className="text-2xl text-default-400 pointer-events-none" />
+            ) : (
+              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
             )}
           </button>
         }
@@ -189,15 +186,16 @@ export default function SignupForm() {
           inputWrapper: "after:bg-primary-300"
         }}
         endContent={
-          <button className="focus:outline-none" type="button" onClick={togglePasswordAgainVisibility}>
-            {isPasswordAgainVisible ? (
-              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
-            ) : (
+          <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={togglePasswordAgainVisibility}>
+            {isPassowrdAgainInvalid ? (
               <LuEye className="text-2xl text-default-400 pointer-events-none" />
+            ) : (
+              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
             )}
           </button>
         }
       />
+      <p className="text-xs">※DiscordIDの見つけ方は<Link href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA" target="_blank" className="text-xs">こちら</Link></p>
       {
         !state.isSuccess && state.message && (<p className="text-danger text-xs text-center">{`*${state.message}`}</p>)
       }
