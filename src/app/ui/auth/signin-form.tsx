@@ -1,28 +1,14 @@
 'use client';
 
-import { Button, Input, Link } from "@nextui-org/react";
+import { Input, Link } from "@nextui-org/react";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { LuEye, LuEyeOff, LuHelpCircle } from "react-icons/lu";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 import { toast } from 'sonner';
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { PasswordInput } from "../PasswordInput";
 import { authenticate } from "@/app/actions/signin";
 import { useRouter, useSearchParams } from "next/navigation";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      type="submit"
-      color="primary"
-      isLoading={pending}
-      isDisabled={pending}
-    >
-      ログイン
-    </Button>
-  );
-}
+import SubmitButton from "../SubmitButton";
 
 export default function SigninForm() {
   const router = useRouter();
@@ -112,7 +98,7 @@ export default function SigninForm() {
           }
         />
         <p className="text-xs">※DiscordIDの見つけ方は<Link href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#h_01HRSTXPS5H5D7JBY2QKKPVKNA" target="_blank" className="text-xs">こちら</Link></p>
-        <SubmitButton />
+        <SubmitButton text="ログイン" />
       </form>
     </Suspense>
   )

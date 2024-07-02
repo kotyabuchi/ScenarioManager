@@ -1,11 +1,12 @@
 'use client';
 
 import { updateUser } from "@/app/actions/updateUser";
+import SubmitButton from "@/app/ui/SubmitButton";
 import { Button, Input, Textarea, Image, Link } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { LuImagePlus } from "react-icons/lu";
 import { toast } from "sonner";
 
@@ -15,20 +16,6 @@ export interface PasswordLessUser {
   name: string;
   introduction: string | null;
   thumbnailPath: string | null;
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      type="submit"
-      color="primary"
-      isLoading={pending}
-      isDisabled={pending}
-    >
-      保存
-    </Button>
-  );
 }
 
 export default function ProfileForm({ user }: { user: PasswordLessUser }) {
@@ -161,7 +148,7 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
         >
           キャンセル
         </Button>
-        <SubmitButton />
+        <SubmitButton text="保存" />
       </div>
     </form>
   );

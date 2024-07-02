@@ -1,29 +1,15 @@
 'use client';
 
-import { Button, Input, Link } from "@nextui-org/react";
+import { Input, Link } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
-import { LuEye, LuEyeOff, LuHelpCircle } from "react-icons/lu";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 import { toast } from 'sonner';
 import { signUp, State } from "@/app/actions/signup";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { PasswordInput } from "../PasswordInput";
 import * as z from 'zod';
 import { useRouter } from "next/navigation";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      type="submit"
-      color="primary"
-      isLoading={pending}
-      isDisabled={pending}
-    >
-      登録
-    </Button>
-  );
-}
+import SubmitButton from "../SubmitButton";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -199,7 +185,7 @@ export default function SignupForm() {
       {
         !state.isSuccess && state.message && (<p className="text-danger text-xs text-center">{`*${state.message}`}</p>)
       }
-      <SubmitButton />
+      <SubmitButton text="登録" />
     </form>
   )
 }
