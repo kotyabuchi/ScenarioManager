@@ -6,6 +6,7 @@ import DiscordIcon from "@/../public/DiscordIcon.svg";
 import LinkBadge from "@/app/ui/users/link-badge";
 import { auth } from "@/auth";
 import { SquarePen } from "lucide-react";
+import Link from "next/link";
 
 type Props = {
   params: { id: string }
@@ -69,6 +70,8 @@ export default async function Page({ params }: Props) {
                   isMyPage && (
                     <Tooltip content="プロフィールを編集">
                       <Button
+                        as={Link}
+                        href="/profile/edit"
                         isIconOnly
                         variant="light"
                         radius="full"
