@@ -55,7 +55,7 @@ export default function SideNav() {
         color="danger"
         variant="light"
         className="justify-start"
-        onClick={() => logout(router)}
+        onPress={() => logout(router)}
       >
         ログアウト
       </Button>

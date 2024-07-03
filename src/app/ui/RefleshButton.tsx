@@ -8,7 +8,7 @@ export default function RefleshButton() {
   return (
     <Button
       color="primary"
-      onClick={router.refresh}
+      onPress={router.refresh}
       className="w-fit"
     >
       再読み込み

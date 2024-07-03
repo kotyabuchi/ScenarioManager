@@ -87,7 +87,7 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
             variant="ghost"
             size="sm"
             className="w-fit"
-            onClick={() => { inputFile?.current?.click() }}
+            onPress={() => { inputFile?.current?.click() }}
           >
             <LuImagePlus className="w-4 h-4" />ファイルを選択
           </Button>

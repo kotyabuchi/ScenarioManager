@@ -84,7 +84,7 @@ export default function ScenarioList(
             className='w-80 self-center px-12'
             color='primary'
             variant='flat'
-            onClick={loadMore}
+            onPress={loadMore}
             isLoading={loading}
             disabled={loading}>
             {
