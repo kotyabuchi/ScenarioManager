@@ -4,13 +4,11 @@ import { changePassword } from "@/app/actions/changePassword";
 import { PasswordInput } from "@/app/ui/PasswordInput";
 import SubmitButton from "@/app/ui/SubmitButton";
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
 
 export default function SettingForm({ id }: { id: string }) {
-  const router = useRouter()
   const [state, dispatch] = useFormState(changePassword, { isSuccess: false });
 
   const [currentPasswordValue, setCurrentPasswordValue] = useState("");
@@ -46,7 +44,7 @@ export default function SettingForm({ id }: { id: string }) {
   useEffect(() => {
     if (!state) return
     if (state.isSuccess) {
-      toast.success("変更に成功しました");
+      toast.success("パスワード変更に成功しました");
     } else {
       if (state.errors) console.error(JSON.stringify(state.errors));
       if (state.message) {
