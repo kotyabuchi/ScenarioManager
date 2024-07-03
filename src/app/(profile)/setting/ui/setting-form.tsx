@@ -3,10 +3,10 @@
 import { changePassword } from "@/app/actions/changePassword";
 import { PasswordInput } from "@/app/ui/PasswordInput";
 import SubmitButton from "@/app/ui/SubmitButton";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useFormState } from "react-dom";
-import { LuEyeOff, LuEye } from "react-icons/lu";
 import { toast } from "sonner";
 
 export default function SettingForm({ id }: { id: string }) {
@@ -95,9 +95,9 @@ export default function SettingForm({ id }: { id: string }) {
           endContent={
             <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={toggleCurrentPasswordVisibility}>
               {isCurrentPasswordVisible ? (
-                <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                <Eye className="text-2xl text-default-400 pointer-events-none" />
               ) : (
-                <LuEye className="text-2xl text-default-400 pointer-events-none" />
+                <EyeOff className="text-2xl text-default-400 pointer-events-none" />
               )}
             </button>
           }
@@ -122,9 +122,9 @@ export default function SettingForm({ id }: { id: string }) {
           endContent={
             <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={toggleNewPasswordVisibility}>
               {isNewPasswordVisible ? (
-                <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                <Eye className="text-2xl text-default-400 pointer-events-none" />
               ) : (
-                <LuEye className="text-2xl text-default-400 pointer-events-none" />
+                <EyeOff className="text-2xl text-default-400 pointer-events-none" />
               )}
             </button>
           }
@@ -149,9 +149,9 @@ export default function SettingForm({ id }: { id: string }) {
           endContent={
             <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={toggleNewPasswordAgainVisibility}>
               {isNewPasswordAgainVisible ? (
-                <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                <Eye className="text-2xl text-default-400 pointer-events-none" />
               ) : (
-                <LuEye className="text-2xl text-default-400 pointer-events-none" />
+                <EyeOff className="text-2xl text-default-400 pointer-events-none" />
               )}
             </button>
           }

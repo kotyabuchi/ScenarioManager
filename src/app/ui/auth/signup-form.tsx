@@ -2,7 +2,6 @@
 
 import { Input, Link } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
-import { LuEye, LuEyeOff } from "react-icons/lu";
 import { toast } from 'sonner';
 import { signUp, State } from "@/app/actions/signup";
 import { useFormState } from "react-dom";
@@ -10,6 +9,7 @@ import { PasswordInput } from "../PasswordInput";
 import * as z from 'zod';
 import { useRouter } from "next/navigation";
 import SubmitButton from "../SubmitButton";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -145,9 +145,9 @@ export default function SignupForm() {
         endContent={
           <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={togglePasswordVisibility}>
             {isPasswordVisible ? (
-              <LuEye className="text-2xl text-default-400 pointer-events-none" />
+              <Eye className="text-2xl text-default-400 pointer-events-none" />
             ) : (
-              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+              <EyeOff className="text-2xl text-default-400 pointer-events-none" />
             )}
           </button>
         }
@@ -173,10 +173,10 @@ export default function SignupForm() {
         }}
         endContent={
           <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={togglePasswordAgainVisibility}>
-            {isPassowrdAgainInvalid ? (
-              <LuEye className="text-2xl text-default-400 pointer-events-none" />
+            {isPasswordAgainVisible ? (
+              <Eye className="text-2xl text-default-400 pointer-events-none" />
             ) : (
-              <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+              <EyeOff className="text-2xl text-default-400 pointer-events-none" />
             )}
           </button>
         }

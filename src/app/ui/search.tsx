@@ -1,12 +1,12 @@
 'use client';
 
 import { Input } from '@nextui-org/react';
+import { SearchIcon } from 'lucide-react';
 import {
   useSearchParams,
   usePathname,
   useRouter
 } from 'next/navigation';
-import { LuSearch } from 'react-icons/lu';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function Search({ placeholder, value }: { placeholder: string, value?: string }) {
@@ -55,7 +55,7 @@ export default function Search({ placeholder, value }: { placeholder: string, va
 
       }}
       startContent={
-        <LuSearch className='text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0' />
+        <SearchIcon size={18} className='text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0' />
       }
       defaultValue={value}
       onValueChange={(value) => {

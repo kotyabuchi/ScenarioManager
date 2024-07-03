@@ -3,11 +3,11 @@
 import { updateUser } from "@/app/actions/updateUser";
 import SubmitButton from "@/app/ui/SubmitButton";
 import { Button, Input, Textarea, Image, Link } from "@nextui-org/react";
+import { ImageUp } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFormState } from "react-dom";
-import { LuImagePlus } from "react-icons/lu";
 import { toast } from "sonner";
 
 export interface PasswordLessUser {
@@ -89,7 +89,7 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
             className="w-fit"
             onPress={() => { inputFile?.current?.click() }}
           >
-            <LuImagePlus className="w-4 h-4" />ファイルを選択
+            <ImageUp className="w-4 h-4" />ファイルを選択
           </Button>
           <input
             type="file"

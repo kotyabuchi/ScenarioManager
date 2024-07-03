@@ -2,13 +2,13 @@
 
 import { Input, Link } from "@nextui-org/react";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { LuEye, LuEyeOff } from "react-icons/lu";
 import { toast } from 'sonner';
 import { useFormState } from "react-dom";
 import { PasswordInput } from "../PasswordInput";
 import { authenticate } from "@/app/actions/signin";
 import { useRouter, useSearchParams } from "next/navigation";
 import SubmitButton from "../SubmitButton";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SigninForm() {
   const router = useRouter();
@@ -90,9 +90,9 @@ export default function SigninForm() {
           endContent={
             <button className="rounded-full p-[2px] outline-primary-400" type="button" onClick={togglePasswordVisibility}>
               {isPasswordVisible ? (
-                <LuEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                <Eye className="text-2xl text-default-400 pointer-events-none" />
               ) : (
-                <LuEye className="text-2xl text-default-400 pointer-events-none" />
+                <EyeOff className="text-2xl text-default-400 pointer-events-none" />
               )}
             </button>
           }

@@ -17,23 +17,13 @@ import {
   DropdownTrigger,
   Link,
   Image,
-  Divider,
   DropdownSection,
 } from "@nextui-org/react";
-import {
-  LuBookOpen,
-  LuHelpCircle,
-  LuHome,
-  LuLogOut,
-  LuMessageSquare,
-  LuSettings,
-  LuUsers,
-} from 'react-icons/lu';
 import { signout } from "@/app/actions/signout"
 import { toast } from 'sonner';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react"
-import { UserRound } from 'lucide-react';
+import { BookOpen, CircleHelp, House, LogOut, MessageSquareMore, Notebook, Settings, UsersRound } from 'lucide-react';
 
 export default function AppNavbar() {
   const { data: session, status: sessionStatus } = useSession({ required: true })
@@ -45,22 +35,22 @@ export default function AppNavbar() {
     {
       name: "ホーム",
       href: "/dashboard",
-      icon: LuHome,
+      icon: House,
     },
     {
       name: "シナリオ",
       href: "/dashboard/scenarios",
-      icon: LuBookOpen,
+      icon: BookOpen,
     },
     {
       name: "ユーザー",
       href: "/dashboard/users",
-      icon: LuUsers,
+      icon: UsersRound,
     },
     {
       name: "セッション",
       href: "/dashboard/sessions",
-      icon: LuHome,
+      icon: Notebook,
     },
   ];
 
@@ -135,7 +125,7 @@ export default function AppNavbar() {
           const LinkIcon = item.icon
           return (
             <NavbarItem key={item.href} isActive={isActive}>
-              <LinkIcon className={isActive ? "text-primary" : ""} />
+              <LinkIcon size={18} className={isActive ? "text-primary" : ""} />
               <Link
                 color={isActive ? "primary" : "foreground"}
                 href={item.href}
@@ -174,21 +164,21 @@ export default function AppNavbar() {
             </DropdownSection>
             <DropdownItem
               key="setting"
-              startContent={<LuSettings />}
+              startContent={<Settings size={18} />}
               textValue='設定リンク'
             >
               設定
             </DropdownItem>
             <DropdownItem
               key="help"
-              startContent={<LuHelpCircle />}
+              startContent={<CircleHelp size={18} />}
               textValue='ヘルプリンク'
             >
               ヘルプ
             </DropdownItem>
             <DropdownItem
               key="feedback"
-              startContent={<LuMessageSquare />}
+              startContent={<MessageSquareMore size={18} />}
               textValue='フィードバックリンク'
             >
               フィードバック
@@ -197,7 +187,7 @@ export default function AppNavbar() {
               key="signout"
               color="danger"
               className='text-danger'
-              startContent={<LuLogOut />}
+              startContent={<LogOut size={18} />}
               textValue='ログアウトボタン'
             >
               ログアウト
