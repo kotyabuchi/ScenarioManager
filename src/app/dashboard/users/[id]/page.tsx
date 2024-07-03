@@ -14,9 +14,9 @@ const underLineCss = "border-b-2 border-primary-300"
 export default async function Page({ params }: Props) {
   const id = params.id
   const user = await getUser(id)
-  const userImage = "/noImage.png"
 
   if (user) {
+    const userImage = user.thumbnailPath || "/default_avatar.png"
     const isUpdated = user.createdAt.getTime() !== user.updatedAt.getTime()
     const discordUser = await getDiscordUser(user.discordId)
 
@@ -34,8 +34,8 @@ export default async function Page({ params }: Props) {
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full mx-auto lg:mx-0">
             <div className="flex flex-col gap-4">
               <Image
-                className="relative object-contain z-10 bg-base-200 md:w-full self-center"
-                src={user.thumbnailPath || userImage}
+                className="relative object-contain z-10 bg-base-200 md:w-full self-center rounded-full border-3 border-zinc-200 bg-white"
+                src={userImage}
                 alt={user.name}
                 width={144}
                 height={144}
@@ -86,7 +86,7 @@ export default async function Page({ params }: Props) {
                         <p className="text-sm min-w-fit max-w-full self-center">シナリオタイトル</p>
                         <Image
                           className="relative object-contain z-10 bg-base-200 md:w-24 self-center"
-                          src={user.thumbnailPath || userImage}
+                          src="/noImage.png"
                           alt={user.name}
                           width={144}
                           height={144}
@@ -108,7 +108,7 @@ export default async function Page({ params }: Props) {
                         <p className="text-sm min-w-fit max-w-full self-center">シナリオタイトル</p>
                         <Image
                           className="relative object-contain z-10 bg-base-200 md:w-24 self-center"
-                          src={user.thumbnailPath || userImage}
+                          src="/noImage.png"
                           alt={user.name}
                           width={144}
                           height={144}
@@ -130,7 +130,7 @@ export default async function Page({ params }: Props) {
                         <p className="text-sm min-w-fit max-w-full self-center">シナリオタイトル</p>
                         <Image
                           className="relative object-contain z-10 bg-base-200 md:w-24 self-center"
-                          src={user.thumbnailPath || userImage}
+                          src="/noImage.png"
                           alt={user.name}
                           width={144}
                           height={144}
