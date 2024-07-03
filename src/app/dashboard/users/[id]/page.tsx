@@ -1,9 +1,11 @@
 import Image from "next/image"
 import { getDiscordUser, getUser } from "@/app/lib/data";
 import { notFound } from "next/navigation";
-import { ScrollShadow } from "@nextui-org/react";
+import { Button, ScrollShadow, Tooltip } from "@nextui-org/react";
 import DiscordIcon from "@/../public/DiscordIcon.svg";
 import LinkBadge from "@/app/ui/users/link-badge";
+import { auth } from "@/auth";
+import { SquarePen } from "lucide-react";
 
 type Props = {
   params: { id: string }
@@ -16,6 +18,8 @@ export default async function Page({ params }: Props) {
   const user = await getUser(id)
 
   if (user) {
+    const session = await auth()
+    const isMyPage = session?.user.id === id
     const userImage = user.thumbnailPath || "/default_avatar.png"
     const isUpdated = user.createdAt.getTime() !== user.updatedAt.getTime()
     const discordUser = await getDiscordUser(user.discordId)
@@ -23,12 +27,14 @@ export default async function Page({ params }: Props) {
     return (
       <main className="flex flex-col gap-1 py-4 mx-auto md:max-w-[1080px]">
         <div className="flex flex-row text-sm">
-          {
-            isUpdated
-              ? <p>更新日：</p>
-              : <p>登録日：</p>
-          }
-          <span>{user.updatedAt.toLocaleDateString()}</span>
+          <p>
+            {
+              isUpdated
+                ? "更新日:"
+                : "登録日:"
+            }
+            <span>{user.updatedAt.toLocaleDateString()}</span>
+          </p>
         </div>
         <div className="flex flex-col gap-4 md:gap-8">
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full mx-auto lg:mx-0">
@@ -57,7 +63,22 @@ export default async function Page({ params }: Props) {
               </div>
             </div>
             <div className="flex flex-col gap-3 w-full">
-              <h2 className={`text-3xl break-words break-all w-fit h-fit px-1 ${underLineCss}`}>{user.name}</h2>
+              <div className="flex flex-row justify-between">
+                <h2 className={`text-3xl break-words break-all w-fit h-fit px-1 ${underLineCss}`}>{user.name}</h2>
+                {
+                  isMyPage && (
+                    <Tooltip content="プロフィールを編集">
+                      <Button
+                        isIconOnly
+                        variant="light"
+                        radius="full"
+                      >
+                        <SquarePen />
+                      </Button>
+                    </Tooltip>
+                  )
+                }
+              </div>
               <p className="text-sm whitespace-break-spaces p-4 rounded-xl bg-white">{user.introduction}</p>
               <div className="flex md:hidden flex-col gap-2">
                 <p className={`text-sm w-fit px-1 ${underLineCss}`}>リンク</p>
