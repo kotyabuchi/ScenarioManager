@@ -16,6 +16,9 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Link,
+  Image,
+  Divider,
+  DropdownSection,
 } from "@nextui-org/react";
 import {
   LuBookOpen,
@@ -30,7 +33,7 @@ import { signout } from "@/app/actions/signout"
 import { toast } from 'sonner';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react"
-import { PiPenNibBold } from 'react-icons/pi';
+import { UserRound } from 'lucide-react';
 
 export default function AppNavbar() {
   const { data: session, status: sessionStatus } = useSession({ required: true })
@@ -113,8 +116,14 @@ export default function AppNavbar() {
         />
         <NavbarBrand>
           <Link href='/' color="foreground">
-            <PiPenNibBold />
-            <p className="font-bold text-lg">シナプレ管理くん</p>
+            <p className="font-bold text-lg ml-2">シナプレ管理くん</p>
+            <Image
+              className="shrink-0 relative object-cover min-w-10 w-10 min-h-10 h-10"
+              src="/mascot.png"
+              alt="サイトコンセプトキャラ"
+              width={40}
+              height={40}
+            />
           </Link>
         </NavbarBrand>
       </NavbarContent>
@@ -153,25 +162,34 @@ export default function AppNavbar() {
           <DropdownMenu aria-label="Profile Actions" variant="flat"
             onAction={menuItemAction}
           >
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="text-xs">プロフィール</p>
-              <p className="font-semibold">{(sessionStatus === "authenticated" && session?.user.name) || "セッション取得中..."}</p>
-            </DropdownItem>
+
+            <DropdownSection title="プロフィール" showDivider>
+              <DropdownItem
+                key="profile"
+                className="h-10 gap-2"
+                textValue='プロフィールリンク'
+              >
+                <p className="font-semibold">{(sessionStatus === "authenticated" && session?.user.name) || "セッション取得中..."}</p>
+              </DropdownItem>
+            </DropdownSection>
             <DropdownItem
-              key="settings"
+              key="setting"
               startContent={<LuSettings />}
+              textValue='設定リンク'
             >
               設定
             </DropdownItem>
             <DropdownItem
               key="help"
               startContent={<LuHelpCircle />}
+              textValue='ヘルプリンク'
             >
               ヘルプ
             </DropdownItem>
             <DropdownItem
               key="feedback"
               startContent={<LuMessageSquare />}
+              textValue='フィードバックリンク'
             >
               フィードバック
             </DropdownItem>
@@ -180,6 +198,7 @@ export default function AppNavbar() {
               color="danger"
               className='text-danger'
               startContent={<LuLogOut />}
+              textValue='ログアウトボタン'
             >
               ログアウト
             </DropdownItem>
