@@ -26,8 +26,9 @@ export async function getUserByDiscordId(discordId: string) {
 };
 
 interface NewUserData {
-  name: string,
-  discordId: string,
+  name?: string,
+  discordId?: string,
+  password?: string,
   introduction?: string,
   thumbnailPath?: string,
 }
@@ -42,9 +43,9 @@ export async function updateUserById(id: string, newData: NewUserData) {
         data: newData
       }
     )
-    return newData;
+    return true;
   } catch (error) {
     console.log(`Exception in updateUserById with [${id}].: ${error}`);
-    return undefined;
+    return false;
   }
 }

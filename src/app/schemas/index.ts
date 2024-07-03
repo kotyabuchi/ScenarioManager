@@ -39,3 +39,17 @@ export const updateUserSchema = z.object({
     message: 'DiscordIDは必須です',
   }),
 });
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string()
+    .min(1, { message: "パスワードは必須です。" })
+  ,
+  newPassword: z.string()
+    .min(8, { message: "8文字以上で入力してください。" })
+    .max(32, { message: "32文字以内で入力してください。" })
+    .regex(/[0-9]+/, { message: "数字を1文字以上使用してください。" })
+    .regex(/[#?!@$%^&*-]+/, { message: "記号(#?!@$%^&*-)の中で1文字以上使用してください。" })
+    .regex(/[a-z]+/, { message: "英小文字を1文字以上使用してください。" })
+    .regex(/[A-Z]+/, { message: "英大文字を1文字以上使用してください。" })
+  ,
+});

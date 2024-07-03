@@ -3,7 +3,14 @@
 import { Button } from "@nextui-org/react";
 import { useFormStatus } from "react-dom";
 
-export default function SubmitButton({ text }: { text: string }) {
+export default function SubmitButton(
+  {
+    text,
+    className
+  }: {
+    text: string,
+    className?: string
+  }) {
   const { pending } = useFormStatus();
   return (
     <Button
@@ -11,6 +18,7 @@ export default function SubmitButton({ text }: { text: string }) {
       color="primary"
       isLoading={pending}
       isDisabled={pending}
+      className={className}
     >
       {text}
     </Button>

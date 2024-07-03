@@ -79,7 +79,7 @@ export async function updateUser(
 
     if (result) return {
       isSuccess: true,
-      newData: result,
+      newData: newData,
     }
   } catch (error) {
     console.log(`ユーザー更新でエラーが発生しました。: ${error}`);
