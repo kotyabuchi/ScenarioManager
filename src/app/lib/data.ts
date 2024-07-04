@@ -134,10 +134,10 @@ export async function getScenario(
 }
 
 export async function getScenarios(
-  query: object,
+  query: object | undefined,
   offset: number,
   loadSize: number,
-) {
+): Promise<ScenarioWithTag[]> {
   noStore()
 
   try {
