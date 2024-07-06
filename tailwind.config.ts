@@ -17,6 +17,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         'auto-fill': 'repeat(auto-fill, minmax(200px, 1fr))',
+        'user-list': 'repeat(auto-fill, minmax(144px, 1fr))',
         'auto-fit': 'repeat(auto-fit, minmax(200px, 1fr))',
       },
       boxShadow: {

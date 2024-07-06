@@ -1,31 +1,32 @@
-import { User } from '@prisma/client';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Skeleton } from "@nextui-org/react";
+import { User } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
 
-export default function UserCard({
-  user,
-}: {
-  user: User
-}) {
+function AvatarSkeleton() {
+  return <Skeleton className="shrink-0 rounded-full w-24 h-24" />;
+}
+
+export default function UserCard({ user }: { user: User }) {
   return (
     <Link
       href={`/dashboard/users/${user.id}`}
-      className="flex flex-row gap-3 w-full h-full p-3 shadow-soft-sm hover:shadow-lg rounded-2xl bg-white duration-150"
+      className="flex flex-col gap-3 w-full h-full p-3 rounded-2xl hover:shadow-soft-md bg-white duration-150 items-center"
     >
-      <figure className='shrink-0 rounded-lg overflow-hidden'>
-        <Image
-          className="object-cover w-20 h-20 bg-opacity-20 bg-primary"
-          src={user.thumbnailPath || "/default_avatar.png"}
-          alt={user.name}
-          width={80}
-          height={80}
-          sizes=''
-        />
-      </figure>
-      <div className="flex flex-col gap-0 w-full h-full">
-        <h2 className="font-bold text-base line-clamp-1">{user.name}</h2>
-        <p className='text-sm opacity-70 w-auto max-h-10 line-clamp-2 break-words break-all'>{user.introduction}</p>
-      </div>
+      <Suspense fallback={<AvatarSkeleton />}>
+        <figure className="shrink-0 rounded-full overflow-hidden">
+          <Image
+            className="object-cover w-24 h-24 bg-zinc-100"
+            src={user.thumbnailPath || "/default_avatar.png"}
+            alt={user.name}
+            width={96}
+            height={96}
+            sizes=""
+          />
+        </figure>
+      </Suspense>
+      <h2 className="font-bold text-base line-clamp-1">{user.name}</h2>
     </Link>
-  )
+  );
 }
