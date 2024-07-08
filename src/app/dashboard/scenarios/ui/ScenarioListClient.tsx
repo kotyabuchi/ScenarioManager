@@ -58,9 +58,18 @@ export default function ScenarioListClient({
 
   return (
     <div className='flex flex-col gap-3'>
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full'>
-        {scenarios}
-      </div>
+      {scenarios.length > 0 ? (
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full'>
+          {scenarios}
+        </div>
+      ) : (
+        <div className='flex flex-col gap-1 w-full items-center'>
+          <p className='h-10 text-center font-semibold leading-10'>
+            一致するシナリオが見つかりませんでした。
+          </p>
+          {/* <Button color='primary'>シナリオを登録する</Button> */}
+        </div>
+      )}
       {!allDataLoaded && (
         <Button
           className='w-80 self-center px-12'
