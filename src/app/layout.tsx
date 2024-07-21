@@ -6,6 +6,7 @@ import { Toaster } from 'sonner';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
 import AppNavbar from './ui/navbar';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: {
@@ -31,6 +32,7 @@ export default async function RootLayout({
             <div className='flex flex-col max-h-dvh'>
               <AppNavbar session={session} />
               {children}
+              <SpeedInsights />
             </div>
           </SessionProvider>
         </Providers>
