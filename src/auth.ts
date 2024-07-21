@@ -4,14 +4,19 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
-import { getUserByDiscordId } from './app/lib/db/user';
+import { getUserByDiscordId } from './lib/db/user';
 
-export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
-        console.log("start authorize");
+        console.log('start authorize');
 
         const parsedCredentials = z
           .object({ discordId: z.string().min(1), password: z.string().min(6) })
@@ -32,7 +37,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
@@ -42,18 +47,24 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         token.thumbnailPath = user.thumbnailPath;
       }
 
-      if (trigger === "update" && session) {
-        token = { ...token, ...session }
+      if (trigger === 'update' && session) {
+        token = { ...token, ...session };
         return token;
-      };
+      }
 
       return token;
     },
-    async session({ session, token }: { session: Session, token: JWT }): Promise<Session> {
+    async session({
+      session,
+      token,
+    }: {
+      session: Session;
+      token: JWT;
+    }): Promise<Session> {
       if (session.user) {
         session.user.id = token.id;
         session.user.name = token.name;
-        session.user.thumbnailPath = token.thumbnailPath
+        session.user.thumbnailPath = token.thumbnailPath;
       }
       return session;
     },

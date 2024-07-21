@@ -1,4 +1,4 @@
-import { getUserById } from '@/app/lib/db/user';
+import { getUserById } from '@/lib/db/user';
 import RefleshButton from '@/app/ui/RefleshButton';
 import { auth } from '@/auth';
 import { Button, Image } from '@nextui-org/react';

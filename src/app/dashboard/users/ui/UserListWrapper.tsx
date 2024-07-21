@@ -1,13 +1,13 @@
-import { getUsers } from "@/app/lib/data";
-import userCard from "@/app/ui/users/card";
-import UserListClient from "./UserListClient";
-import { User } from "@prisma/client";
-import UserCard from "@/app/ui/users/card";
+import { getUsers } from '@/lib/data';
+import userCard from '@/app/ui/users/card';
+import UserListClient from './UserListClient';
+import { User } from '@prisma/client';
+import UserCard from '@/app/ui/users/card';
 
 const PAGE_SIZE = 20;
 
 async function loadMoreUser(query: object | undefined, offset: number = 0) {
-  "use server";
+  'use server';
   const users = await getUsers(query, offset, PAGE_SIZE);
   const nextOffset = users.length >= PAGE_SIZE ? offset + PAGE_SIZE : undefined;
   return [
@@ -24,13 +24,13 @@ export default async function userListWrapper({
   let queries = [];
 
   if (userNameQueryString) {
-    const userNameQueries = userNameQueryString.split(" ");
+    const userNameQueries = userNameQueryString.split(' ');
     let userNameQuery: object[] = [];
     userNameQueries.forEach((userName) => {
       userNameQuery.push({
         name: {
           contains: userName,
-          mode: "insensitive",
+          mode: 'insensitive',
         },
       });
     });

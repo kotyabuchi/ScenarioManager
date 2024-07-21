@@ -1,8 +1,8 @@
-import { auth } from "@/auth";
-import ProfileForm from "./ui/profile-form";
-import { getUserById } from "@/app/lib/db/user";
-import { Metadata } from "next";
-import ErrorAndReload from "../../ui/error-and-reload";
+import { auth } from '@/auth';
+import ProfileForm from './ui/profile-form';
+import { getUserById } from '@/lib/db/user';
+import { Metadata } from 'next';
+import ErrorAndReload from '../../ui/error-and-reload';
 
 export const metadata: Metadata = {
   title: 'プロフィール編集',
@@ -10,16 +10,19 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  if (session === null) return <ErrorAndReload message="セッションが見つかりませんでした。" />;
+  if (session === null)
+    return <ErrorAndReload message='セッションが見つかりませんでした。' />;
   try {
-    const { password, ...passwordLessUser } = await getUserById(session.user.id);
+    const { password, ...passwordLessUser } = await getUserById(
+      session.user.id
+    );
     return (
-      <div className="flex flex-col gap-4 w-full px-6">
-        <h1 className="text-xl">プロフィール設定</h1>
+      <div className='flex flex-col gap-4 w-full px-6'>
+        <h1 className='text-xl'>プロフィール設定</h1>
         <ProfileForm user={passwordLessUser} />
       </div>
-    )
+    );
   } catch (error) {
-    return <ErrorAndReload message="ユーザーが見つかりませんでした。" />;
+    return <ErrorAndReload message='ユーザーが見つかりませんでした。' />;
   }
-};
+}

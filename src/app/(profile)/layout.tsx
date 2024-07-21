@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { getUser } from '../lib/data';
+import { getUser } from '../../lib/data';
 import SideNav from './ui/side-nav';
 
 export default async function Layout({
