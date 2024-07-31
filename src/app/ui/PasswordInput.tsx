@@ -1,10 +1,13 @@
-import { Input, InputProps } from "@nextui-org/react";
+import { Input, InputProps } from '@nextui-org/react';
 
 interface PasswordInputProps extends InputProps {
   passwordRules?: string;
 }
 
-export const PasswordInput: React.FC<PasswordInputProps> = ({ passwordRules, ...props }) => {
+export const PasswordInput: React.FC<PasswordInputProps> = ({
+  passwordRules,
+  ...props
+}) => {
   return (
     <Input
       {...props}

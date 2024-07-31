@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import prisma from "./prisma";
-import { unstable_noStore as noStore } from "next/cache";
-import { ConvertedScenarioDisplayData, ScenarioWithTag } from "./data-type";
+import prisma from './prisma';
+import { unstable_noStore as noStore } from 'next/cache';
+import { ConvertedScenarioDisplayData, ScenarioWithTag } from './data-type';
 
 export async function getDiscordUser(id: string) {
   const token = process.env.DISCORD_TOKEN;
@@ -18,7 +18,7 @@ export async function getDiscordUser(id: string) {
           return j;
         })
         .catch(function (e) {
-          console.error("Error get discord user:", e);
+          console.error('Error get discord user:', e);
           throw e;
         });
     });
@@ -36,10 +36,10 @@ export async function checkExistingDiscordUser(id: string): Promise<Boolean> {
       return await serverPromise
         .json()
         .then(function (j) {
-          return "id" in j;
+          return 'id' in j;
         })
         .catch(function (e) {
-          console.error("Error get discord user:", e);
+          console.error('Error get discord user:', e);
           throw false;
         });
     });
@@ -52,10 +52,10 @@ export async function convertScenarioData(scenario: ScenarioWithTag) {
   const maxPlayer = scenario.maxPlayer;
 
   const playerAmount = maxPlayer
-    ? `${minPlayer || ""}〜${maxPlayer || ""}人`
+    ? `${minPlayer || ''}〜${maxPlayer || ''}人`
     : minPlayer
-    ? `${minPlayer}人以上`
-    : `なし`;
+      ? `${minPlayer}人以上`
+      : `なし`;
 
   const minPlayTimeFull: number = scenario.minPlaytime ?? 0;
   const maxPlayTimeFull: number = scenario.maxPlaytime ?? 0;
@@ -67,25 +67,25 @@ export async function convertScenarioData(scenario: ScenarioWithTag) {
   const maxPlayTime = maxHour + maxMinutes;
 
   const playtime = maxPlayTime
-    ? `${minPlayTime || ""}〜${maxPlayTime || ""}時間`
+    ? `${minPlayTime || ''}〜${maxPlayTime || ''}時間`
     : minPlayTime
-    ? `${minPlayTime}時間以上`
-    : `なし`;
+      ? `${minPlayTime}時間以上`
+      : `なし`;
 
   function hoType() {
     switch (scenario.handoutType) {
-      case "NONE":
-        return "なし";
-      case "PUBLIC":
-        return "公開";
-      case "SECRET":
-        return "秘匿";
+      case 'NONE':
+        return 'なし';
+      case 'PUBLIC':
+        return '公開';
+      case 'SECRET':
+        return '秘匿';
     }
   }
 
   const description = scenario.shortDescription
     ? scenario.shortDescription
-    : scenario.description ?? "";
+    : (scenario.description ?? '');
 
   const scenarioTags = scenario.scenarioTag.map((scenarioTag) => {
     return scenarioTag.tag;
@@ -94,10 +94,10 @@ export async function convertScenarioData(scenario: ScenarioWithTag) {
   const result: ConvertedScenarioDisplayData = {
     id: scenario.id,
     name: scenario.name,
-    author: scenario.author ?? "不明",
+    author: scenario.author ?? '不明',
     short_description: scenario.shortDescription,
     description: scenario.description,
-    thumbnailPath: scenario.thumbnailPath ?? "/noImage.png",
+    thumbnailPath: scenario.thumbnailPath ?? '/noImage.png',
     playerAmount: playerAmount,
     playtime: playtime,
     handoutType: hoType(),
@@ -116,7 +116,7 @@ export async function getScenario(id: string) {
 
   try {
     const scenario = await prisma.scenario.findUnique({
-      relationLoadStrategy: "join",
+      relationLoadStrategy: 'join',
       where: {
         id: id,
       },
@@ -131,21 +131,21 @@ export async function getScenario(id: string) {
 
     return scenario;
   } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch scenarios.");
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch scenarios.');
   }
 }
 
 export async function getScenarios(
   query: object | undefined,
   offset: number,
-  loadSize: number
+  loadSize: number,
 ): Promise<ScenarioWithTag[]> {
   noStore();
 
   try {
     const scenarios = await prisma.scenario.findMany({
-      relationLoadStrategy: "join",
+      relationLoadStrategy: 'join',
       where: query,
       include: {
         scenarioTag: {
@@ -155,7 +155,7 @@ export async function getScenarios(
         },
       },
       orderBy: {
-        name: "asc",
+        name: 'asc',
       },
       skip: offset,
       take: loadSize,
@@ -163,15 +163,15 @@ export async function getScenarios(
 
     return scenarios;
   } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch scenarios.");
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch scenarios.');
   }
 }
 
 export async function getUsers(
   query: object | undefined,
   offset: number,
-  loadSize: number
+  loadSize: number,
 ) {
   noStore();
 
@@ -181,14 +181,14 @@ export async function getUsers(
       skip: offset,
       take: loadSize,
       orderBy: {
-        name: "asc",
+        name: 'asc',
       },
     });
 
     return users;
   } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch users.");
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch users.');
   }
 }
 
@@ -204,7 +204,7 @@ export async function getUser(id: string) {
 
     return user;
   } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to fetch user.");
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user.');
   }
 }

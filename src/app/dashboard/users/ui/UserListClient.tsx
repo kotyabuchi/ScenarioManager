@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 type LoadMoreAction = (
   query: object | undefined,
-  offset: number
+  offset: number,
 ) => Promise<readonly [JSX.Element[], number | undefined]>;
 
 export default function UserListClient({
@@ -24,7 +24,7 @@ export default function UserListClient({
   const [offset, setOffset] = useState<number | undefined>(initialUsers.length);
   const [loading, setLoading] = useState(false);
   const [allDataLoaded, setAllDataLoaded] = useState(
-    initialUsers.length < pageSize
+    initialUsers.length < pageSize,
   );
   const [isPending, startTransition] = useTransition();
 
@@ -57,11 +57,11 @@ export default function UserListClient({
   return (
     <div className='flex flex-col gap-3'>
       {users.length > 0 ? (
-        <div className='grid grid-cols-user-list gap-4 w-full h-full'>
+        <div className='grid h-full w-full grid-cols-user-list gap-4'>
           {users}
         </div>
       ) : (
-        <div className='flex flex-col gap-1 w-full items-center'>
+        <div className='flex w-full flex-col items-center gap-1'>
           <p className='h-10 text-center font-semibold leading-10'>
             一致するユーザーが見つかりませんでした。
           </p>

@@ -23,7 +23,7 @@ export async function getUserByDiscordId(discordId: string) {
     return user;
   } catch (error) {
     console.log(
-      `Exception in getUserByDiscordId with [${discordId}].: ${error}`
+      `Exception in getUserByDiscordId with [${discordId}].: ${error}`,
     );
     return null;
   }

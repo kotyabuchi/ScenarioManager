@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 type LoadMoreAction = (
   query: object | undefined,
-  offset: number
+  offset: number,
 ) => Promise<readonly [JSX.Element[], number | undefined]>;
 
 export default function ScenarioListClient({
@@ -22,11 +22,11 @@ export default function ScenarioListClient({
 }) {
   const [scenarios, setScenarios] = useState(initialScenarios);
   const [offset, setOffset] = useState<number | undefined>(
-    initialScenarios.length
+    initialScenarios.length,
   );
   const [loading, setLoading] = useState(false);
   const [allDataLoaded, setAllDataLoaded] = useState(
-    initialScenarios.length < pageSize
+    initialScenarios.length < pageSize,
   );
   const [_, startTransition] = useTransition();
 
@@ -59,11 +59,11 @@ export default function ScenarioListClient({
   return (
     <div className='flex flex-col gap-3'>
       {scenarios.length > 0 ? (
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full'>
+        <div className='grid h-full w-full grid-cols-1 gap-4 lg:grid-cols-2'>
           {scenarios}
         </div>
       ) : (
-        <div className='flex flex-col gap-1 w-full items-center'>
+        <div className='flex w-full flex-col items-center gap-1'>
           <p className='h-10 text-center font-semibold leading-10'>
             一致するシナリオが見つかりませんでした。
           </p>

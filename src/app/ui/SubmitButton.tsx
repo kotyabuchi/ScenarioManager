@@ -1,21 +1,20 @@
 'use client';
 
-import { Button } from "@nextui-org/react";
-import { useFormStatus } from "react-dom";
+import { Button } from '@nextui-org/react';
+import { useFormStatus } from 'react-dom';
 
-export default function SubmitButton(
-  {
-    text,
-    className
-  }: {
-    text: string,
-    className?: string
-  }) {
+export default function SubmitButton({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   const { pending } = useFormStatus();
   return (
     <Button
-      type="submit"
-      color="primary"
+      type='submit'
+      color='primary'
       isLoading={pending}
       isDisabled={pending}
       className={className}
@@ -23,4 +22,4 @@ export default function SubmitButton(
       {text}
     </Button>
   );
-};
+}

@@ -22,7 +22,7 @@ export interface State {
 
 export async function updateUser(
   prevState: State,
-  formData: FormData
+  formData: FormData,
 ): Promise<State> {
   const id = formData.get('id')?.toString();
   const validatedFields = updateUserSchema.safeParse({
@@ -49,7 +49,7 @@ export async function updateUser(
 
     if (oldData.discordId !== validatedFields.data.discordId) {
       const registeredDiscordUser = await getUserByDiscordId(
-        validatedFields.data.discordId
+        validatedFields.data.discordId,
       );
 
       if (registeredDiscordUser) {
@@ -63,7 +63,7 @@ export async function updateUser(
       }
 
       const isExistingDiscordUser = await checkExistingDiscordUser(
-        validatedFields.data.discordId
+        validatedFields.data.discordId,
       );
 
       if (!isExistingDiscordUser) {

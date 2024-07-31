@@ -14,7 +14,7 @@ export default async function Layout({
     if (user) {
       return (
         <div className='flex-grow md:overflow-y-auto'>
-          <div className='flex flex-row py-8 mx-auto md:max-w-[960px]'>
+          <div className='mx-auto flex flex-row py-8 md:max-w-[960px]'>
             <SideNav />
             {children}
           </div>

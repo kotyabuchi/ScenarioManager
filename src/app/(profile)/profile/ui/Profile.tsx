@@ -8,7 +8,7 @@ const underLineCss = 'border-b-2 border-primary-300';
 
 function errorComponent(message: string) {
   return (
-    <div className='flex flex-col gap-1 w-full items-center'>
+    <div className='flex w-full flex-col items-center gap-1'>
       <p className='h-10 text-center font-semibold leading-10'>{message}</p>
       <RefleshButton />
     </div>
@@ -25,10 +25,10 @@ export default async function Profile() {
 
     return (
       <>
-        <div className='flex flex-col gap-3 w-full'>
+        <div className='flex w-full flex-col gap-3'>
           <div className='flex flex-row gap-6'>
             <Image
-              className='shrink-0 relative object-cover min-w-36 w-36 min-h-36 h-36 rounded-full border-3 border-zinc-200'
+              className='relative h-36 min-h-36 w-36 min-w-36 shrink-0 rounded-full border-3 border-zinc-200 object-cover'
               src={userImage}
               alt={`${user.name}のサムネイル`}
               width={144}
@@ -36,7 +36,7 @@ export default async function Profile() {
             />
             <div className='flex flex-col gap-2'>
               <h2
-                className={`text-3xl break-words break-all w-fit h-fit px-1 ${underLineCss}`}
+                className={`h-fit w-fit break-words break-all px-1 text-3xl ${underLineCss}`}
               >
                 {user.name}
               </h2>
@@ -45,7 +45,7 @@ export default async function Profile() {
                 <p>{user.discordId}</p>
               </div>
               <p
-                className={`hidden sm:block whitespace-break-spaces ${
+                className={`hidden whitespace-break-spaces sm:block ${
                   user.introduction || 'text-foreground-600'
                 }`}
               >
@@ -54,7 +54,7 @@ export default async function Profile() {
             </div>
           </div>
           <p
-            className={`sm:hidden whitespace-break-spaces ${
+            className={`whitespace-break-spaces sm:hidden ${
               user.introduction || 'text-foreground-600'
             }`}
           >

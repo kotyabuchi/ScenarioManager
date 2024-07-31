@@ -14,10 +14,10 @@ export default async function Page() {
     return <ErrorAndReload message='セッションが見つかりませんでした。' />;
   try {
     const { password, ...passwordLessUser } = await getUserById(
-      session.user.id
+      session.user.id,
     );
     return (
-      <div className='flex flex-col gap-4 w-full px-6'>
+      <div className='flex w-full flex-col gap-4 px-6'>
         <h1 className='text-xl'>プロフィール設定</h1>
         <ProfileForm user={passwordLessUser} />
       </div>

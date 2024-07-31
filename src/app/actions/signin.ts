@@ -1,34 +1,40 @@
-'use server'
+'use server';
 
-import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
-export async function authenticate(prevState: { success: boolean, error?: string } | undefined, formData: FormData) {
+export async function authenticate(
+  prevState: { success: boolean; error?: string } | undefined,
+  formData: FormData,
+) {
   try {
-    console.log("try signin");
+    console.log('try signin');
 
-    const result = await signIn("credentials", {
+    const result = await signIn('credentials', {
       redirect: false,
-      discordId: formData.get("discordId"),
-      password: formData.get("password"),
+      discordId: formData.get('discordId'),
+      password: formData.get('password'),
     });
 
     if (result?.error) {
       return { success: false, error: 'Invalid credentials.' };
     }
 
-    console.log("signin successful");
+    console.log('signin successful');
     return { success: true };
   } catch (error) {
-    console.error("Signin error:", error);
+    console.error('Signin error:', error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return { success: false, error: 'メールアドレスまたはパスワードが間違っています。' }
+          return {
+            success: false,
+            error: 'メールアドレスまたはパスワードが間違っています。',
+          };
         default:
-          return { success: false, error: 'ログインに失敗しました。' }
+          return { success: false, error: 'ログインに失敗しました。' };
       }
     }
-    return { success: false, error: 'An unexpected' }
+    return { success: false, error: 'An unexpected' };
   }
 }

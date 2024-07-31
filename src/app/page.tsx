@@ -3,11 +3,9 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="flex h-dvh flex-col items-center justify-between p-24">
+    <main className='flex h-dvh flex-col items-center justify-between p-24'>
       <Link href='/dashboard'>
-        <Button>
-          ダッシュボードに行く
-        </Button>
+        <Button>ダッシュボードに行く</Button>
       </Link>
     </main>
   );

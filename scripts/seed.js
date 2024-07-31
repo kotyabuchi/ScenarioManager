@@ -1,38 +1,33 @@
-const { PrismaClient } = require("@prisma/client")
-const {
-  users,
-  tags,
-  scenarios,
-} = require('../src/app/lib/place_holder')
-const bcrypt = require('bcrypt')
+const { PrismaClient } = require('@prisma/client');
+const { users, tags, scenarios } = require('../src/app/lib/place_holder');
+const bcrypt = require('bcrypt');
 
-const prisma = new PrismaClient()
-
+const prisma = new PrismaClient();
 
 async function seedUsers() {
   users.map(async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    data.password = hashedPassword
+    data.password = hashedPassword;
     try {
-      const result = await prisma.user.create({ data })
-      console.log(result)
+      const result = await prisma.user.create({ data });
+      console.log(result);
     } catch (error) {
-      throw error
+      throw error;
     }
-  })
+  });
 }
 
 async function seedScenarios() {
   try {
-    let editedScenarios = []
+    let editedScenarios = [];
     scenarios.forEach(async (scenario) => {
-      delete scenario.scenarioTag
-      editedScenarios.push(scenario)
-    })
+      delete scenario.scenarioTag;
+      editedScenarios.push(scenario);
+    });
     const result = await prisma.scenario.createMany({
-      data: editedScenarios
-    })
-    console.log(result)
+      data: editedScenarios,
+    });
+    console.log(result);
   } catch (error) {
     console.error('Error seeding scenarios:', error);
     throw error;
@@ -42,9 +37,9 @@ async function seedScenarios() {
 async function seedTags() {
   try {
     const result = await prisma.tag.createMany({
-      data: tags
-    })
-    console.log(result)
+      data: tags,
+    });
+    console.log(result);
   } catch (error) {
     console.error('Error seeding tags:', error);
     throw error;
@@ -53,27 +48,27 @@ async function seedTags() {
 
 async function seedScenarioTags() {
   try {
-    const scenarios = await prisma.scenario.findMany()
-    let tags = await prisma.tag.findMany()
-    const trpg = tags.filter((tag) => tag.name == "TRPG")[0]
-    const mm = tags.filter((tag) => tag.name == "マダミス")[0]
-    const otherTag = tags.filter((tag) => tag.id != trpg.id && tag.id != mm.id)
+    const scenarios = await prisma.scenario.findMany();
+    let tags = await prisma.tag.findMany();
+    const trpg = tags.filter((tag) => tag.name == 'TRPG')[0];
+    const mm = tags.filter((tag) => tag.name == 'マダミス')[0];
+    const otherTag = tags.filter((tag) => tag.id != trpg.id && tag.id != mm.id);
 
     scenarios.forEach(async (scenario) => {
       const result = await prisma.scenarioTag.createMany({
         data: [
           {
             scenarioId: scenario.id,
-            tagId: (Math.random() > 0.5) ? trpg.id : mm.id
+            tagId: Math.random() > 0.5 ? trpg.id : mm.id,
           },
           {
             scenarioId: scenario.id,
-            tagId: otherTag[Math.floor(Math.random() * otherTag.length)].id
-          }
-        ]
-      })
-      console.log(result)
-    })
+            tagId: otherTag[Math.floor(Math.random() * otherTag.length)].id,
+          },
+        ],
+      });
+      console.log(result);
+    });
   } catch (error) {
     console.error('Error seeding scenario tags:', error);
     throw error;
@@ -89,11 +84,11 @@ async function updateTags() {
         },
         data: {
           color: tag.color,
-        }
-      })
+        },
+      });
 
       console.log(result);
-    })
+    });
   } catch (error) {
     console.error('Error updating tags:', error);
     throw error;
@@ -103,59 +98,60 @@ async function updateTags() {
 async function bindScenarioTags() {
   const scenarioTags = await prisma.scenarioTag.findMany({
     select: {
-      scenarioId: true
-    }
-  })
+      scenarioId: true,
+    },
+  });
 
   let filterRegisteredScenarioIds = {
-    AND: []
-  }
+    AND: [],
+  };
   scenarioTags.forEach((tag) => {
     filterRegisteredScenarioIds.AND.push({
       id: {
-        not: tag.scenarioId
-      }
-    })
-  })
+        not: tag.scenarioId,
+      },
+    });
+  });
 
   const filteredScenarios = await prisma.scenario.findMany({
     select: {
       id: true,
       name: true,
     },
-    where: filterRegisteredScenarioIds
-  })
+    where: filterRegisteredScenarioIds,
+  });
 
-  let scenarioIdMapping = {}
+  let scenarioIdMapping = {};
   filteredScenarios.forEach((scenario) => {
-    scenarioIdMapping[scenario.name] = scenario.id
-  })
+    scenarioIdMapping[scenario.name] = scenario.id;
+  });
 
-  const tagIds = await prisma.tag.findMany({})
-  let tagIdMapping = {}
+  const tagIds = await prisma.tag.findMany({});
+  let tagIdMapping = {};
   tagIds.forEach((tag) => {
-    tagIdMapping[tag.name] = tag.id
-  })
+    tagIdMapping[tag.name] = tag.id;
+  });
 
-  let mappedScenarioTags = []
+  let mappedScenarioTags = [];
   scenarios.forEach(async (scenario) => {
-    const scenarioId = scenarioIdMapping[scenario.name]
+    const scenarioId = scenarioIdMapping[scenario.name];
 
-    scenarioId && scenario.scenarioTag.forEach(async (tag) => {
-      const tagId = tagIdMapping[tag]
+    scenarioId &&
+      scenario.scenarioTag.forEach(async (tag) => {
+        const tagId = tagIdMapping[tag];
 
-      mappedScenarioTags.push({
-        scenarioId: scenarioId,
-        tagId: tagId
-      })
-    })
-  })
+        mappedScenarioTags.push({
+          scenarioId: scenarioId,
+          tagId: tagId,
+        });
+      });
+  });
 
   const result = await prisma.scenarioTag.createMany({
-    data: mappedScenarioTags
-  })
+    data: mappedScenarioTags,
+  });
 
-  console.log(result)
+  console.log(result);
 }
 
 async function main() {

@@ -15,7 +15,7 @@ export interface State {
 
 export async function changePassword(
   prevState: State,
-  formData: FormData
+  formData: FormData,
 ): Promise<State> {
   const id = formData.get('id')?.toString();
   const validatedFields = changePasswordSchema.safeParse({
@@ -53,7 +53,7 @@ export async function changePassword(
     const user = await getUserById(id);
     const currentPasswordsMatch = await bcrypt.compare(
       validatedFields.data.currentPassword,
-      user.password
+      user.password,
     );
     if (!currentPasswordsMatch)
       return {
@@ -65,7 +65,7 @@ export async function changePassword(
 
     const newPasswordsMatch = await bcrypt.compare(
       validatedFields.data.newPassword,
-      user.password
+      user.password,
     );
     if (newPasswordsMatch)
       return {
@@ -77,7 +77,7 @@ export async function changePassword(
 
     const hashedPassword = await bcrypt.hash(
       validatedFields.data.newPassword,
-      10
+      10,
     );
 
     const newData = {

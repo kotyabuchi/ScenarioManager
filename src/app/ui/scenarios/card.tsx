@@ -16,11 +16,11 @@ export default async function ScenarioCard({
   return (
     <Link
       href={`/dashboard/scenarios/${scenarioData.id}`}
-      className='flex flex-row gap-3 w-full h-full p-4 rounded-2xl hover:shadow-soft-md bg-white duration-150 items-center'
+      className='flex h-full w-full flex-row items-center gap-3 rounded-2xl bg-white p-4 duration-150 hover:shadow-soft-md'
     >
-      <figure className='shrink-0 rounded-lg overflow-hidden'>
+      <figure className='shrink-0 overflow-hidden rounded-lg'>
         <Image
-          className='object-cover w-24 h-24 md:w-28 md:h-28'
+          className='h-24 w-24 object-cover md:h-28 md:w-28'
           src='/noImage.png'
           alt={scenarioData.name}
           width={144}
@@ -28,7 +28,7 @@ export default async function ScenarioCard({
           sizes=''
         />
       </figure>
-      <div className='flex flex-col gap-1 w-fit'>
+      <div className='flex w-fit flex-col gap-1'>
         <div className='flex gap-2'>
           {scenarioTags.map((tag) => {
             return (
@@ -36,15 +36,15 @@ export default async function ScenarioCard({
                 key={tag.id}
                 radius='full'
                 variant='ghost'
-                className='rounded-full h-5 min-w-fit px-2 text-xs border'
+                className='h-5 min-w-fit rounded-full border px-2 text-xs'
               >
                 {tag.name}
               </Button>
             );
           })}
         </div>
-        <div className='flex flex-row flex-wrap gap-y-0 gap-3 items-baseline'>
-          <h2 className='font-bold text-base line-clamp-1'>
+        <div className='flex flex-row flex-wrap items-baseline gap-3 gap-y-0'>
+          <h2 className='line-clamp-1 text-base font-bold'>
             {scenarioData.name}
           </h2>
           <span className='text-xs opacity-70'>{scenarioData.author}</span>
@@ -84,7 +84,7 @@ export default async function ScenarioCard({
             </Chip>
           </Tooltip>
         </div>
-        <p className='text-xs opacity-60 line-clamp-3 break-all max-h-14 whitespace-normal'>
+        <p className='line-clamp-3 max-h-14 whitespace-normal break-all text-xs opacity-60'>
           {scenario.shortDescription || scenarioData.description}
         </p>
       </div>

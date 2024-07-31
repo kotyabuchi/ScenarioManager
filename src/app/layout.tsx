@@ -29,7 +29,7 @@ export default async function RootLayout({
         <Providers>
           <SessionProvider session={session}>
             <Toaster richColors expand />
-            <div className='flex flex-col max-h-dvh'>
+            <div className='flex max-h-dvh flex-col'>
               <AppNavbar session={session} />
               {children}
               <SpeedInsights />

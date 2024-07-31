@@ -1,4 +1,4 @@
-import { signOut } from "@/auth";
+import { signOut } from '@/auth';
 
 export default function SignOutButton() {
   return (
@@ -7,7 +7,6 @@ export default function SignOutButton() {
         'use server';
         await signOut();
       }}
-    >
-    </form>
-  )
+    ></form>
+  );
 }

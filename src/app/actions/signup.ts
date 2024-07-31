@@ -17,7 +17,7 @@ export interface State {
 
 export async function signUp(
   prevState: State,
-  formData: FormData
+  formData: FormData,
 ): Promise<State> {
   const validatedFields = signUpSchema.safeParse({
     username: formData.get('username'),

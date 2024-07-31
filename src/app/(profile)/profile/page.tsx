@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   return (
-    <div className='flex flex-col gap-3 w-full px-6'>
+    <div className='flex w-full flex-col gap-3 px-6'>
       <h1 className='text-xl'>プロフィール</h1>
-      <div className='flex flex-col gap-6 w-full sm:p-6 sm:rounded-xl sm:border border-zinc-200 bg-zinc-50'>
+      <div className='flex w-full flex-col gap-6 border-zinc-200 bg-zinc-50 sm:rounded-xl sm:border sm:p-6'>
         <Suspense fallback={<ProfileSkeleton />}>
           <Profile />
         </Suspense>

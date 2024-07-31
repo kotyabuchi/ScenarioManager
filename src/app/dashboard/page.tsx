@@ -1,7 +1,7 @@
 export default async function Page() {
   return (
     <main>
-      <div className="text-sm breadcrumbs">
+      <div className='breadcrumbs text-sm'>
         <ul>
           <li>Dashboard</li>
         </ul>

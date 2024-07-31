@@ -26,7 +26,7 @@ export default async function Page({ params }: Props) {
     const discordUser = await getDiscordUser(user.discordId);
 
     return (
-      <main className='flex flex-col gap-1 py-4 mx-auto md:max-w-[1080px]'>
+      <main className='mx-auto flex flex-col gap-1 py-4 md:max-w-[1080px]'>
         <div className='flex flex-row text-sm'>
           <p>
             {isUpdated ? '更新日:' : '登録日:'}
@@ -34,18 +34,18 @@ export default async function Page({ params }: Props) {
           </p>
         </div>
         <div className='flex flex-col gap-4 md:gap-8'>
-          <div className='flex flex-col md:flex-row gap-4 md:gap-6 w-full mx-auto lg:mx-0'>
+          <div className='mx-auto flex w-full flex-col gap-4 md:flex-row md:gap-6 lg:mx-0'>
             <div className='flex flex-col gap-4'>
               <Image
-                className='relative object-contain z-10 bg-base-200 md:w-full self-center rounded-full border-3 border-zinc-200 bg-white'
+                className='bg-base-200 relative z-10 self-center rounded-full border-3 border-zinc-200 bg-white object-contain md:w-full'
                 src={userImage}
                 alt={user.name}
                 width={144}
                 height={144}
                 sizes=''
               />
-              <div className='hidden md:flex flex-col gap-2'>
-                <p className={`text-sm w-fit px-1 ${underLineCss}`}>リンク</p>
+              <div className='hidden flex-col gap-2 md:flex'>
+                <p className={`w-fit px-1 text-sm ${underLineCss}`}>リンク</p>
                 <div className='flex flex-col gap-2'>
                   {discordUser.id && (
                     <LinkBadge
@@ -57,10 +57,10 @@ export default async function Page({ params }: Props) {
                 </div>
               </div>
             </div>
-            <div className='flex flex-col gap-3 w-full'>
+            <div className='flex w-full flex-col gap-3'>
               <div className='flex flex-row justify-between'>
                 <h2
-                  className={`text-3xl break-words break-all w-fit h-fit px-1 ${underLineCss}`}
+                  className={`h-fit w-fit break-words break-all px-1 text-3xl ${underLineCss}`}
                 >
                   {user.name}
                 </h2>
@@ -78,11 +78,11 @@ export default async function Page({ params }: Props) {
                   </Tooltip>
                 )}
               </div>
-              <p className='text-sm whitespace-break-spaces p-4 rounded-xl bg-white'>
+              <p className='whitespace-break-spaces rounded-xl bg-white p-4 text-sm'>
                 {user.introduction}
               </p>
-              <div className='flex md:hidden flex-col gap-2'>
-                <p className={`text-sm w-fit px-1 ${underLineCss}`}>リンク</p>
+              <div className='flex flex-col gap-2 md:hidden'>
+                <p className={`w-fit px-1 text-sm ${underLineCss}`}>リンク</p>
                 <div className='flex flex-col gap-2'>
                   {discordUser.id && (
                     <LinkBadge
@@ -97,22 +97,22 @@ export default async function Page({ params }: Props) {
           </div>
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-2'>
-              <h3 className={`text-lg w-fit px-1 ${underLineCss}`}>未プレイ</h3>
+              <h3 className={`w-fit px-1 text-lg ${underLineCss}`}>未プレイ</h3>
               <ScrollShadow
                 orientation='horizontal'
-                className='flex flex-row gap-2 max-w-full h-fit pb-4'
+                className='flex h-fit max-w-full flex-row gap-2 pb-4'
               >
                 {[...Array(10)].map((_, i) => {
                   return (
                     <div
                       key={`未プレイ_${i}`}
-                      className='flex flex-col gap-1 min-w-fit rounded-lg p-3 bg-white'
+                      className='flex min-w-fit flex-col gap-1 rounded-lg bg-white p-3'
                     >
-                      <p className='text-sm min-w-fit max-w-full self-center'>
+                      <p className='min-w-fit max-w-full self-center text-sm'>
                         シナリオタイトル
                       </p>
                       <Image
-                        className='relative object-contain z-10 bg-base-200 md:w-24 self-center'
+                        className='bg-base-200 relative z-10 self-center object-contain md:w-24'
                         src='/noImage.png'
                         alt={user.name}
                         width={144}
@@ -125,24 +125,24 @@ export default async function Page({ params }: Props) {
               </ScrollShadow>
             </div>
             <div className='flex flex-col gap-2'>
-              <h3 className={`text-lg w-fit px-1 ${underLineCss}`}>
+              <h3 className={`w-fit px-1 text-lg ${underLineCss}`}>
                 シナリオ保有・KP可
               </h3>
               <ScrollShadow
                 orientation='horizontal'
-                className='flex flex-row gap-2 max-w-full h-fit pb-4'
+                className='flex h-fit max-w-full flex-row gap-2 pb-4'
               >
                 {[...Array(10)].map((_, i) => {
                   return (
                     <div
                       key={`シナリオ保有・KP可_${i}`}
-                      className='flex flex-col gap-1 min-w-fit rounded-lg p-3 bg-white'
+                      className='flex min-w-fit flex-col gap-1 rounded-lg bg-white p-3'
                     >
-                      <p className='text-sm min-w-fit max-w-full self-center'>
+                      <p className='min-w-fit max-w-full self-center text-sm'>
                         シナリオタイトル
                       </p>
                       <Image
-                        className='relative object-contain z-10 bg-base-200 md:w-24 self-center'
+                        className='bg-base-200 relative z-10 self-center object-contain md:w-24'
                         src='/noImage.png'
                         alt={user.name}
                         width={144}
@@ -155,24 +155,24 @@ export default async function Page({ params }: Props) {
               </ScrollShadow>
             </div>
             <div className='flex flex-col gap-2'>
-              <h3 className={`text-lg w-fit px-1 ${underLineCss}`}>
+              <h3 className={`w-fit px-1 text-lg ${underLineCss}`}>
                 プレイ済み・視聴済み
               </h3>
               <ScrollShadow
                 orientation='horizontal'
-                className='flex flex-row gap-2 max-w-full h-fit pb-4'
+                className='flex h-fit max-w-full flex-row gap-2 pb-4'
               >
                 {[...Array(10)].map((_, i) => {
                   return (
                     <div
                       key={`プレイ済み・視聴済み_${i}`}
-                      className='flex flex-col gap-1 min-w-fit rounded-lg p-3 bg-white'
+                      className='flex min-w-fit flex-col gap-1 rounded-lg bg-white p-3'
                     >
-                      <p className='text-sm min-w-fit max-w-full self-center'>
+                      <p className='min-w-fit max-w-full self-center text-sm'>
                         シナリオタイトル
                       </p>
                       <Image
-                        className='relative object-contain z-10 bg-base-200 md:w-24 self-center'
+                        className='bg-base-200 relative z-10 self-center object-contain md:w-24'
                         src='/noImage.png'
                         alt={user.name}
                         width={144}

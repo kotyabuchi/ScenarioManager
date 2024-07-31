@@ -114,9 +114,9 @@ export default function AppNavbar({ session }: { session: Session | null }) {
         />
         <NavbarBrand>
           <Link href='/' color='foreground'>
-            <p className='font-bold text-lg ml-2'>シナプレ管理くん</p>
+            <p className='ml-2 text-lg font-bold'>シナプレ管理くん</p>
             <Image
-              className='shrink-0 relative object-cover min-w-10 w-10 min-h-10 h-10'
+              className='relative h-10 min-h-10 w-10 min-w-10 shrink-0 object-cover'
               src='/mascot.png'
               alt='サイトコンセプトキャラ'
               width={40}
@@ -126,7 +126,7 @@ export default function AppNavbar({ session }: { session: Session | null }) {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className='hidden sm:flex gap-2' justify='center'>
+      <NavbarContent className='hidden gap-2 sm:flex' justify='center'>
         {session &&
           menuItems.map((item, index) => {
             if (index > 3) return;
@@ -156,7 +156,7 @@ export default function AppNavbar({ session }: { session: Session | null }) {
               <Avatar
                 isBordered
                 as='button'
-                className='transition-transform bg-slate-50'
+                className='bg-slate-50 transition-transform'
                 name={session?.user.name || 'セッション取得中...'}
                 size='sm'
                 src={session?.user.thumbnailPath || '/default_avatar.png'}
@@ -233,7 +233,7 @@ export default function AppNavbar({ session }: { session: Session | null }) {
             return (
               <NavbarMenuItem key={item.href}>
                 <div
-                  className={`flex flex-row gap-2 w-fit items-center ${
+                  className={`flex w-fit flex-row items-center gap-2 ${
                     isActive && 'border-b border-primary'
                   }`}
                 >

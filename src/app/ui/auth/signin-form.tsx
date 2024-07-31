@@ -49,7 +49,7 @@ export default function SigninForm() {
 
   return (
     <Suspense>
-      <form action={dispatch} className='flex flex-col w-full gap-4'>
+      <form action={dispatch} className='flex w-full flex-col gap-4'>
         <Input
           isRequired
           required
@@ -95,9 +95,9 @@ export default function SigninForm() {
               onClick={togglePasswordVisibility}
             >
               {isPasswordVisible ? (
-                <Eye className='text-2xl text-default-400 pointer-events-none' />
+                <Eye className='pointer-events-none text-2xl text-default-400' />
               ) : (
-                <EyeOff className='text-2xl text-default-400 pointer-events-none' />
+                <EyeOff className='pointer-events-none text-2xl text-default-400' />
               )}
             </button>
           }

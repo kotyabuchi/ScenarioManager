@@ -23,16 +23,16 @@ export default async function Page({ params }: Props) {
 
     return (
       <main
-        className={`flex flex-col gap-8 py-4 mx-auto max-w-[1080px] ${underLineCss}`}
+        className={`mx-auto flex max-w-[1080px] flex-col gap-8 py-4 ${underLineCss}`}
       >
-        <div className='flex flex-col lg:flex-row gap-4 md:gap-6'>
-          <div className='shrink-0 flex flex-col gap-1 w-full lg:w-fit lg:h-80 mx-auto lg:mx-0'>
+        <div className='flex flex-col gap-4 md:gap-6 lg:flex-row'>
+          <div className='mx-auto flex w-full shrink-0 flex-col gap-1 lg:mx-0 lg:h-80 lg:w-fit'>
             <div className='flex flex-row text-sm'>
               {isUpdated ? <p>更新日：</p> : <p>投稿日：</p>}
               <span>{scenarioData.updatedAt.toLocaleString()}</span>
             </div>
             <Image
-              className='relative object-contain z-10 h-full bg-base-200 md:w-80 self-center'
+              className='bg-base-200 relative z-10 h-full self-center object-contain md:w-80'
               src={scenarioData.thumbnailPath}
               alt={scenarioData.name}
               width={320}
@@ -40,14 +40,14 @@ export default async function Page({ params }: Props) {
               sizes=''
             />
           </div>
-          <div className='flex flex-col gap-2 w-full'>
+          <div className='flex w-full flex-col gap-2'>
             <div className='flex flex-col'>
-              <div className='flex flex-row gap-1 text-sm px-1'>
+              <div className='flex flex-row gap-1 px-1 text-sm'>
                 {scenarioTags.map((tag) => {
                   return (
                     <span
                       key={tag.id}
-                      className='rounded-full min-w-fit px-3 py-[2px] text-xs'
+                      className='min-w-fit rounded-full px-3 py-[2px] text-xs'
                       style={{ backgroundColor: `${tag.color}` }}
                     >
                       {tag.name}
@@ -56,15 +56,15 @@ export default async function Page({ params }: Props) {
                 })}
               </div>
               <div className='flex flex-col'>
-                <h2 className='text-3xl break-words break-all'>
+                <h2 className='break-words break-all text-3xl'>
                   {scenarioData.name}
                 </h2>
-                <span className='opacity-70 text-sm px-1'>
+                <span className='px-1 text-sm opacity-70'>
                   {scenarioData.author}
                 </span>
               </div>
             </div>
-            <div className='flex flex-col flex-wrap md:flex-row md:gap-2 text-sm px-1 [&_span]:font-semibold [&>Divider]:hidden [&>Divider]:md:block'>
+            <div className='flex flex-col flex-wrap px-1 text-sm md:flex-row md:gap-2 [&>Divider]:hidden [&>Divider]:md:block [&_span]:font-semibold'>
               <div>
                 人数：<span>{scenarioData.playerAmount}</span>
               </div>
@@ -81,28 +81,28 @@ export default async function Page({ params }: Props) {
               <input
                 type='checkbox'
                 id='descriptionToggle'
-                className='peer invisible w-0 h-0 -mb-2'
+                className='peer invisible -mb-2 h-0 w-0'
               />
               <h3 className='text-lg font-bold'>概要</h3>
-              <div className='peer-checked:hidden p-4 rounded-xl bg-white'>
-                <p className='text-sm whitespace-break-spaces line-clamp-[8]'>
+              <div className='rounded-xl bg-white p-4 peer-checked:hidden'>
+                <p className='line-clamp-[8] whitespace-break-spaces text-sm'>
                   {scenario.shortDescription || scenario.description}
                 </p>
               </div>
-              <div className='hidden peer-checked:block px-4 md:max-h-[480px] rounded-xl bg-white'>
-                <ScrollShadow className='max-h-full py-4 text-sm whitespace-break-spaces'>
+              <div className='hidden rounded-xl bg-white px-4 peer-checked:block md:max-h-[480px]'>
+                <ScrollShadow className='max-h-full whitespace-break-spaces py-4 text-sm'>
                   {scenario.description || scenario.shortDescription}
                 </ScrollShadow>
               </div>
               <label
                 htmlFor='descriptionToggle'
-                className='w-fit cursor-pointer opacity-70 text-xs px-1 peer-checked:hidden'
+                className='w-fit cursor-pointer px-1 text-xs opacity-70 peer-checked:hidden'
               >
                 もっと見る
               </label>
               <label
                 htmlFor='descriptionToggle'
-                className='w-fit cursor-pointer opacity-70 text-xs px-1 hidden peer-checked:block'
+                className='hidden w-fit cursor-pointer px-1 text-xs opacity-70 peer-checked:block'
               >
                 概要を閉じる
               </label>
@@ -110,20 +110,20 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
         <div className='flex flex-col gap-6'>
-          <div className='flex flex-col gap-4 '>
+          <div className='flex flex-col gap-4'>
             <h3 className='text-lg'>募集中のセッション</h3>
-            <div className='flex flex-row gap-4 max-w-full overflow-x-auto'>
-              <div className='flex flex-col gap-2 border border-base-200 p-3 rounded-lg w-fit'>
+            <div className='flex max-w-full flex-row gap-4 overflow-x-auto'>
+              <div className='border-base-200 flex w-fit flex-col gap-2 rounded-lg border p-3'>
                 <h4>2024/09/24</h4>
                 <p>残り1名</p>
-                <p className='leading-relaxed w-full'>
+                <p className='w-full leading-relaxed'>
                   募集コメント亜jウィdなkwんdぴあじょ；wdjm＠亜wだお＠wdじゃwdなおpwdjなおwd
                 </p>
                 <div className='flex flex-row'>
                   <div className='flex flex-col'>
                     <p>KP:</p>
                     <Image
-                      className='object-cover w-12 h-12 rounded-full'
+                      className='h-12 w-12 rounded-full object-cover'
                       src={userImage}
                       alt={'KPユーザー'}
                       width={48}
@@ -136,7 +136,7 @@ export default async function Page({ params }: Props) {
                     <p>PL:</p>
                     <div className='flex flex-row'>
                       <Image
-                        className='object-cover w-12 h-12 rounded-full border -mr-2'
+                        className='-mr-2 h-12 w-12 rounded-full border object-cover'
                         src={userImage}
                         alt={'ユーザー1'}
                         width={48}
@@ -144,7 +144,7 @@ export default async function Page({ params }: Props) {
                         sizes=''
                       />
                       <Image
-                        className='object-cover w-12 h-12 rounded-full border -mr-2'
+                        className='-mr-2 h-12 w-12 rounded-full border object-cover'
                         src={userImage}
                         alt={'ユーザー2'}
                         width={48}
@@ -152,7 +152,7 @@ export default async function Page({ params }: Props) {
                         sizes=''
                       />
                       <Image
-                        className='object-cover w-12 h-12 rounded-full border'
+                        className='h-12 w-12 rounded-full border object-cover'
                         src={userImage}
                         alt={'ユーザー3'}
                         width={48}
@@ -163,18 +163,18 @@ export default async function Page({ params }: Props) {
                   </div>
                 </div>
               </div>
-              <div className='flex flex-col border border-base-200 p-3 rounded-lg w-fit'>
+              <div className='border-base-200 flex w-fit flex-col rounded-lg border p-3'>
                 <h4>2024/09/24</h4>
               </div>
             </div>
           </div>
-          <div className='flex flex-col gap-4 '>
+          <div className='flex flex-col gap-4'>
             <h3 className='text-lg'>シナリオ保有・KP可のユーザー</h3>
           </div>
-          <div className='flex flex-col gap-4 '>
+          <div className='flex flex-col gap-4'>
             <h3 className='text-lg'>未プレイのユーザー</h3>
           </div>
-          <div className='flex flex-col gap-4 '>
+          <div className='flex flex-col gap-4'>
             <h3 className='text-lg'>プレイ済み・視聴済みのユーザー</h3>
           </div>
         </div>

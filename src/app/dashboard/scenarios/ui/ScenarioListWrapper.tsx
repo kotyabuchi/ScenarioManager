@@ -46,7 +46,7 @@ export default async function ScenarioListWrapper({
   const initialScenarioNodes = initialScenarios.map(
     (scenario: ScenarioWithTag) => (
       <ScenarioCard key={scenario.id} scenario={scenario} />
-    )
+    ),
   );
 
   return (
