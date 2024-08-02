@@ -12,7 +12,8 @@ type Props = {
   params: { id: string };
 };
 
-const underLineCss = 'border-b-2 border-primary-300';
+const underLineCss =
+  '[&_h2]:w-fit [&_h2]:px-1 [&_h2]:border-b-2 [&_h2]:border-primary-300 [&_h3]:w-fit [&_h3]:px-1 [&_h3]:border-b-2 [&_h3]:border-primary-300';
 
 export default async function Page({ params }: Props) {
   const id = params.id;
@@ -26,7 +27,9 @@ export default async function Page({ params }: Props) {
     const discordUser = await getDiscordUser(user.discordId);
 
     return (
-      <main className='mx-auto flex flex-col gap-1 py-4 md:max-w-[1080px]'>
+      <main
+        className={`flex max-h-full flex-col gap-6 ${underLineCss} p-8 md:overflow-y-auto md:pl-0`}
+      >
         <div className='flex flex-row text-sm'>
           <p>
             {isUpdated ? '更新日:' : '登録日:'}
@@ -45,7 +48,7 @@ export default async function Page({ params }: Props) {
                 sizes=''
               />
               <div className='hidden flex-col gap-2 md:flex'>
-                <p className={`w-fit px-1 text-sm ${underLineCss}`}>リンク</p>
+                <p className='text-sm'>リンク</p>
                 <div className='flex flex-col gap-2'>
                   {discordUser.id && (
                     <LinkBadge
@@ -59,11 +62,7 @@ export default async function Page({ params }: Props) {
             </div>
             <div className='flex w-full flex-col gap-3'>
               <div className='flex flex-row justify-between'>
-                <h2
-                  className={`h-fit w-fit break-words break-all px-1 text-3xl ${underLineCss}`}
-                >
-                  {user.name}
-                </h2>
+                <h2 className='break-words break-all text-3xl'>{user.name}</h2>
                 {isMyPage && (
                   <Tooltip content='プロフィールを編集'>
                     <Button
@@ -82,7 +81,7 @@ export default async function Page({ params }: Props) {
                 {user.introduction}
               </p>
               <div className='flex flex-col gap-2 md:hidden'>
-                <p className={`w-fit px-1 text-sm ${underLineCss}`}>リンク</p>
+                <p className='text-sm'>リンク</p>
                 <div className='flex flex-col gap-2'>
                   {discordUser.id && (
                     <LinkBadge
@@ -97,7 +96,7 @@ export default async function Page({ params }: Props) {
           </div>
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-2'>
-              <h3 className={`w-fit px-1 text-lg ${underLineCss}`}>未プレイ</h3>
+              <h3 className='text-lg'>未プレイ</h3>
               <ScrollShadow
                 orientation='horizontal'
                 className='flex h-fit max-w-full flex-row gap-2 pb-4'
@@ -125,9 +124,7 @@ export default async function Page({ params }: Props) {
               </ScrollShadow>
             </div>
             <div className='flex flex-col gap-2'>
-              <h3 className={`w-fit px-1 text-lg ${underLineCss}`}>
-                シナリオ保有・KP可
-              </h3>
+              <h3 className='text-lg'>シナリオ保有・KP可</h3>
               <ScrollShadow
                 orientation='horizontal'
                 className='flex h-fit max-w-full flex-row gap-2 pb-4'
@@ -155,9 +152,7 @@ export default async function Page({ params }: Props) {
               </ScrollShadow>
             </div>
             <div className='flex flex-col gap-2'>
-              <h3 className={`w-fit px-1 text-lg ${underLineCss}`}>
-                プレイ済み・視聴済み
-              </h3>
+              <h3 className='text-lg'>プレイ済み・視聴済み</h3>
               <ScrollShadow
                 orientation='horizontal'
                 className='flex h-fit max-w-full flex-row gap-2 pb-4'

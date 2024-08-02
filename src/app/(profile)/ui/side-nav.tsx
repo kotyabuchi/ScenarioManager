@@ -33,7 +33,7 @@ export default function SideNav() {
   const pathname = usePathname();
 
   return (
-    <div className='mt-10 hidden h-[1080px] min-w-44 shrink-0 flex-col gap-1 pl-6 md:flex'>
+    <div className='mt-11 hidden min-w-44 shrink-0 flex-col gap-2 md:flex'>
       {links.map((link) => {
         const isActive = pathname.startsWith(link.href);
         return (

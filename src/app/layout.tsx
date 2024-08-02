@@ -5,8 +5,8 @@ import { Providers } from './ui/providers';
 import { Toaster } from 'sonner';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
-import AppNavbar from './ui/navbar';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import SideBar from './ui/sidebar';
 
 export const metadata: Metadata = {
   title: {
@@ -24,13 +24,13 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang='ja' className='bg-zinc-100'>
+    <html lang='ja' className='bg-[#f0f5f9]'>
       <body className={`${mPlus1Code.className} antialiased`}>
         <Providers>
           <SessionProvider session={session}>
             <Toaster richColors expand />
-            <div className='flex max-h-dvh flex-col'>
-              <AppNavbar session={session} />
+            <div className='flex h-dvh flex-row justify-center'>
+              {session && <SideBar session={session} />}
               {children}
               <SpeedInsights />
             </div>

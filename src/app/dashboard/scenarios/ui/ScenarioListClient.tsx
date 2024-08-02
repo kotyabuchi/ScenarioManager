@@ -59,7 +59,7 @@ export default function ScenarioListClient({
   return (
     <div className='flex flex-col gap-3'>
       {scenarios.length > 0 ? (
-        <div className='grid h-full w-full grid-cols-1 gap-4 lg:grid-cols-2'>
+        <div className='grid h-full w-full grid-cols-1 gap-4 xl:grid-cols-2'>
           {scenarios}
         </div>
       ) : (

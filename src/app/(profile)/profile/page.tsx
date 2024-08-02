@@ -9,13 +9,13 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   return (
-    <div className='flex w-full flex-col gap-3 px-6'>
+    <main className='flex w-full flex-col gap-4 px-6'>
       <h1 className='text-xl'>プロフィール</h1>
-      <div className='flex w-full flex-col gap-6 border-zinc-200 bg-zinc-50 sm:rounded-xl sm:border sm:p-6'>
+      <div className='flex w-full flex-col gap-6 rounded-xl bg-white p-6 shadow-soft-md sm:border'>
         <Suspense fallback={<ProfileSkeleton />}>
           <Profile />
         </Suspense>
       </div>
-    </div>
+    </main>
   );
 }

@@ -13,8 +13,8 @@ export default async function Layout({
     const user = await getUser(session.user.id);
     if (user) {
       return (
-        <div className='flex-grow md:overflow-y-auto'>
-          <div className='mx-auto flex flex-row py-8 md:max-w-[960px]'>
+        <div className='max-h-full flex-grow md:overflow-y-auto'>
+          <div className='flex flex-row py-6'>
             <SideNav />
             {children}
           </div>

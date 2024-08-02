@@ -23,7 +23,7 @@ export default async function Page({ params }: Props) {
 
     return (
       <main
-        className={`mx-auto flex max-w-[1080px] flex-col gap-8 py-4 ${underLineCss}`}
+        className={`flex max-h-full flex-col gap-6 ${underLineCss} p-8 md:overflow-y-auto md:pl-0`}
       >
         <div className='flex flex-col gap-4 md:gap-6 lg:flex-row'>
           <div className='mx-auto flex w-full shrink-0 flex-col gap-1 lg:mx-0 lg:h-80 lg:w-fit'>
@@ -89,8 +89,8 @@ export default async function Page({ params }: Props) {
                   {scenario.shortDescription || scenario.description}
                 </p>
               </div>
-              <div className='hidden rounded-xl bg-white px-4 peer-checked:block md:max-h-[480px]'>
-                <ScrollShadow className='max-h-full whitespace-break-spaces py-4 text-sm'>
+              <div className='hidden rounded-xl bg-white peer-checked:block md:max-h-[480px]'>
+                <ScrollShadow className='max-h-full whitespace-break-spaces p-4 text-sm'>
                   {scenario.description || scenario.shortDescription}
                 </ScrollShadow>
               </div>
@@ -110,7 +110,7 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
         <div className='flex flex-col gap-6'>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
             <h3 className='text-lg'>募集中のセッション</h3>
             <div className='flex max-w-full flex-row gap-4 overflow-x-auto'>
               <div className='border-base-200 flex w-fit flex-col gap-2 rounded-lg border p-3'>
@@ -168,13 +168,13 @@ export default async function Page({ params }: Props) {
               </div>
             </div>
           </div>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
             <h3 className='text-lg'>シナリオ保有・KP可のユーザー</h3>
           </div>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
             <h3 className='text-lg'>未プレイのユーザー</h3>
           </div>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
             <h3 className='text-lg'>プレイ済み・視聴済みのユーザー</h3>
           </div>
         </div>

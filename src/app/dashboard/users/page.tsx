@@ -2,6 +2,7 @@ import Search from '@/app/ui/search';
 import { Suspense } from 'react';
 import UserListWrapper from './ui/UserListWrapper';
 import UserListSkeleton from './ui/UserListSkeleton';
+import { ScrollShadow } from '@nextui-org/react';
 
 export default async function Home({
   searchParams,
@@ -13,18 +14,18 @@ export default async function Home({
   const userNameQueryString = searchParams?.query;
 
   return (
-    <main className='flex flex-col items-center justify-between lg:px-8'>
-      <div className='sticky top-2 z-10 flex w-full flex-row-reverse md:top-0'>
+    <main className='flex max-h-full flex-col items-center justify-between gap-4 pt-6'>
+      <div className='z-10 flex w-[calc(100%-32px)] flex-row-reverse rounded-xl bg-white p-2 shadow-soft-md md:mr-8'>
         <Search placeholder='ユーザーを検索' value={searchParams?.query} />
       </div>
-      <div className='mt-3 h-full w-full'>
+      <ScrollShadow className='h-full w-full px-6 pb-6 md:overflow-y-auto md:px-0 md:pr-8'>
         <Suspense fallback={<UserListSkeleton />}>
           <UserListWrapper
             key={userNameQueryString}
             userNameQueryString={userNameQueryString}
           />
         </Suspense>
-      </div>
+      </ScrollShadow>
     </main>
   );
 }
