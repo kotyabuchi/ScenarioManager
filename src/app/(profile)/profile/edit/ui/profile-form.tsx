@@ -2,6 +2,7 @@
 
 import { updateUser } from '@/app/actions/updateUser';
 import SubmitButton from '@/app/ui/SubmitButton';
+import { selectUserSchema } from '@/lib/db/validation';
 import { Button, Input, Textarea, Image, Link } from '@nextui-org/react';
 import { ImageUp } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -9,16 +10,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
-export interface PasswordLessUser {
-  id: string;
-  discordId: string;
-  name: string;
-  introduction: string | null;
-  thumbnailPath: string | null;
-}
+type User = z.infer<typeof selectUserSchema>;
 
-export default function ProfileForm({ user }: { user: PasswordLessUser }) {
+export default function ProfileForm({ user }: { user: User }) {
   const session = useSession();
   const router = useRouter();
   const [state, dispatch] = useFormState(updateUser, { isSuccess: false });
@@ -28,17 +24,12 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
     undefined,
   );
 
-  const [usernameValue, setUsernameValue] = useState(user.name);
+  const [usernameValue, setUsernameValue] = useState(user.nickname);
   const [isUsernameTouched, setIsUsernameIdTouched] = useState(false);
 
-  const [discordIdValue, setDiscordIdValue] = useState(user.discordId);
-  const [isDiscordIdTouched, setIsDiscordIdTouched] = useState(false);
+  const [bioValue, setBioValue] = useState(user.bio || '');
 
-  const [introductionValue, setIntroductionValue] = useState(
-    user.introduction || '',
-  );
-
-  const userImage = user.thumbnailPath || '/default_avatar.png';
+  const userImage = user.image || '/default_avatar.png';
 
   const onThumbnailFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -49,13 +40,8 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
 
   const isUsernameInvalid = useMemo(() => {
     if (!isUsernameTouched) return false;
-    return state.errors?.username !== undefined || usernameValue === '';
+    return state.errors?.nickname !== undefined || usernameValue === '';
   }, [state.errors, usernameValue, isUsernameTouched]);
-
-  const isDiscordIdInvalid = useMemo(() => {
-    if (!isDiscordIdTouched) return false;
-    return state.errors?.discordId !== undefined || discordIdValue === '';
-  }, [state.errors, discordIdValue, isDiscordIdTouched]);
 
   useEffect(() => {
     if (!state) return;
@@ -68,13 +54,7 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
       toast.error(state.message);
       console.log(state.errors);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
-
-  useEffect(() => {
-    if (state.errors) state.errors.discordId = undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [discordIdValue]);
+  }, [router, session, state]);
 
   return (
     <form
@@ -87,7 +67,7 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
           <Image
             className='relative h-36 min-h-36 w-36 min-w-36 shrink-0 rounded-full border-3 border-zinc-200 object-cover'
             src={thumbnailFile || userImage}
-            alt={`${user.name}のサムネイル`}
+            alt={`${user.nickname}のサムネイル`}
             width={144}
             height={144}
           />
@@ -116,13 +96,13 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
             required
             isRequired
             type='text'
-            label='ユーザー名'
-            name='username'
-            placeholder='ユーザー名を入力してください。'
+            label='ニックネーム'
+            name='nickname'
+            placeholder='ニックネームを入力してください。'
             value={usernameValue}
             isInvalid={isUsernameInvalid}
             color={isUsernameInvalid ? 'danger' : 'default'}
-            errorMessage={state.errors?.username || 'ユーザー名は必須です。'}
+            errorMessage={state.errors?.nickname || 'ニックネームは必須です。'}
             onValueChange={setUsernameValue}
             onBlur={() => setIsUsernameIdTouched(true)}
           />
@@ -133,12 +113,8 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
             label='DiscordID'
             name='discordId'
             placeholder='DiscordIDを入力してください。'
-            value={discordIdValue}
-            isInvalid={isDiscordIdInvalid}
-            color={isDiscordIdInvalid ? 'danger' : 'default'}
-            errorMessage={state.errors?.discordId || 'DiscordIDは必須です。'}
-            onValueChange={setDiscordIdValue}
-            onBlur={() => setIsDiscordIdTouched(true)}
+            value={user.discordId}
+            disabled
           />
           <p className='text-xs'>
             ※DiscordIDの見つけ方は
@@ -156,8 +132,8 @@ export default function ProfileForm({ user }: { user: PasswordLessUser }) {
         label='自己紹介'
         name='introduction'
         placeholder='自己紹介がまだ設定されていません。'
-        value={introductionValue}
-        onValueChange={setIntroductionValue}
+        value={bioValue}
+        onValueChange={setBioValue}
       />
       <div className='flex w-full flex-row justify-end gap-4'>
         <Button as={Link} href='/profile' color='danger' variant='light'>

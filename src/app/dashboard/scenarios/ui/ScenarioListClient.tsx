@@ -1,11 +1,12 @@
 'use client';
 
+import { ScenarioQuery } from '@/lib/db/dao/scenarioDao';
 import { Button } from '@nextui-org/react';
 import { useCallback, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
 type LoadMoreAction = (
-  query: object | undefined,
+  query: ScenarioQuery | undefined,
   offset: number,
 ) => Promise<readonly [JSX.Element[], number | undefined]>;
 

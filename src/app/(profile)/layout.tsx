@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { getUser } from '../../lib/data';
+import { getUser } from '@/lib/db/dao/userDao';
 import SideNav from './ui/side-nav';
 
 export default async function Layout({
@@ -9,7 +9,7 @@ export default async function Layout({
 }) {
   const session = await auth();
 
-  if (session) {
+  if (session && session.user.id) {
     const user = await getUser(session.user.id);
     if (user) {
       return (

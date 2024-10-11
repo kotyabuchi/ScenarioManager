@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import SettingForm from './ui/setting-form';
 import { auth } from '@/auth';
 import ErrorAndReload from '../ui/error-and-reload';
 
@@ -14,7 +13,6 @@ export default async function Page() {
   return (
     <div className='flex w-full flex-col gap-3 px-6'>
       <h1 className='text-xl'>設定</h1>
-      <SettingForm id={session.user.id} />
     </div>
   );
 }

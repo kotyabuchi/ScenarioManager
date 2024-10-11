@@ -1,6 +1,6 @@
 import { auth } from '@/auth';
 import ProfileForm from './ui/profile-form';
-import { getUserById } from '@/lib/db/user';
+import { getUser } from '@/lib/db/dao/userDao';
 import { Metadata } from 'next';
 import ErrorAndReload from '../../ui/error-and-reload';
 
@@ -13,13 +13,14 @@ export default async function Page() {
   if (session === null)
     return <ErrorAndReload message='セッションが見つかりませんでした。' />;
   try {
-    const { password, ...passwordLessUser } = await getUserById(
-      session.user.id,
-    );
+    const user = await getUser(session.user.id);
+    if (!user) {
+      return <></>;
+    }
     return (
       <div className='flex w-full flex-col gap-4 px-6'>
         <h1 className='text-xl'>プロフィール設定</h1>
-        <ProfileForm user={passwordLessUser} />
+        <ProfileForm user={user} />
       </div>
     );
   } catch (error) {

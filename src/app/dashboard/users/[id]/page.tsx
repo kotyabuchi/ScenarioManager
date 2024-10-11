@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { getDiscordUser, getUser } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Button, ScrollShadow, Tooltip } from '@nextui-org/react';
 import DiscordIcon from '@/../public/DiscordIcon.svg';
@@ -7,6 +6,7 @@ import LinkBadge from '@/app/ui/users/link-badge';
 import { auth } from '@/auth';
 import { SquarePen } from 'lucide-react';
 import Link from 'next/link';
+import { getUser } from '@/lib/db/dao/userDao';
 
 type Props = {
   params: { id: string };
@@ -22,9 +22,8 @@ export default async function Page({ params }: Props) {
   if (user) {
     const session = await auth();
     const isMyPage = session?.user.id === id;
-    const userImage = user.thumbnailPath || '/default_avatar.png';
+    const userImage = user.image || '/default_avatar.png';
     const isUpdated = user.createdAt.getTime() !== user.updatedAt.getTime();
-    const discordUser = await getDiscordUser(user.discordId);
 
     return (
       <main
@@ -42,7 +41,7 @@ export default async function Page({ params }: Props) {
               <Image
                 className='bg-base-200 relative z-10 self-center rounded-full border-3 border-zinc-200 bg-white object-contain md:w-full'
                 src={userImage}
-                alt={user.name}
+                alt={user.nickname}
                 width={144}
                 height={144}
                 sizes=''
@@ -50,10 +49,10 @@ export default async function Page({ params }: Props) {
               <div className='hidden flex-col gap-2 md:flex'>
                 <p className='text-sm'>リンク</p>
                 <div className='flex flex-col gap-2'>
-                  {discordUser.id && (
+                  {user.discordId && (
                     <LinkBadge
-                      badgeTitle={discordUser.global_name}
-                      href={`discord://-/users/${discordUser.id}`}
+                      badgeTitle={user.nickname}
+                      href={`discord://-/users/${user.discordId}`}
                       icon={DiscordIcon}
                     />
                   )}
@@ -62,7 +61,9 @@ export default async function Page({ params }: Props) {
             </div>
             <div className='flex w-full flex-col gap-3'>
               <div className='flex flex-row justify-between'>
-                <h2 className='break-words break-all text-3xl'>{user.name}</h2>
+                <h2 className='break-words break-all text-3xl'>
+                  {user.nickname}
+                </h2>
                 {isMyPage && (
                   <Tooltip content='プロフィールを編集'>
                     <Button
@@ -78,15 +79,15 @@ export default async function Page({ params }: Props) {
                 )}
               </div>
               <p className='whitespace-break-spaces rounded-xl bg-white p-4 text-sm'>
-                {user.introduction}
+                {user.bio}
               </p>
               <div className='flex flex-col gap-2 md:hidden'>
                 <p className='text-sm'>リンク</p>
                 <div className='flex flex-col gap-2'>
-                  {discordUser.id && (
+                  {user.discordId && (
                     <LinkBadge
-                      badgeTitle={discordUser.global_name}
-                      href={`discord://-/users/${discordUser.id}`}
+                      badgeTitle={user.nickname}
+                      href={`discord://-/users/${user.discordId}`}
                       icon={DiscordIcon}
                     />
                   )}
@@ -113,7 +114,7 @@ export default async function Page({ params }: Props) {
                       <Image
                         className='bg-base-200 relative z-10 self-center object-contain md:w-24'
                         src='/noImage.png'
-                        alt={user.name}
+                        alt={user.nickname}
                         width={144}
                         height={144}
                         sizes=''
@@ -141,7 +142,7 @@ export default async function Page({ params }: Props) {
                       <Image
                         className='bg-base-200 relative z-10 self-center object-contain md:w-24'
                         src='/noImage.png'
-                        alt={user.name}
+                        alt={user.nickname}
                         width={144}
                         height={144}
                         sizes=''
@@ -169,7 +170,7 @@ export default async function Page({ params }: Props) {
                       <Image
                         className='bg-base-200 relative z-10 self-center object-contain md:w-24'
                         src='/noImage.png'
-                        alt={user.name}
+                        alt={user.nickname}
                         width={144}
                         height={144}
                         sizes=''

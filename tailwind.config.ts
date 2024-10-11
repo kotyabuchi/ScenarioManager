@@ -17,7 +17,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         'auto-fill': 'repeat(auto-fill, minmax(200px, 1fr))',
-        'user-list': 'repeat(auto-fill, minmax(120px, 1fr))',
+        'user-list': 'repeat(auto-fill, minmax(100px, 1fr))',
         'auto-fit': 'repeat(auto-fit, minmax(200px, 1fr))',
       },
       boxShadow: {
@@ -31,13 +31,6 @@ const config: Config = {
     },
   },
   darkMode: 'class',
-  plugins: [
-    nextui(),
-    // require('daisyui'),
-    require('@tailwindcss/line-clamp'),
-  ],
-  // daisyui: {
-  //   themes: ["dark", "cupcake", "emerald", "pastel"],
-  // },
+  plugins: [nextui()],
 };
 export default config;

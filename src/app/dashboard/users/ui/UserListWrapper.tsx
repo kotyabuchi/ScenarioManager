@@ -1,12 +1,11 @@
-import { getUsers } from '@/lib/data';
 import userCard from '@/app/ui/users/card';
 import UserListClient from './UserListClient';
-import { User } from '@prisma/client';
 import UserCard from '@/app/ui/users/card';
+import { getUsers, User, UserQuery } from '@/lib/db/dao/userDao';
 
 const PAGE_SIZE = 20;
 
-async function loadMoreUser(query: object | undefined, offset: number = 0) {
+async function loadMoreUser(query: UserQuery | undefined, offset: number = 0) {
   'use server';
   const users = await getUsers(query, offset, PAGE_SIZE);
   const nextOffset = users.length >= PAGE_SIZE ? offset + PAGE_SIZE : undefined;
@@ -37,7 +36,7 @@ export default async function userListWrapper({
     queries.push({ OR: [...userNameQuery] });
   }
 
-  const query = queries.length > 0 ? { AND: queries } : undefined;
+  const query = undefined;
 
   const [initialUsers, _] = await loadMoreUser(query);
 

@@ -1,11 +1,12 @@
 'use client';
 
+import { UserQuery } from '@/lib/db/dao/userDao';
 import { Button } from '@nextui-org/react';
 import { useCallback, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
 type LoadMoreAction = (
-  query: object | undefined,
+  query: UserQuery | undefined,
   offset: number,
 ) => Promise<readonly [JSX.Element[], number | undefined]>;
 

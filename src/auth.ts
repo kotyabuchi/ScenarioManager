@@ -1,10 +1,9 @@
 import NextAuth, { Session } from 'next-auth';
+import Discord, { DiscordProfile } from 'next-auth/providers/discord';
 import { JWT } from 'next-auth/jwt';
 import { authConfig } from './auth.config';
-import Credentials from 'next-auth/providers/credentials';
-import { z } from 'zod';
-import bcrypt from 'bcrypt';
-import { getUserByDiscordId } from './lib/db/user';
+import { getUserByDiscordId, registerUser } from './lib/db/dao/userDao';
+import { DrizzleError } from 'drizzle-orm';
 
 export const {
   handlers: { GET, POST },
@@ -13,38 +12,64 @@ export const {
   signOut,
 } = NextAuth({
   ...authConfig,
-  providers: [
-    Credentials({
-      async authorize(credentials) {
-        console.log('start authorize');
-
-        const parsedCredentials = z
-          .object({ discordId: z.string().min(1), password: z.string().min(6) })
-          .safeParse(credentials);
-
-        if (parsedCredentials.success) {
-          const { discordId, password } = parsedCredentials.data;
-          const user = await getUserByDiscordId(discordId);
-          if (!user) return null;
-          const passwordsMatch = await bcrypt.compare(password, user.password);
-
-          if (passwordsMatch) return user;
-        }
-
-        console.log('Invalid credentials');
-        return null;
-      },
-    }),
-  ],
+  providers: [Discord],
   session: {
     strategy: 'jwt',
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      try {
+        if (account?.provider === 'discord' && profile) {
+          const discordProfile = profile as DiscordProfile;
+          const discordId = discordProfile.id;
+          const dbUser = await getUserByDiscordId(discordId);
+
+          console.log(JSON.stringify(profile, null, 2));
+
+          if (dbUser) {
+            user.id = dbUser.id;
+            user.discordId = dbUser.discordId;
+            user.username = dbUser.username;
+            user.nickname = dbUser.nickname;
+            user.image = dbUser.image || discordProfile.image_url;
+          } else {
+            const registeredUser = await registerUser(
+              discordProfile.username,
+              discordProfile.global_name || discordProfile.username,
+              discordProfile.id,
+              discordProfile.image_url,
+            );
+            user.id = registeredUser.id;
+            user.discordId = registeredUser.discordId;
+            user.username = registeredUser.username;
+            user.nickname = registeredUser.nickname;
+            user.image = registeredUser.image || discordProfile.image_url;
+          }
+        }
+
+        return true;
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.message.includes('SQLITE_CONSTRAINT')) {
+            console.error('Unique constraint violation:', error.message);
+          } else {
+            console.error('SQLite error:', error.message);
+          }
+        } else if (error instanceof DrizzleError) {
+          console.error('Drizzle ORM error:', error.message);
+        } else {
+          console.error('Unknown error:', error);
+        }
+        return false;
+      }
+    },
     async jwt({ token, user, trigger, session }): Promise<JWT> {
-      if (user && user.id && user.name) {
+      if (user && user.id) {
         token.id = user.id;
-        token.name = user.name;
-        token.thumbnailPath = user.thumbnailPath;
+        token.discordId = user.discordId;
+        token.username = user.username;
+        token.nickname = user.nickname;
+        token.image = user.image;
       }
 
       if (trigger === 'update' && session) {
@@ -61,11 +86,12 @@ export const {
       session: Session;
       token: JWT;
     }): Promise<Session> {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.thumbnailPath = token.thumbnailPath;
-      }
+      session.user.id = token.id;
+      session.user.discordId = token.discordId;
+      session.user.username = token.username;
+      session.user.nickname = token.nickname;
+      session.user.image = token.image;
+
       return session;
     },
   },

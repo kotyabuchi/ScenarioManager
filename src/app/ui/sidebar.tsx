@@ -33,6 +33,7 @@ export default function SideBar({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [update, setUpdate] = useState(true);
 
+  
   const logout = async () => {
     const result = await signout();
     if (result) {
@@ -125,11 +126,11 @@ export default function SideBar({ session }: { session: Session | null }) {
                 <Avatar
                   isBordered
                   className='bg-slate-50 transition-transform'
-                  name={session?.user.name || 'セッション取得中...'}
+                  name={session?.user.nickname || 'セッション取得中...'}
                   size='sm'
-                  src={session?.user.thumbnailPath || '/default_avatar.png'}
+                  src={session?.user.image || '/default_avatar.png'}
                 />
-                {session?.user.name}
+                {session?.user.nickname}
               </Button>
             </DropdownTrigger>
             <DropdownMenu

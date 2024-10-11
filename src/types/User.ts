@@ -1,26 +1,34 @@
-import { DefaultSession } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import { User } from 'next-auth';
 
 declare module 'next-auth' {
   interface User {
     id?: string;
-    name?: string | null;
-    thumbnailPath: string | null;
+    discordId: string;
+    username: string;
+    nickname: string;
+    image?: string | null;
   }
+}
 
+declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
-      name: string;
-      thumbnailPath: string | null;
+      discordId: string;
+      username: string;
+      nickname: string;
+      image?: string | null;
     };
   }
 }
 
+// JWTの型を拡張
 declare module 'next-auth/jwt' {
   interface JWT {
     id: string;
-    name: string;
-    thumbnailPath: string | null;
+    discordId: string;
+    username: string;
+    nickname: string;
+    image?: string | null;
   }
 }

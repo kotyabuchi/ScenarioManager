@@ -5,7 +5,6 @@ import { Providers } from './ui/providers';
 import { Toaster } from 'sonner';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import SideBar from './ui/sidebar';
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default async function RootLayout({
             <div className='flex h-dvh flex-row justify-center'>
               {session && <SideBar session={session} />}
               {children}
-              <SpeedInsights />
             </div>
           </SessionProvider>
         </Providers>

@@ -1,17 +1,24 @@
-import { getScenarios } from '@/lib/data';
+import {
+  getScenariosWithTags,
+  ScenarioQuery,
+  ScenarioWithTags,
+} from '@/lib/db/dao/scenarioDao';
 import ScenarioCard from '@/app/ui/scenarios/card';
-import { ScenarioWithTag } from '@/lib/data-type';
 import ScenarioListClient from './ScenarioListClient';
 
 const PAGE_SIZE = 20;
 
-async function loadMoreScenario(query: object | undefined, offset: number = 0) {
+async function loadMoreScenario(
+  query: ScenarioQuery | undefined,
+  offset: number = 0,
+) {
   'use server';
-  const scenarios = await getScenarios(query, offset, PAGE_SIZE);
+  const scenarios = await getScenariosWithTags(query, offset, PAGE_SIZE);
+
   const nextOffset =
     scenarios.length >= PAGE_SIZE ? offset + PAGE_SIZE : undefined;
   return [
-    scenarios.map((scenario: ScenarioWithTag) => (
+    scenarios.map((scenario) => (
       <ScenarioCard key={scenario.id} scenario={scenario} />
     )),
     nextOffset,
@@ -39,12 +46,12 @@ export default async function ScenarioListWrapper({
     queries.push({ OR: [...scenarioNameQuery] });
   }
 
-  const query = queries.length > 0 ? { AND: queries } : undefined;
+  const query = undefined;
 
-  const initialScenarios = await getScenarios(query, 0, PAGE_SIZE);
+  const initialScenarios = await getScenariosWithTags(query, 0, PAGE_SIZE);
 
   const initialScenarioNodes = initialScenarios.map(
-    (scenario: ScenarioWithTag) => (
+    (scenario: ScenarioWithTags) => (
       <ScenarioCard key={scenario.id} scenario={scenario} />
     ),
   );
