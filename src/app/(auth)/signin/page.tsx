@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { Link } from '@nextui-org/react';
 import SubmitButton from '@/app/ui/SubmitButton';
 import { signIn } from '@/auth';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'ログイン',
@@ -16,19 +16,23 @@ export default function Page() {
       <form
         action={async () => {
           'use server';
-          await signIn('discord');
+          await signIn('discord', {}, { scope: 'identify email guilds' });
         }}
         className='flex w-full flex-col gap-4'
       >
-        <SubmitButton text='ログイン' />
+        <SubmitButton
+          className='bg-[#5865F2]'
+          text='Discordでログイン'
+          startContent={
+            <Image
+              src='/DiscordIcon_white.svg'
+              alt='Discord'
+              width={24}
+              height={24}
+            />
+          }
+        />
       </form>
-      <p className='text-sm'>
-        まだ登録していない場合は
-        <Link href='/signup' className='text-sm'>
-          新規アカウント登録
-        </Link>
-        から。
-      </p>
     </>
   );
 }

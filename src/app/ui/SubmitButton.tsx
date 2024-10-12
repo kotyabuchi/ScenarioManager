@@ -4,11 +4,13 @@ import { Button } from '@nextui-org/react';
 import { useFormStatus } from 'react-dom';
 
 export default function SubmitButton({
-  text,
   className,
+  text,
+  startContent,
 }: {
-  text: string;
   className?: string;
+  text: string;
+  startContent?: React.ReactNode;
 }) {
   const { pending } = useFormStatus();
   return (
@@ -18,6 +20,7 @@ export default function SubmitButton({
       isLoading={pending}
       isDisabled={pending}
       className={className}
+      startContent={startContent}
     >
       {text}
     </Button>

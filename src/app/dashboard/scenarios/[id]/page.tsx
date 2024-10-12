@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { convertScenarioData, getScenario } from '@/lib/data';
+import { getScenario } from '@/lib/db/dao/scenarioDao';
 import { notFound } from 'next/navigation';
 import { Divider, ScrollShadow } from '@nextui-org/react';
 
@@ -16,10 +16,30 @@ export default async function Page({ params }: Props) {
   const userImage = '/noImage.png';
 
   if (scenario) {
-    const scenarioData = await convertScenarioData(scenario);
     const isUpdated =
-      scenarioData.createdAt.getTime() !== scenarioData.updatedAt.getTime();
-    const scenarioTags = scenarioData.scenarioTags;
+      scenario.createdAt.getTime() !== scenario.updatedAt.getTime();
+    const scenarioTags = scenario.scenarioTags;
+    const playerAmount =
+      !scenario.minPlayer && !scenario.maxPlayer
+        ? 'なし'
+        : scenario.minPlayer === scenario.maxPlayer
+          ? `${scenario.minPlayer}人`
+          : scenario.minPlayer && !scenario.maxPlayer
+            ? `${scenario.minPlayer}人～`
+            : !scenario.minPlayer && scenario.maxPlayer
+              ? `～${scenario.maxPlayer}人`
+              : `${scenario.minPlayer}人～${scenario.maxPlayer}人`;
+
+    const playtime =
+      !scenario.minPlaytime && !scenario.maxPlaytime
+        ? 'なし'
+        : scenario.minPlaytime === scenario.maxPlaytime
+          ? `${scenario.minPlaytime}分`
+          : scenario.minPlaytime && !scenario.maxPlaytime
+            ? `${scenario.minPlaytime}分～`
+            : !scenario.minPlaytime && scenario.maxPlaytime
+              ? `～${scenario.maxPlaytime}分`
+              : `${scenario.minPlaytime}分～${scenario.maxPlaytime}分`;
 
     return (
       <main
@@ -29,12 +49,12 @@ export default async function Page({ params }: Props) {
           <div className='mx-auto flex w-full shrink-0 flex-col gap-1 lg:mx-0 lg:h-80 lg:w-fit'>
             <div className='flex flex-row text-sm'>
               {isUpdated ? <p>更新日：</p> : <p>投稿日：</p>}
-              <span>{scenarioData.updatedAt.toLocaleString()}</span>
+              <span>{scenario.updatedAt.toLocaleString()}</span>
             </div>
             <Image
               className='bg-base-200 relative z-10 h-full self-center object-contain md:w-80'
-              src={scenarioData.thumbnailPath}
-              alt={scenarioData.name}
+              src={scenario.scenarioImage || '/noImage.png'}
+              alt={scenario.name}
               width={320}
               height={320}
               sizes=''
@@ -57,24 +77,24 @@ export default async function Page({ params }: Props) {
               </div>
               <div className='flex flex-col'>
                 <h2 className='break-words break-all text-3xl'>
-                  {scenarioData.name}
+                  {scenario.name}
                 </h2>
                 <span className='px-1 text-sm opacity-70'>
-                  {scenarioData.author}
+                  {scenario.author}
                 </span>
               </div>
             </div>
             <div className='flex flex-col flex-wrap px-1 text-sm md:flex-row md:gap-2 [&>Divider]:hidden [&>Divider]:md:block [&_span]:font-semibold'>
               <div>
-                人数：<span>{scenarioData.playerAmount}</span>
+                人数：<span>{playerAmount}</span>
               </div>
               <Divider orientation='vertical' />
               <div>
-                所要時間：<span>{scenarioData.playtime}</span>
+                所要時間：<span>{playtime}</span>
               </div>
               <Divider orientation='vertical' />
               <div>
-                HO：<span>{scenarioData.handoutType}</span>
+                HO：<span>{scenario.handoutType}</span>
               </div>
             </div>
             <div className='flex flex-col gap-2'>

@@ -12,6 +12,7 @@ declare module 'next-auth' {
 
 declare module 'next-auth' {
   interface Session {
+    accessToken?: string;
     user: {
       id: string;
       discordId: string;
@@ -30,5 +31,6 @@ declare module 'next-auth/jwt' {
     username: string;
     nickname: string;
     image?: string | null;
+    accessToken?: string;
   }
 }

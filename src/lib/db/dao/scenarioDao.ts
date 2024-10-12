@@ -46,9 +46,32 @@ export interface ScenarioQuery {
 }
 
 export async function getScenario(id: string) {
-  return await db.query.scenarios.findFirst({
+  const result = await db.query.scenarios.findFirst({
     where: eq(scenarios.id, id),
+    with: {
+      scenarioTags: {
+        columns: {},
+        with: {
+          tag: {},
+        },
+      },
+    },
   });
+
+  return (
+    result && {
+      ...result,
+      scenarioTags: result.scenarioTags
+        ?.filter(
+          (
+            st,
+          ): st is {
+            tag: { id: string; name: string; color: string | null };
+          } => 'tag' in st,
+        )
+        .map((st) => st.tag),
+    }
+  );
 }
 
 export async function getScenariosWithTags(

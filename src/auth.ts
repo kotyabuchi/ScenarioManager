@@ -24,8 +24,6 @@ export const {
           const discordId = discordProfile.id;
           const dbUser = await getUserByDiscordId(discordId);
 
-          console.log(JSON.stringify(profile, null, 2));
-
           if (dbUser) {
             user.id = dbUser.id;
             user.discordId = dbUser.discordId;
@@ -63,13 +61,17 @@ export const {
         return false;
       }
     },
-    async jwt({ token, user, trigger, session }): Promise<JWT> {
+    async jwt({ token, user, trigger, session, account }): Promise<JWT> {
       if (user && user.id) {
         token.id = user.id;
         token.discordId = user.discordId;
         token.username = user.username;
         token.nickname = user.nickname;
         token.image = user.image;
+      }
+
+      if (account && account.access_token) {
+        token.accessToken = account.access_token;
       }
 
       if (trigger === 'update' && session) {
@@ -91,6 +93,7 @@ export const {
       session.user.username = token.username;
       session.user.nickname = token.nickname;
       session.user.image = token.image;
+      session.accessToken = token.accessToken;
 
       return session;
     },
